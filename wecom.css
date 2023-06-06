@@ -142,12 +142,12 @@ background-size:260px auto, contain;
 #section{position:relative;}
 
 #sectionUxcloud{position:relative;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-01.png); background-repeat:no-repeat; background-position:right bottom; background-size:auto 95%; background-color:#ECECEE;}
-#sectionUxcloud .content{padding:100px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-repeat:no-repeat; background-position:right center; background-size:50% auto;}
+#sectionUxcloud .card{padding:100px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-repeat:no-repeat; background-position:right center; background-size:50% auto;}
 #sectionUxcloud .column-2 h2{font-weight:400;}
 #sectionUxcloud .column-2 span:not(.label){background-image:url(../images/marcas/uxcloud-home.png); background-repeat:no-repeat; background-position:left top; background-size:contain; max-width:300px; width:100%; display:block; padding-bottom:100px;}
 
 #sectionPes{position:relative; background-image:url(../images/estruturais/_large/pes-background.png); background-size:cover; background-repeat:no-repeat; background-position:center;}
-#sectionPes .content{padding:60px 0;}
+#sectionPes .card{padding:60px 0;}
 #sectionPes ul{margin:0 auto; padding:0; list-style:none; font-size:0; text-align:center; display:block;}
 #sectionPes li{width:22.16%; padding-bottom:450px; background-position:center; background-repeat:no-repeat; background-size:auto 85%;  position:relative; display:inline-block; vertical-align:top; z-index:0; -webkit-transition:background-size 1s; -moz-transition:background-size 1s; -ms-transition:background-size 1s; transition:background-size 1s;}
 #sectionPes li + li, #sectionPes span + li, #sectionPes li + span{margin:0 0 0 -6%;}
@@ -177,7 +177,7 @@ background-size:260px auto, contain;
 #sectionVerticais ul li a span{display:block; transform: rotate(270deg); text-align:right; transform-origin:bottom right; margin-top:-20px; font-size:24px; padding:0 0 0.5em 0; -webkit-transition:all 1s; -moz-transition:all 1s; -ms-transition:all 1s; transition:all 1s;}
 
 #sectionWecomtv{position:relative;}
-#sectionWecomtv .content{padding:110px 40px 90px 40px;}
+#sectionWecomtv .card{padding:110px 40px 90px 40px;}
 #sectionWecomtv .column-3:first-child{background-image:url(../images/estruturais/_large/bg-wecom-tv.png); background-repeat:no-repeat; background-position:left bottom; background-size:100% auto; text-align:left;}
 #sectionWecomtv .column-3:first-child h2{padding-bottom:85%;}
 #sectionWecomtv .column-3:first-child .destacado::after{margin:15px 0 0 0;}
@@ -188,10 +188,10 @@ background-size:260px auto, contain;
 #sectionWecomtv .label{font-size:0.8em;}
 
 #sectionPosts{position:relative;}
-#sectionPosts .content{padding:50px 40px;}
+#sectionPosts .card{padding:50px 40px;}
 
 #sectionPartners{position:relative;}
-#sectionPartners .content{padding:40px;}
+#sectionPartners .card{padding:40px;}
 #sectionPartners ul{margin:0; padding:0; list-style:none; font-size:0;}
 #sectionPartners li{display:inline-block; vertical-align:top; width:25%;}
 #sectionPartners li a{display:block; width:100%; padding-bottom:180px; background-repeat:no-repeat; background-position:center; background-size:auto 40%;}
@@ -209,7 +209,7 @@ background-size:260px auto, contain;
 #sectionPartners li a.vt{background-image:url(../images/marcas/vt-mono.png);}
 
 #footer{ width:100%; position:absolute; left:0; bottom:0; z-index:10; background-image:url(../images/estruturais/_large/bg-footer.jpg); background-position:center bottom; background-repeat:no-repeat; background-color:#0F3468; background-size:100% auto;}
-#footer .content{padding:70px 40px 0 40px;}
+#footer .card{padding:70px 40px 0 40px;}
 #footer .column-2:first-child ul{width:50%; margin:0; padding:0; list-style:none; font-size:0; display:inline-block; vertical-align:text-top;}
 #footer .column-2:first-child ul li{font-size:18px; padding-bottom:1.5em;}
 
@@ -230,7 +230,7 @@ background-size:260px auto, contain;
 #footer .wecom{width:260px; padding-bottom:46px; background-image:url(../images/marcas/wecom-white.png); background-position:center; background-repeat:no-repeat; background-size:contain; float:right;}
 
 #sectionTitle{display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; min-height:500px; position:relative; border-bottom:solid 1px #FFFFFF; background-repeat:no-repeat; background-position:center bottom; background-size:cover; background-image:url(../images/titulos/_large/bg-title.png); box-shadow: 0 1px 0 #0075AC; z-index:20;}
-#sectionTitle .content{padding:50px 40px;}
+#sectionTitle .card{padding:50px 40px;}
 #sectionTitle *{text-shadow:1px 1px 10px #000000,-1px -1px 10px #000000;}
 #sectionTitle h2{font-weight:200; position:relative; z-index:10;}
 #sectionTitle h2 span{display:block; margin:0 auto; font-size:0.5em; font-weight:200;}
@@ -279,8 +279,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 /*configurações básicas das páginas internas*/
 #sectionPrincipal{position:relative; padding:0; margin:0; width:100%; display:block; clear:both;}
 #sectionPrincipal .son{display:block; width:100%;}
-#sectionPrincipal .content{padding:20px 20px;} /*valor standard*/
-#sectionPrincipal .content li h5{margin-bottom:0.5em; font-weight:normal;}
+#sectionPrincipal .card{padding:20px 20px;} /*valor standard*/
+#sectionPrincipal .card li h5{margin-bottom:0.5em; font-weight:normal;}
 #sectionPrincipal li{font-size:16px;line-height:1.5em; padding-bottom:0.5em;}
 
 /*configuração básica das páginas de duas colunas
@@ -310,7 +310,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 #sectionPrincipal.videoconferencia .image.trueconf::after{width:200px; background-image:url(../images/marcas/trueconf-white-small.png); bottom:25px; right:25px;}/*marca flutuante*/
 
 /*página pexip*/
-#sectionPrincipal.pexip .content{padding:0 40px 40px 40px;}
+#sectionPrincipal.pexip .card{padding:0 40px 40px 40px;}
 #sectionPrincipal.pexip .article{padding-top:60px;}
 #sectionPrincipal.pexip .column-2{display:inline-block; vertical-align:middle; padding:60px 0;}
 #sectionPrincipal.pexip .column-2.image{background-size:95%; padding-bottom:30%;}
@@ -326,14 +326,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 #sectionPrincipal.omnichannel .image.wecall::after{width:230px; background-image:url(../images/marcas/wecall-white-small.png); bottom:25px; right:25px;}/*marca flutuante*/
 
 #sectionPrincipal.wecall .grafico{padding-top:25px; padding-bottom:25px; background-image:url(../images/wecall/_large/wecall-digital-channels.jpg); background-repeat:no-repeat; background-position:center; background-size:cover;}
-#sectionPrincipal.wecall .grafico .content{padding:0 0 35% 0; max-width:1200px; background-image:url(../images/wecall/_large/wecall-grafico.png); background-repeat:no-repeat; background-position:center; background-size:contain;}
-#sectionPrincipal.wecall .content.ferramenta{background-image:url(../images/wecall/_large/wecall-omnichannel.jpg); background-position:left center; background-repeat:no-repeat; background-size:60% auto; padding:13% 40px; min-height:500px;}
-#sectionPrincipal.wecall .content.ferramenta h4{margin:0; padding-left:60%;}
-#sectionPrincipal.wecall .content{padding:40px;}
+#sectionPrincipal.wecall .grafico .card{padding:0 0 35% 0; max-width:1200px; background-image:url(../images/wecall/_large/wecall-grafico.png); background-repeat:no-repeat; background-position:center; background-size:contain;}
+#sectionPrincipal.wecall .card.ferramenta{background-image:url(../images/wecall/_large/wecall-omnichannel.jpg); background-position:left center; background-repeat:no-repeat; background-size:60% auto; padding:13% 40px; min-height:500px;}
+#sectionPrincipal.wecall .card.ferramenta h4{margin:0; padding-left:60%;}
+#sectionPrincipal.wecall .card{padding:40px;}
 
-#sectionPrincipal.wecall .content ul{padding:0; text-align:center;}
-#sectionPrincipal.wecall .content li{width:33.3333%; display:inline-block; vertical-align:top; padding:0 20px;}
-#sectionPrincipal.wecall .content li .pictWecall{display:block; margin:40px auto 20px auto;}
+#sectionPrincipal.wecall .card ul{padding:0; text-align:center;}
+#sectionPrincipal.wecall .card li{width:33.3333%; display:inline-block; vertical-align:top; padding:0 20px;}
+#sectionPrincipal.wecall .card li .pictWecall{display:block; margin:40px auto 20px auto;}
 #sectionPrincipal.wecall h5{font-weight:400; line-height:1.4em;}
 
 /*página commbox*/
@@ -360,8 +360,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 /*páginas com rolagem horizontal: terminais e weconnect*/
 #sectionPrincipal.carrossel {overflow:hidden;}
 #sectionPrincipal.carrossel #layer {position:relative; z-index:10;}
-#sectionPrincipal.carrossel #layer .content{padding:40px 40px 0 40px; display:block; position:absolute; left:50%; top:0; margin-left:-640px; -webkit-transition:opacity 1s; -moz-transition:opacity 1s; -ms-transition:opacity 1s; transition:opacity 1s;}
-#sectionPrincipal.carrossel #layer .content.hover{opacity:0; -moz-opacity:0;filter:alpha(opacity=0);}
+#sectionPrincipal.carrossel #layer .card{padding:40px 40px 0 40px; display:block; position:absolute; left:50%; top:0; margin-left:-640px; -webkit-transition:opacity 1s; -moz-transition:opacity 1s; -ms-transition:opacity 1s; transition:opacity 1s;}
+#sectionPrincipal.carrossel #layer .card.hover{opacity:0; -moz-opacity:0;filter:alpha(opacity=0);}
 
 #sectionPrincipal.carrossel .column-2{vertical-align:middle; position:relative;}
 #sectionPrincipal.carrossel .column-2 h4{position:absolute;}
@@ -435,7 +435,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 .cc-nb-okagree{background-color:#0075AC!important; color:#FFFFFF!important;}
 
 /*estruturais*/
-.content {margin:auto; width:100%; max-width:1280px; position:relative; font-size:0;}
+.card {margin:auto; width:100%; max-width:1280px; position:relative; font-size:0;}
 .article {width:65.6%; margin:auto; position:relative; display:inline-block; vertical-align:text-top;}
 .column-2 {width:48.4%; margin-right:3.2%; position:relative; display:inline-block; vertical-align:text-top;}
 .column-2:nth-child(2n), .column-2:last-child{margin-right:0;}
@@ -882,10 +882,10 @@ p{font-size:14px;}
 #preloader {height:350px;}
 
 #sectionUxcloud{background-image:url(../images/uxcloud/_large/bg-nuvem-camada-01.png);}
-#sectionUxcloud .content{background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png);}
+#sectionUxcloud .card{background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png);}
 
 #sectionPes{background-image:url(../images/estruturais/_large/pes-background.png);}
-#sectionPes .content{padding:60px 0;}
+#sectionPes .card{padding:60px 0;}
 #sectionPes li{padding-bottom:320px;}
 #sectionPes li:first-child{background-image:url(../images/estruturais/_large/pes-kandao.png);}
 #sectionPes li:nth-child(2){background-image:url(../images/estruturais/_large/pes-myapps.png);}
@@ -905,14 +905,14 @@ p{font-size:14px;}
 #sectionVerticais ul li a span{font-size:20px;}
 
 #sectionWecomtv{padding:0 20px;}
-#sectionWecomtv .content{padding:90px 0 70px 0;}
+#sectionWecomtv .card{padding:90px 0 70px 0;}
 #sectionWecomtv .button{margin-left:-60px; width:120px;}
 
-#sectionPartners .content{padding:30px 0;}
+#sectionPartners .card{padding:30px 0;}
 #sectionPartners li a{padding-bottom:140px;}
 
 #footer{padding:0 20px; background-image:url(../images/estruturais/_medium/bg-footer.jpg); background-size:cover;}
-#footer .content{padding:50px 0 0 0;}
+#footer .card{padding:50px 0 0 0;}
 #footer .column-2:first-child ul li{font-size:14px;}
 #footer .column-2:nth-child(2) li{font-size:14px;}
 #footer a.pict{margin-bottom:7px;}
@@ -920,7 +920,7 @@ p{font-size:14px;}
 #footer .wecom{width:208px; padding-bottom:40px;}
 
 #sectionTitle{min-height:350px; background-image:url(../images/titulos/_medium/bg-title.png);}
-#sectionTitle .content{padding:35px 20px;}
+#sectionTitle .card{padding:35px 20px;}
 #sectionTitle img{margin:0 auto 30px auto;}/*marca*/
 
 #sectionTitle.mitel{background-image:url(../images/titulos/_medium/mitel.jpg);}
@@ -937,7 +937,7 @@ p{font-size:14px;}
 #sectionTitle.verticais ul li a{padding:300px 15px 20px 15px; font-size:20px;}
 
 /*configurações básicas das páginas internas*/
-#sectionPrincipal .content{padding:40px 20px;} /*valor standard*/
+#sectionPrincipal .card{padding:40px 20px;} /*valor standard*/
 #sectionPrincipal li{font-size:14px;}
 
 /*configuração básica das páginas de duas colunas
@@ -953,7 +953,7 @@ p{font-size:14px;}
 #sectionPrincipal.videoconferencia .image.trueconf{background-image:url(../images/videoconferencia/_medium/trueconf.jpg);}
 
 /*página pexip*/
-#sectionPrincipal.pexip .content{padding:0 20px 30px 20px;}
+#sectionPrincipal.pexip .card{padding:0 20px 30px 20px;}
 #sectionPrincipal.pexip .article{padding-top:40px;}
 #sectionPrincipal.pexip .column-2{padding:40px 0;}
 #sectionPrincipal.pexip .column-2.image.meetings{background-image:url(../images/pexip/_medium/meetings.jpg);}
@@ -966,11 +966,11 @@ p{font-size:14px;}
 #sectionPrincipal.omnichannel .image.wecall{background-image:url(../images/omnichannel/_medium/wecall.jpg);}*/
 
 #sectionPrincipal.wecall .grafico{background-image:url(../images/wecall/_medium/wecall-digital-channels.jpg);}
-#sectionPrincipal.wecall .grafico .content{padding:0 0 47% 0; background-image:url(../images/wecall/_medium/wecall-grafico.png);}
-#sectionPrincipal.wecall .content.ferramenta{background-image:url(../images/wecall/_medium/wecall-omnichannel.jpg); min-height:380px;}
-#sectionPrincipal.wecall .content{padding:30px 20px;}
-#sectionPrincipal.wecall .content li{padding:0 15px;}
-#sectionPrincipal.wecall .content li .pictWecall{margin:30px auto 15px auto;}
+#sectionPrincipal.wecall .grafico .card{padding:0 0 47% 0; background-image:url(../images/wecall/_medium/wecall-grafico.png);}
+#sectionPrincipal.wecall .card.ferramenta{background-image:url(../images/wecall/_medium/wecall-omnichannel.jpg); min-height:380px;}
+#sectionPrincipal.wecall .card{padding:30px 20px;}
+#sectionPrincipal.wecall .card li{padding:0 15px;}
+#sectionPrincipal.wecall .card li .pictWecall{margin:30px auto 15px auto;}
 
 /*página commbox*/
 #sectionPrincipal.commbox .agent{background-image:url(../images/commbox/_medium/agent.png);}
@@ -981,7 +981,7 @@ p{font-size:14px;}
 /*página cases - imagens sem resolução*/
 
 /*páginas com rolagem horizontal: terminais e weconnect*/
-#sectionPrincipal.carrossel #layer .content{padding:40px 20px 0 20px; left:0; margin-left:0;}
+#sectionPrincipal.carrossel #layer .card{padding:40px 20px 0 20px; left:0; margin-left:0;}
 #sectionPrincipal.carrossel .column-2 p span{width:100px; height:25px;}
 
 #sectionPrincipal.carrossel .grupo{margin:30px 0;}
@@ -1134,11 +1134,11 @@ h6{font-size:16px;}
 #preloader {height:300px;}
 
 #sectionUxcloud{background-image:url(../images/uxcloud/_large/bg-nuvem-camada-01.png); background-size:auto 85%;}
-#sectionUxcloud .content{padding:80px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-position:right bottom 20px; background-size:45% auto;}
+#sectionUxcloud .card{padding:80px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-position:right bottom 20px; background-size:45% auto;}
 #sectionUxcloud .column-2 span:not(.label){background-image:url(../images/marcas/uxcloud-home.png); max-width:200px; padding-bottom:70px;}
 
 #sectionPes{background-image:url(../images/estruturais/_large/pes-background.png);}
-#sectionPes .content{padding:25px 0;}
+#sectionPes .card{padding:25px 0;}
 #sectionPes ul{min-width:500px; width:70%}
 #sectionPes li{width:39%; padding-bottom:280px; background-size:contain;}
 #sectionPes li + li, #sectionPes span + li, #sectionPes li + span{margin:10px 0 10px -9%;}
@@ -1161,19 +1161,19 @@ h6{font-size:16px;}
 #sectionVerticais ul li.utilities{background-image:url(../images/verticais/_small/utilities.jpg);}
 #sectionVerticais ul li a span{margin-top:-20px; font-size:16px; font-weight:400;}
 
-#sectionWecomtv .content{padding:40px 0;background-image:url(../images/estruturais/_large/bg-wecom-tv.png); background-repeat:no-repeat; background-position:right 20px top 20px; background-size:70%;}
+#sectionWecomtv .card{padding:40px 0;background-image:url(../images/estruturais/_large/bg-wecom-tv.png); background-repeat:no-repeat; background-position:right 20px top 20px; background-size:70%;}
 #sectionWecomtv .column-3:first-child{background-image:none;}
 #sectionWecomtv .column-3:first-child h2{padding-bottom:10%;}
 #sectionWecomtv .column-3:nth-child(2){width:48.4%; margin-right:3.2%; display:inline-block; vertical-align:text-top;}
 #sectionWecomtv .column-3:last-child{width:48.4%; display:inline-block; vertical-align:text-top;}
 #sectionWecomtv .column-3 h5{font-size:14px;}
 
-#sectionPartners .content{padding:30px 0;}
+#sectionPartners .card{padding:30px 0;}
 #sectionPartners li{width:50%;}
 #sectionPartners li a{padding-bottom:100px;}
 
 #footer{background-image:url(../images/estruturais/_small/bg-footer.jpg);}
-#footer .content{padding:40px 0 0 0;}
+#footer .card{padding:40px 0 0 0;}
 
 #footer .contato{padding-left:25px;}
 #footer .contato .pict{top:0;}
@@ -1183,7 +1183,7 @@ h6{font-size:16px;}
 #footer .wecom{width:156px; padding-bottom:30px; float:none; display:block; margin:0 auto 15px auto;}
 
 #sectionTitle{min-height:300px; background-image:url(../images/titulos/_small/bg-title.png);}
-#sectionTitle .content{padding:30px 20px;}
+#sectionTitle .card{padding:30px 20px;}
 
 #sectionTitle.mitel{background-image:url(../images/titulos/_small/mitel.jpg);}
 #sectionTitle.videoconferencia{background-image:url(../images/titulos/_small/videoconferencia.jpg);}
@@ -1219,7 +1219,7 @@ h6{font-size:16px;}
 #sectionPrincipal.videoconferencia .image.trueconf::after{width:120px; bottom:20px; right:20px;}/*marca flutuante*/
 
 /*página pexip*/
-#sectionPrincipal.pexip .content{padding:0 20px 30px 20px;}
+#sectionPrincipal.pexip .card{padding:0 20px 30px 20px;}
 #sectionPrincipal.pexip .article{padding-top:30px;}
 #sectionPrincipal.pexip .column-2{padding:30px 0; margin:auto; display:block;}
 #sectionPrincipal.pexip .column-2.image{background-size:contain; padding-bottom:40%; min-height:220px;}
@@ -1236,16 +1236,16 @@ h6{font-size:16px;}
 
 /*página wecall*/
 #sectionPrincipal.wecall .grafico{background-image:url(../images/wecall/_small/wecall-digital-channels.jpg);}
-#sectionPrincipal.wecall .grafico .content{padding:0 0 56% 0; background-image:url(../images/wecall/_small/wecall-grafico.png); background-size:95%;}
-#sectionPrincipal.wecall .content.ferramenta{background-image:url(../images/wecall/_small/wecall-omnichannel.jpg); background-size:55% auto;  min-height:240px;}
-#sectionPrincipal.wecall .content li {width:100%; max-width:650px; padding:0 10%;}
-#sectionPrincipal.wecall .content li .pictWecall{margin:30px auto 15px auto;}
+#sectionPrincipal.wecall .grafico .card{padding:0 0 56% 0; background-image:url(../images/wecall/_small/wecall-grafico.png); background-size:95%;}
+#sectionPrincipal.wecall .card.ferramenta{background-image:url(../images/wecall/_small/wecall-omnichannel.jpg); background-size:55% auto;  min-height:240px;}
+#sectionPrincipal.wecall .card li {width:100%; max-width:650px; padding:0 10%;}
+#sectionPrincipal.wecall .card li .pictWecall{margin:30px auto 15px auto;}
 
 /*página commbox*/
 #sectionPrincipal.commbox .agent{background-image:url(../images/commbox/_small/agent.png); width:45%; padding-bottom:45%;}
 #sectionPrincipal.commbox ul{padding-left:30px;}
 /*página byne*/
-#sectionPrincipal.byne .son:not(:first-child) .content{padding-top:0;}
+#sectionPrincipal.byne .son:not(:first-child) .card{padding-top:0;}
 #sectionPrincipal.byne .column-2{text-align:center;}
 #sectionPrincipal.byne .column-2.textCenter{padding-left:10%; padding-right:10%;}
 #sectionPrincipal.byne .column-2.imagem.integracao{background-size:contain; padding-bottom:37%; margin-bottom:20px; background-image:url(../images/byne/_small/integracao.jpg);}
@@ -1255,7 +1255,7 @@ h6{font-size:16px;}
 /*página cases - imagens sem resolucao*/
 
 /*páginas com rolagem horizontal: terminais e weconnect*/
-#sectionPrincipal.carrossel #layer .content{padding:30px 20px 0 20px;}
+#sectionPrincipal.carrossel #layer .card{padding:30px 20px 0 20px;}
 #sectionPrincipal.carrossel .grupo{margin:20px 0;}
 #sectionPrincipal.carrossel .produtos a:not(.symbol){width:32%; margin-right:2%; padding:40px 0 0 0;}
 #sectionPrincipal.carrossel .produtos a:not(.symbol) h6 span span{display:none;}
@@ -1532,7 +1532,7 @@ background-size:200px auto, contain;
 .loading > span {width:20px; height:20px; margin:110px 10px 0 10px;}
 
 #sectionUxcloud{background-image:url(../images/uxcloud/_large/bg-nuvem-camada-01.png); background-size:auto 65%;}
-#sectionUxcloud .content{padding:40px 40px 160px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-position:right bottom 20px; background-size:60% auto;}
+#sectionUxcloud .card{padding:40px 40px 160px 40px;background-image:url(../images/uxcloud/_large/bg-nuvem-camada-02.png); background-position:right bottom 20px; background-size:60% auto;}
 #sectionUxcloud .column-2 span:not(.label){background-image:url(../images/marcas/uxcloud-home.png); max-width:200px; padding-bottom:70px;}
 
 #sectionPes{background-image:url(../images/estruturais/_large/pes-background.png);}
@@ -1555,12 +1555,12 @@ background-size:200px auto, contain;
 #sectionVerticais ul li.industrias{background-image:url(../images/verticais/_tiny/industrias.jpg);}
 #sectionVerticais ul li.utilities{background-image:url(../images/verticais/_tiny/utilities.jpg);}
 
-#sectionWecomtv .content{background-size:55%;}
+#sectionWecomtv .card{background-size:55%;}
 #sectionWecomtv .column-3:first-child{background-image:none;}
 #sectionWecomtv .column-3:first-child h2{padding-bottom:10%;}
 #sectionWecomtv .column-3:nth-child(2), #sectionWecomtv .column-3:last-child{width:100%; max-width:350px; margin-right:auto; margin-left:auto; margin-top:40px; display:block;}
 
-#sectionPartners .content{padding:30px 0;}
+#sectionPartners .card{padding:30px 0;}
 #sectionPartners li{width:50%;}
 #sectionPartners li:nth-child(n+4):nth-child(-n+7){width:50%;}
 #sectionPartners li a{padding-bottom:100px;}
@@ -1600,7 +1600,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#170f44', end
 #sectionTitle.verticais ul li.governos a, #sectionTitle.verticais ul li.educacao a, #sectionTitle.verticais ul li.saude a{padding:10px 5px 110px 5px;}
 
 /*configurações básicas das páginas internas*/
-#sectionPrincipal .content{padding:30px 20px;} /*valor standard*/
+#sectionPrincipal .card{padding:30px 20px;} /*valor standard*/
 #sectionPrincipal li{font-size:12px;}
 
 /*configuração básica das páginas de duas colunas*
@@ -1619,10 +1619,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#170f44', end
 #sectionPrincipal.omnichannel .image.wecall::after{width:80px; bottom:15px; right:15px;}/*marca flutuante*/
 
 /*página wecall*/
-#sectionPrincipal.wecall .grafico .content{padding:0 0 200% 0; background-image:url(../images/wecall/_tiny/wecall-grafico.png); background-size:75%;}
-#sectionPrincipal.wecall .content.ferramenta{background-image:url(../images/wecall/_small/wecall-omnichannel.jpg); background-size:55% auto;  min-height:240px;}
-#sectionPrincipal.wecall .content li {max-width:450px;}
-#sectionPrincipal.wecall .content li .pictWecall{margin:30px auto 15px auto;}
+#sectionPrincipal.wecall .grafico .card{padding:0 0 200% 0; background-image:url(../images/wecall/_tiny/wecall-grafico.png); background-size:75%;}
+#sectionPrincipal.wecall .card.ferramenta{background-image:url(../images/wecall/_small/wecall-omnichannel.jpg); background-size:55% auto;  min-height:240px;}
+#sectionPrincipal.wecall .card li {max-width:450px;}
+#sectionPrincipal.wecall .card li .pictWecall{margin:30px auto 15px auto;}
 
 /*página commbox*/
 
@@ -1634,7 +1634,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#170f44', end
 /*página cases - imagens sem resolucao*/
 
 /*páginas com rolagem horizontal: terminais e weconnect*/
-#sectionPrincipal.carrossel #layer .content{padding:30px 20px 0 20px;}
+#sectionPrincipal.carrossel #layer .card{padding:30px 20px 0 20px;}
 #sectionPrincipal.carrossel .grupo{margin:20px 0;}
 #sectionPrincipal.carrossel .produtos a:not(.symbol), #sectionPrincipal.carrossel .produtos.ip a:not(.symbol){width:100%; margin-right:auto; margin-left:auto; display:block; padding:10px 0 0 0;}
 #sectionPrincipal.carrossel .produtos a:not(.symbol) img{max-height:120px;}
@@ -1642,7 +1642,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#170f44', end
 #sectionPrincipal.carrossel .produtos span + a:not(.symbol){padding:30px 0 20px 0;}
 #sectionPrincipal.carrossel .produtos .logo{height:30px;}
 
-#sectionPrincipal.contato .content{padding-left:0; padding-right:0;}
+#sectionPrincipal.contato .card{padding-left:0; padding-right:0;}
 
 /*página verticais - as imagens são médias*/
 

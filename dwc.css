@@ -11,6 +11,11 @@
     margin: 0;
     border: 0;
 }
+.content{
+   background-color: rgba(132, 161, 152, 0.699);
+   width: 57%;
+   
+}
 #section.title.dwc h1 {
     font-size: 36px;
     font-weight: 400;
@@ -53,6 +58,7 @@
 
 #sectionPrincipal.dwc {
     overflow-x: hidden;
+    display: inline-flex;
 }
 
 #sectionPrincipal.dwc ul {
@@ -62,7 +68,7 @@
     list-style: none;
     display: inline-block;
     vertical-align: top;
-    width: 45%;
+    width: 100%;
     margin-right: 3.2%;
 }
 
@@ -194,7 +200,7 @@
 .aside {
     display: inline-block;
     vertical-align: top;
-    width: 16.8%;
+    width: 40%;
     position: relative;
 }
 
@@ -219,7 +225,6 @@
     position: absolute;
     bottom: 0;
 }
-.content
 
 #sectionPrincipal.dwc .label + span {
     display: inline-block;
