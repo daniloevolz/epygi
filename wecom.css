@@ -279,7 +279,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 /*configurações básicas das páginas internas*/
 #sectionPrincipal{position:relative; padding:0; margin:0; width:100%; display:block; clear:both;}
 #sectionPrincipal .son{display:block; width:100%;}
-#sectionPrincipal .content{padding:60px 40px;} /*valor standard*/
+#sectionPrincipal .content{padding:20px 20px;} /*valor standard*/
 #sectionPrincipal .content li h5{margin-bottom:0.5em; font-weight:normal;}
 #sectionPrincipal li{font-size:16px;line-height:1.5em; padding-bottom:0.5em;}
 

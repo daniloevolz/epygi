@@ -62,26 +62,26 @@
     list-style: none;
     display: inline-block;
     vertical-align: top;
-    width: 80%;
+    width: 45%;
     margin-right: 3.2%;
 }
 
 #sectionPrincipal.dwc ul li {
-    width: 22.6%;
+    width: 45%;
     margin: 0 3.2% 3.2% 0;
     position: relative;
     display: inline-block;
     vertical-align: text-top;
-    padding-bottom: 17%;
+    padding-bottom: 26%;
 }
 
 #sectionPrincipal.dwc ul li:nth-child(4n), #sectionPrincipal.dwc ul li:last-child {
     margin-right: 0;
 }
 
-#sectionPrincipal.dwc ul li:nth-child(n+9):nth-child(-n+12) {
+/* #sectionPrincipal.dwc ul li:nth-child(n+9):nth-child(-n+12) {
     margin-bottom: 0;
-}
+} */
 
 #sectionPrincipal.dwc ul li a {
     position: absolute;
@@ -118,51 +118,51 @@
 }
 
 #sectionPrincipal.dwc ul li a.pre-vendas {
-    background-image: url(../images/dwc/_large/flag-pre-vendas.png);
+    background-image: url(./images/flag-pre-vendas.png);
 }
 
 #sectionPrincipal.dwc ul li a.vendas {
-    background-image: url(../images/dwc/_large/flag-vendas.png);
+    background-image: url(./images/flag-vendas.png);
 }
 
 #sectionPrincipal.dwc ul li a.suporte-tecnico {
-    background-image: url(../images/dwc/_large/flag-suporte-tecnico.png);
+    background-image: url(./images/flag-suporte-tecnico.png);
 }
 
 #sectionPrincipal.dwc ul li a.marketing {
-    background-image: url(../images/dwc/_large/flag-marketing.png);
+    background-image: url(./images/flag-marketing.png);
 }
 
 #sectionPrincipal.dwc ul li a.financeiro {
-    background-image: url(../images/dwc/_large/flag-financeiro.png);
+    background-image: url(./images/flag-financeiro.png);
 }
 
 #sectionPrincipal.dwc ul li a.administrativo {
-    background-image: url(../images/dwc/_large/flag-administrativo.png);
+    background-image: url(./images/flag-administrativo.png);
 }
 
 #sectionPrincipal.dwc ul li a.recursos-humanos {
-    background-image: url(../images/dwc/_large/flag-recursos-humanos.png);
+    background-image: url(./images/flag-recursos-humanos.png);
 }
 
 #sectionPrincipal.dwc ul li a.logistica {
-    background-image: url(../images/dwc/_large/flag-logistica.png);
+    background-image: url(./images/flag-logistica.png);
 }
 
 #sectionPrincipal.dwc ul li a.contratos {
-    background-image: url(../images/dwc/_large/flag-contratos.png);
+    background-image: url(./images/flag-contratos.png);
 }
 
 #sectionPrincipal.dwc ul li a.compras {
-    background-image: url(../images/dwc/_large/flag-compras.png);
+    background-image: url(./images/flag-compras.png);
 }
 
 #sectionPrincipal.dwc ul li a.projetos {
-    background-image: url(../images/dwc/_large/flag-projetos.png);
+    background-image: url(./images/flag-projetos.png);
 }
 
 #sectionPrincipal.dwc ul li a.pricing {
-    background-image: url(../images/dwc/_large/flag-pricing.png);
+    background-image: url(./images/flag-pricing.png);
 }
 
 #sectionPrincipal.dwc ul li h5 {
@@ -184,41 +184,42 @@
     -webkit-border-radius: 15px;
     text-align: center;
     font-weight: 400;
-    background-image: url(../images/dwc/_large/dwc-button.png);
+    background-image: url(./images/dwc-button.png);
     background-position: right 4px center;
     background-repeat: no-repeat;
     background-size: 26px;
     padding-right: 25px;
 }
 
-#sectionPrincipal.dwc .aside {
+.aside {
     display: inline-block;
     vertical-align: top;
     width: 16.8%;
     position: relative;
 }
 
-#sectionPrincipal.dwc .aside .lembrete {
-    background-image: url(../images/dwc/bg-lembrete.png);
+.aside .lembrete {
+    background-image: url(./images/bg-lembrete.png);
     background-position: bottom right;
     background-repeat: no-repeat;
     padding: 25px 10px;
 }
 
-#sectionPrincipal.dwc .aside .lembrete p {
+ .aside .lembrete p {
     line-height: 1.2em;
 }
 
-#sectionPrincipal.dwc .aside .lembrete p strong {
+ .aside .lembrete p strong {
     display: block;
     padding-bottom: .7em;
     font-weight: 700;
 }
 
-#sectionPrincipal.dwc .aside .lembrete + a {
+ .aside .lembrete + a {
     position: absolute;
     bottom: 0;
 }
+.content
 
 #sectionPrincipal.dwc .label + span {
     display: inline-block;
@@ -226,7 +227,7 @@
     width: 40px;
     padding-bottom: 40px;
     margin-right: 1em;
-    background-image: url(../images/dwc/dwc.png);
+    background-image: url(./images/dwc.png);
     background-repeat: no-repeat;
     background-size: 90%;
     background-position: center;
@@ -280,7 +281,7 @@
         right: 15px;
     }
 
-    #sectionPrincipal.dwc .aside .lembrete h4 {
+    .aside .lembrete h4 {
         font-size: 18px;
     }
 }
@@ -345,7 +346,7 @@
         margin-bottom: 3.2%;
     }
 
-    #sectionPrincipal.dwc .aside {
+    .aside {
         display: block;
         width: 100%;
         max-width: 650px;
@@ -353,11 +354,11 @@
         padding-right: 230px;
     }
 
-    #sectionPrincipal.dwc .aside .lembrete {
+    .aside .lembrete {
         padding: 15px 10px;
     }
 
-    #sectionPrincipal.dwc .aside .lembrete + a {
+    .aside .lembrete + a {
         right: 0;
     }
 
@@ -405,17 +406,17 @@
         background-size: 20px;
     }
 
-    #sectionPrincipal.dwc .aside {
+    .aside {
         max-width: 450px;
         margin: 0 auto;
         padding-right: 0;
     }
 
-    #sectionPrincipal.dwc .aside .lembrete {
+    .aside .lembrete {
         margin-bottom: 3.2%;
     }
 
-    #sectionPrincipal.dwc .aside .lembrete + a {
+    .aside .lembrete + a {
         position: relative;
         bottom: auto;
         right: auto;
