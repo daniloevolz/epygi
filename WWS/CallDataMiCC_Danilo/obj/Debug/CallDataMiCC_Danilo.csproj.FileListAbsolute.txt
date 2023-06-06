@@ -1,0 +1,26 @@
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.exe.config
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.exe
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.pdb
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\bin\Debug\Newtonsoft.Json.dll
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\bin\Debug\Newtonsoft.Json.xml
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\Interop.CCASCOMCLIENTLib.dll
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.ResolveComReference.cache
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.ProjectInstaller.resources
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.GenerateResource.cache
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.CoreCompileInputs.cache
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.CopyComplete
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.exe
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.pdb
+G:\Meu Drive\Minha Pasta\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csprojAssemblyReference.cache
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.AssemblyReference.cache
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\Interop.CCASCOMCLIENTLib.dll
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.ResolveComReference.cache
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.CoreCompileInputs.cache
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.exe
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.pdb
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.exe.config
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.exe
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\bin\Debug\CallDataMiCC_Danilo.pdb
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\bin\Debug\Newtonsoft.Json.dll
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\bin\Debug\Newtonsoft.Json.xml
+C:\Users\danil\OneDrive - Wecom S A\WECOM\CLIENTES\Zaffari\Projeto Everest\CallDataMiCC_Danilo\Versão 2 - setembro 2022\CallDataMiCC_Danilo\obj\Debug\CallDataMiCC_Danilo.csproj.CopyComplete
