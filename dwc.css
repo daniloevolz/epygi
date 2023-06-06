@@ -11,9 +11,10 @@
     margin: 0;
     border: 0;
 }
+
 .content{
    background-color: rgba(132, 161, 152, 0.699);
-   width: 57%;
+   width: 60%;
    
 }
 #section.title.dwc h1 {
@@ -339,8 +340,9 @@
     }
 
     #sectionPrincipal.dwc ul li {
-        width: 48.4%;
-        padding-bottom: 34%;
+        width: 100%;
+        /* margin: 0; */
+        padding-bottom: 65%;
     }
 
     #sectionPrincipal.dwc ul li:nth-child(2n) {
