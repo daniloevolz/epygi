@@ -1,4 +1,4 @@
-.innovaphone-root-visitenkarten {
+.epygi-root-visitenkarten {
     box-sizing: border-box;
     font-size: 12px;
     /* color: #545454; */
@@ -10,7 +10,7 @@
     left: 0;
     width: 355px;
     box-shadow: none;
-    height: 245px;
+    height: 142px;
     /* height: 265px; */
     position: relative;
     display: inline-block;
@@ -20,36 +20,40 @@
     background-repeat: no-repeat;
     background-position: top 35px right 45px;
     font-weight: 400;
+    border-radius: 30px;
 }
-.innovaphone-image {
-    width: 135px;
+.epygi-image {
+    width: 100px;
+    margin-left: 20px;
     float: left;
     position: relative;
+    height: 140px;
+    
+}
+.epygi-tab__supporter-img.available {/* Status do usuário */
+    border-left: 8px solid #00a300; 
+}
+.epygi-content {
+    width: 200px;
     height: 170px;
-}
-.innovaphone-tab__supporter-img.available {
-    border-left: 4px solid #00a300;
-}
-.innovaphone-content {
-    width: 220px;
-    height: 147px;
     float: right;
-    margin-left: 0;
-    margin-top: 21px;
+    margin-left: 0px;
+    margin-right: 20px;
+    margin-top: 20px;
     visibility: visible;
     opacity: 1;
 }
-.innovaphone-content__status {
+.epygi-content__status {
     padding-top: 7px;
 }
-.innovaphone-content__status__indicator.available {
-    background: #3ced2f;
+.epygi-content__status__indicator.available {
+    background: #3a8035;
     background: -moz-radial-gradient(center, ellipse cover, #3ced2f 0%, #00a300 100%);
     background: -webkit-radial-gradient(center, ellipse cover, #3ced2f 0%,#00a300 100%);
     background: radial-gradient(ellipse at center, #3ced2f 0%,#00a300 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3ced2f', endColorstr='#00a300',GradientType=1 );
 }
-.innovaphone-image img {
+.epygi-image img {
     position: absolute;
     margin: auto;
     top: 0;
@@ -57,8 +61,9 @@
     right: 0;
     bottom: 0;
     width: 100px;
+    
 }
-.innovaphone-content__status__indicator {
+.epygi-content__status__indicator {
     width: 16px;
     height: 16px;
     margin-top: -4px;
@@ -70,58 +75,61 @@
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
-.innovaphone-content__address {
-    margin-top: 10px;
+.epygi-content__address {
+    margin-top: 5px;
     line-height: 1.2em;
 }
-.innovaphone-tab {
+/* .epygi-tab {
     width: 100%;
     height: 56px;
-    /* margin-top: 10px; */
+    margin-top: 10px;
     background-color: #677981;
-    /* background-color: #aaaaaa; */
+    background-color: #aaaaaa;
     float: left;
-}
- .innovaphone-icons {
-    height: 56px;
+}*/
+
+.epygi-icons {
+    height: 5px;
     width: 100%;
     margin-top: 0px;
     display: inline-block;
     vertical-align: middle;
     text-align: center;
 }
-.innovaphone-icons > div {
+.epygi-icons > div {
     height: 35px;
     width: 81px;
     display: inline-block;
+    
+    
 }
-.innovaphone-icons__item {
+.epygi-icons__item {
     width: 35px;
     height: 35px;
-    margin-top: 10px;
+    margin-top: 00px;
     margin-bottom: 11px;
     margin-left: 20px;
     margin-right: 20px;
     display: inline-block;
     border-radius: 50%;
-    background-color: #474747;
+    background-color: #dacece;
     position: relative;
     opacity: .6;
     cursor: default;
-    /* float: left; */
+    float: left; 
 }
-.innovaphone-icons__item.available {
+.epygi-icons__item.available {
     opacity: 1 !important;
     cursor: pointer;
 }
 a {
     text-decoration: none;
 }
-.innovaphone-icons__item--mail {
+.epygi-icons__item--mail {
     opacity: 1 !important;
     cursor: pointer;
-}
-.innovaphone-tooltip {
+   }
+.epygi-tooltip {
     width: 150px;
     min-height: 40px;
     background-color: #006750;
@@ -129,8 +137,8 @@ a {
     position: absolute;
     top: -2px;
     left: -160px;
-    color: #fff;
-    color: #474747;
+    color: #343434;
+    color: #e3d5d5;
     border-radius: 4px;
     font-size: 16px;
     font-weight: 300;
@@ -141,4 +149,12 @@ a {
     visibility: hidden;
     -webkit-transition: .4s all ease;
     transition: .4s all ease;
+}
+.epygi-copy {
+    position: absolute;
+    top: 122px;
+    left: 25px;
+    font-size: 10px;
+
+
 }
