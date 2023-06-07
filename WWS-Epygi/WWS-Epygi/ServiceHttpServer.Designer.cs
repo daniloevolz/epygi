@@ -1,7 +1,7 @@
 ﻿
 namespace WWS_Epygi
 {
-    partial class EpygiClient
+    partial class ServiceHttpServer
     {
         /// <summary> 
         /// Variável de designer necessária.
@@ -30,7 +30,7 @@ namespace WWS_Epygi
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "WWS-EpygiClient";
+            this.ServiceName = "WWS-Epygi";
         }
 
         #endregion

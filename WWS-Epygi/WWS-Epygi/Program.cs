@@ -17,8 +17,7 @@ namespace WWS_Epygi
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new HttpServer(),
-                new EpygiClient()
+                new ServiceHttpServer()
             };
             ServiceBase.Run(ServicesToRun);
         }
