@@ -12,10 +12,18 @@
     border: 0;
 }
 
-.content{
+.div-content{
    background-color: rgba(132, 161, 152, 0.699);
-   width: 60%;
+   width: 40%;
    
+}
+.div-cards{
+    width: 60%; 
+    background: rosybrown;
+}
+.div-users{
+    display: none;
+    width: 33%;
 }
 #section.title.dwc h1 {
     font-size: 36px;
@@ -201,7 +209,6 @@
 .aside {
     display: inline-block;
     vertical-align: top;
-    width: 40%;
     position: relative;
 }
 
