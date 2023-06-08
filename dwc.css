@@ -22,8 +22,13 @@
     background: rosybrown;
 }
 .div-users{
+    width: 40%;
     display: none;
-    width: 33%;
+    justify-content: flex-start;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 #section.title.dwc h1 {
     font-size: 36px;

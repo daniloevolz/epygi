@@ -1,6 +1,44 @@
-function getUsersStatus(sector) {
-    const url = 'http://127.0.0.1:999/api/pabx/prslistrequest'; // Substitua pela URL real
-    const data = { users: ['Erick', 'Danilo', 'Pietro', 'Daniel'] };
+var supporters = [{
+  name: 'Danilo Volz',
+  sip: 'danilo',
+  num:'4101',
+  department:'pre-vendas',
+  email:'danilo@wecom.com.br',
+  img:'./images/unknown-user.jpg'
+},
+{
+  name: 'Daniel Farieas',
+  sip: 'daniel',
+  num:'4102',
+  department:'pre-vendas',
+  email:'daniel@wecom.com.br',
+  img:'./images/unknown-user.jpg'
+}]
+function getUsersByDepartment(department) {
+  var users = [];
+
+  for (var i = 0; i < supporters.length; i++) {
+    if (supporters[i].department === department) {
+      users.push(supporters[i].name);
+    }
+  }
+
+  return { users: users };
+}
+
+function getUsersStatus(department) {
+    const url = 'http://10.10.10.53:9090/api/pabx/prslistrequest'; // Substitua pela URL real
+    const data = getUsersByDepartment(department);
+    const divCards = document.getElementById("div-cards");
+    const divUsers = document.getElementById("div-users");
+    const divContent = document.getElementById("div-content");
+
+    // Definir os novos estilos para as divs
+    divCards.style.width = "40%";
+    divUsers.innerHTML = "";
+    divUsers.style.width = "40%";
+    divUsers.style.display = "flex";
+    divContent.style.width = "20%";
   
     fetch(url, {
       method: 'POST',
@@ -11,25 +49,109 @@ function getUsersStatus(sector) {
     })
       .then(response => response.json())
       .then(jsonData => {
-        const users = jsonData;
-        
-        for (const username in users) {
-          const status = users[username];
-          console.log(`${username}: ${status}`);
-
-        }
-        updateUserStatus(users);
+        const response = jsonData;
+        updateUsersHTML(department, response);
       })
       .catch(error => {
         console.error('Erro ao fazer a requisição:', error);
+        var response = [
+          {
+            danilo: "away"
+          },
+          {
+            daniel: "Offline"
+          }
+        ];
+        updateUsersHTML(department, response);
       });
+
+      // Define um intervalo de 1 minuto (em milissegundos)
+      setInterval(function() {
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(jsonData => {
+            const response = jsonData;
+            divUsers.innerHTML = "";
+            updateUsersHTML(department, response);
+          })
+          .catch(error => {
+            console.error('Erro ao fazer a requisição:', error);
+            var response = [
+              {
+                danilo: "away"
+              },
+              {
+                daniel: "Offline"
+              }
+            ];
+            divUsers.innerHTML = "";
+            updateUsersHTML(department, response);
+          });
+      }, 60000); // 1 minuto = 60 segundos = 60000 milissegundos
+          
   }
-  function updateUserStatus(users){
+  // Função para construir a estrutura HTML com base nos valores correspondentes
+function buildUserHTML(user, response) {
+  var userStatus = response.find(function(item) {
+    return item[user.sip] !== undefined;
+  });
 
+  var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+  var html = `
+    <div class="epygi-root-visitenkarten">
+      <div class="epygi-image">
+        <img src="${user.img}" class="epygi-tab__supporter-img ${statusClass}" alt="">
+      </div>
+      <div class="epygi-content">
+        <div class="epygi-content__headline">
+          <strong>${user.name}<br></strong>${user.department}<br>
+        </div>
+        <div class="epygi-content__address">
+      <div class="epygi-icons">
+        <div>
+          <a href="#" id="${user.sip}" class="iconCall epygi-icons__item ${statusClass}" style="display: flex; align-items: center; justify-content: center;"onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
+            <div class="epygi-tooltip">Ligação</div>
+            <img src="/images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
+          </a>
+        </div>
+        <div>
+          <a href="mailto:${user.email}" class="epygi-icons__item epygi-icons__item--mail" style="display: flex; align-items: center; justify-content: center;">
+            <div class="epygi-tooltip">Envie um e-mail</div>
+            <img src="/images/icone-email.png" alt=""style="width: 30px; height: 30px">
+          </a>
+        </div>
+      </div>         
+    </div>
+    </div>
+      <div class="epygi-copy">Powered by <a href="https://wecom.com.br/">Wecom</a></div>
+    </div>
+      </div>
+    </div>
+            
+  `;
 
+  return html;
+}
 
-  };
-  function prepareCall(id, num, video){
+// Função para atualizar a div 'div-users' com a estrutura HTML construída
+function updateUsersHTML(department, response) {
+    const divUsers = document.getElementById("div-users");;
+
+  supporters.forEach(function(supporter) {
+    if (supporter.department === department) {
+      var userHTML = buildUserHTML(supporter, response);
+      divUsers.innerHTML += userHTML;
+    }
+  });
+}
+  function prepareCall(id, num, status){
+    if(status=="online"){
       const divContent = document.getElementById("div-content");
       var url ="https://epygidemo.wecom.com.br/ctc/";
       // Limpar o conteúdo existente da div-content
@@ -55,30 +177,23 @@ function getUsersStatus(sector) {
 
       // Abrir o conteúdo desejado em uma nova janela ou guia, posicionada no centro da tela
       window.open(url+id, "_blank", "toolbar=no,width="+windowWidth+",height="+windowHeight+",left=" + left + ",top=" + top);
+    }else{
+      window.alert("Usuário indisponível no momento!");
+    }
+      
 
   }
   // Obtendo todos os elementos <li> com a classe "bgdBlue"
-const lis = document.querySelectorAll("a.card");
+  const lis = document.querySelectorAll("a.card");
 
-// Adicionando um ouvinte de eventos de clique a cada elemento <li>
-lis.forEach(li => {
-  li.addEventListener("click", function() {
-    const id = this.id;
-    getUsersStatus(id);
-    // Realizar as alterações na estrutura da página
-    const sectionPrincipal = document.getElementById("sectionPrincipal");
-    const divCards = document.getElementById("div-cards");
-    const divUsers = document.getElementById("div-users");
-    const divContent = document.getElementById("div-content");
+  // Adicionando um ouvinte de eventos de clique a cada elemento <li>
+  lis.forEach(li => {
+    li.addEventListener("click", function() {
+      const id = this.id;
+      getUsersStatus(id);
+      
 
-    // Definir os novos estilos para as divs
-    divCards.style.width = "40%";
-    divUsers.style.width = "40%";
-    divUsers.style.display = "block";
-    divContent.style.width = "20%";
-
-
+    });
   });
-});
   
   

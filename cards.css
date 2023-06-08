@@ -30,8 +30,20 @@
     height: 140px;
     
 }
-.epygi-tab__supporter-img.available {/* Status do usuário */
+.epygi-tab__supporter-img.online {/* Status do usuário */
     border-left: 8px solid #00a300; 
+}
+.epygi-tab__supporter-img.away {/* Status do usuário */
+    border-left: 8px solid #a3a000; 
+}
+.epygi-tab__supporter-img.DND {/* Status do usuário */
+    border-left: 8px solid #a32300; 
+}
+.epygi-tab__supporter-img.lounch {/* Status do usuário */
+    border-left: 8px solid #9800a3; 
+}
+.epygi-tab__supporter-img.Offline {/* Status do usuário */
+    border-left: 8px solid #9b9b9b; 
 }
 .epygi-content {
     width: 200px;
