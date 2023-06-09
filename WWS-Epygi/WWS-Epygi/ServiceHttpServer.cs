@@ -54,11 +54,12 @@ namespace WWS_Epygi
             if (_startHttp)
             {
                 int _portHttp = Convert.ToInt32(ConfigurationManager.AppSettings["PORTAHTTP"]);
+
                 string _localIP = ConfigurationManager.AppSettings["IPLOCAL"];
                 try
                 {
                     //Console.WriteLine("Iniciando...1");
-                    _listener.Prefixes.Add(String.Format(@"http://{1}:{0}/", _portHttp, _localIP));
+                    _listener.Prefixes.Add(String.Format(@"https://{1}:{0}/", _portHttp, _localIP));
                     //Console.WriteLine("Iniciando...2");
                     _listener.Start();
                     //Console.WriteLine("Iniciando...3");
