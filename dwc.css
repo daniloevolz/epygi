@@ -19,7 +19,7 @@
 }
 .div-cards{
     width: 60%; 
-    background: rosybrown;
+    background: #dddbdb;
 }
 .div-users{
     width: 40%;
@@ -29,6 +29,7 @@
     justify-items: center;
     flex-direction: column;
     flex-wrap: wrap;
+    background: #dddbdb;
 }
 #section.title.dwc h1 {
     font-size: 36px;
@@ -76,8 +77,7 @@
 }
 
 #sectionPrincipal.dwc ul {
-    margin: 0;
-    padding: 0;
+    margin-top: 15px;
     font-size: 0;
     list-style: none;
     display: inline-block;

@@ -2,18 +2,50 @@ var supporters = [{
   name: 'Danilo Volz',
   sip: 'danilo',
   num:'4101',
-  department:'pre-vendas',
+  department:'suporte',
+  location: 'Porto Alegre-RS',
   email:'danilo@wecom.com.br',
-  img:'./images/unknown-user.jpg'
+  img:'./images/danilo-user.jpg'
 },
 {
   name: 'Daniel Farias',
   sip: 'daniel',
   num:'4102',
   department:'pre-vendas',
+  location: 'Porto Alegre-RS',
   email:'daniel@wecom.com.br',
+  img:'./images/daniel-user.jpg'
+},
+{
+  name: 'Rodrigo Holz',
+  sip: 'holz',
+  num:'4103',
+  department:'pre-vendas',
+  location: 'Porto Alegre-RS',
+  email:'holz@wecom.com.br',
   img:'./images/unknown-user.jpg'
-}]
+},
+{
+  name: 'Rodrigo Pinheiro',
+  sip: 'pinheiro',
+  num:'4104',
+  department:'suporte',
+  location: 'Porto Alegre-RS',
+  email:'rodrigo.pinheiro@wecom.com.br',
+  img:'./images/unknown-user.jpg'
+},
+{
+  name: 'Uberlan',
+  sip: 'uberlan',
+  num:'4105',
+  department:'vendas',
+  location: 'Porto Alegre-RS',
+  email:'uberlan@wecom.com.br',
+  img:'./images/unknown-user.jpg'
+}
+]
+// Variável para armazenar o identificador do intervalo
+var intervalId;
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -42,33 +74,6 @@ function getUsersStatus(department) {
 
   const requestBody = JSON.stringify(data);
   const contentLength = requestBody.length;
-  // /*
-  //   fetch(url, {
-  //     method: 'POST',
-  //     headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': '*/*',
-  //         'Content-Length': contentLength.toString()
-  //     },
-  //     body: JSON.stringify(data)
-  // }).then(function (response) {
-  //     // Processa a resposta do servidor
-  //     if (response.status == 200) {
-
-  //         response.text().then(function (text) {
-  //             var obj = JSON.parse(String(text));
-              
-  //             updateUsersHTML(department, obj);
-  //         });
-  //     } else {
-  //         response.text().then(function (text) {
-  //           updateUsersHTML(department, "");
-  //             window.alert("Algo saiu errado:\n" + text);
-  //         });
-  //     }
-
-  // });
-  // */
     fetch(url, {
       method: 'POST',
       headers: {
@@ -77,9 +82,7 @@ function getUsersStatus(department) {
           'Content-Length': contentLength.toString()
       },
       body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(jsonData => {
+    }).then(response => response.json()).then(jsonData => {
         const response = jsonData;
         updateUsersHTML(department, response);
       })
@@ -87,9 +90,8 @@ function getUsersStatus(department) {
         console.error('Erro ao fazer a requisição:', error);
         updateUsersHTML(department, "");
       });
-
-      // Define um intervalo de 1 minuto (em milissegundos)
-       setInterval(function() {
+      clearInterval(intervalId);
+      intervalId = setInterval(function() {
         fetch(url, {
           method: 'POST',
           headers: {
@@ -107,10 +109,11 @@ function getUsersStatus(department) {
           })
           .catch(error => {
             console.error('Erro ao fazer a requisição:', error);
+            divUsers.innerHTML = "";
+            updateUsersHTML(department, "");
           });
-      
-       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos
-         
+        
+      }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
   }
   
   // Função para construir a estrutura HTML com base nos valores correspondentes
@@ -129,32 +132,33 @@ function buildUserHTML(user, response) {
         <div class="epygi-content__headline">
           <strong>${user.name}<br></strong>${user.department}<br>
         </div>
+        <div class="epygi-content__address">
+              <address>
+                <strong>${user.location}</strong>
+                <a href="mailto:${user.email}">${user.email}</a>
+              </address>
+        </div>
         <div class="epygi-content__status">
               <div class="epygi-content__status__indicator ${statusClass}"></div>
               ${statusClass}
-            </div>
-        <div class="epygi-content__address">
-      <div class="epygi-icons">
-        <div>
-          <a href="#" id="${user.sip}" class="iconCall epygi-icons__item ${statusClass}" style="display: flex; align-items: center; justify-content: center;"onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
-            <div class="epygi-tooltip">Ligação</div>
-            <img src="/images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
-          </a>
         </div>
-        <div>
-          <a href="mailto:${user.email}" class="epygi-icons__item epygi-icons__item--mail" style="display: flex; align-items: center; justify-content: center;">
-            <div class="epygi-tooltip">Envie um e-mail</div>
-            <img src="/images/icone-email.png" alt=""style="width: 30px; height: 30px">
-          </a>
-        </div>
-      </div>         
-    </div>
-    </div>
-      <div class="epygi-copy">Powered by <a href="https://wecom.com.br/">Wecom</a></div>
-    </div>
+        <div class="epygi-icons">
+          <div>
+            <a href="#" id="${user.sip}" class="iconCall epygi-icons__item ${statusClass}" style="display: flex; align-items: center; justify-content: center;"onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
+              <div class="epygi-tooltip">Ligação</div>
+              <img src="/images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
+            </a>
+          </div>
+          <div>
+            <a href="mailto:${user.email}" class="epygi-icons__item epygi-icons__item--mail" style="display: flex; align-items: center; justify-content: center;">
+              <div class="epygi-tooltip">Envie um e-mail</div>
+              <img src="/images/icone-email.png" alt=""style="width: 30px; height: 30px">
+            </a>
+          </div>
+        </div>         
       </div>
-    </div>
-            
+      <div class="epygi-copy">Powered by <a href="https://wecom.com.br/">Wecom</a></div>
+    </div>     
   `;
 
   return html;
