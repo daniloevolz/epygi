@@ -146,13 +146,13 @@ function buildUserHTML(user, response) {
           <div>
             <a href="#" id="${user.sip}" class="iconCall epygi-icons__item ${statusClass}" style="display: flex; align-items: center; justify-content: center;"onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
               <div class="epygi-tooltip">Ligação</div>
-              <img src="/images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
+              <img src="./images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
             </a>
           </div>
           <div>
             <a href="mailto:${user.email}" class="epygi-icons__item epygi-icons__item--mail" style="display: flex; align-items: center; justify-content: center;">
               <div class="epygi-tooltip">Envie um e-mail</div>
-              <img src="/images/icone-email.png" alt=""style="width: 30px; height: 30px">
+              <img src="./images/icone-email.png" alt=""style="width: 30px; height: 30px">
             </a>
           </div>
         </div>         
