@@ -7,7 +7,7 @@ var supporters = [{
   img:'./images/unknown-user.jpg'
 },
 {
-  name: 'Daniel Farieas',
+  name: 'Daniel Farias',
   sip: 'daniel',
   num:'4102',
   department:'pre-vendas',
@@ -19,7 +19,7 @@ function getUsersByDepartment(department) {
 
   for (var i = 0; i < supporters.length; i++) {
     if (supporters[i].department === department) {
-      users.push(supporters[i].name);
+      users.push(supporters[i].sip);
     }
   }
 
@@ -27,7 +27,7 @@ function getUsersByDepartment(department) {
 }
 
 function getUsersStatus(department) {
-    const url = 'http://10.10.10.53:9090/api/pabx/prslistrequest'; // Substitua pela URL real
+    const url = 'http://10.10.10.53:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
     const data = getUsersByDepartment(department);
     const divCards = document.getElementById("div-cards");
     const divUsers = document.getElementById("div-users");
@@ -39,11 +39,42 @@ function getUsersStatus(department) {
     divUsers.style.width = "40%";
     divUsers.style.display = "flex";
     divContent.style.width = "20%";
-  
+
+  const requestBody = JSON.stringify(data);
+  const contentLength = requestBody.length;
+  // /*
+  //   fetch(url, {
+  //     method: 'POST',
+  //     headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': '*/*',
+  //         'Content-Length': contentLength.toString()
+  //     },
+  //     body: JSON.stringify(data)
+  // }).then(function (response) {
+  //     // Processa a resposta do servidor
+  //     if (response.status == 200) {
+
+  //         response.text().then(function (text) {
+  //             var obj = JSON.parse(String(text));
+              
+  //             updateUsersHTML(department, obj);
+  //         });
+  //     } else {
+  //         response.text().then(function (text) {
+  //           updateUsersHTML(department, "");
+  //             window.alert("Algo saiu errado:\n" + text);
+  //         });
+  //     }
+
+  // });
+  // */
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Content-Length': contentLength.toString()
       },
       body: JSON.stringify(data)
     })
@@ -54,23 +85,17 @@ function getUsersStatus(department) {
       })
       .catch(error => {
         console.error('Erro ao fazer a requisição:', error);
-        var response = [
-          {
-            danilo: "away"
-          },
-          {
-            daniel: "Offline"
-          }
-        ];
-        updateUsersHTML(department, response);
+        updateUsersHTML(department, "");
       });
 
       // Define um intervalo de 1 minuto (em milissegundos)
-      setInterval(function() {
+       setInterval(function() {
         fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+              'Accept': '*/*',
+              'Content-Length': contentLength.toString()
           },
           body: JSON.stringify(data)
         })
@@ -82,20 +107,12 @@ function getUsersStatus(department) {
           })
           .catch(error => {
             console.error('Erro ao fazer a requisição:', error);
-            var response = [
-              {
-                danilo: "away"
-              },
-              {
-                daniel: "Offline"
-              }
-            ];
-            divUsers.innerHTML = "";
-            updateUsersHTML(department, response);
           });
-      }, 60000); // 1 minuto = 60 segundos = 60000 milissegundos
-          
+      
+       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos
+         
   }
+  
   // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {
   var userStatus = response.find(function(item) {
@@ -112,6 +129,10 @@ function buildUserHTML(user, response) {
         <div class="epygi-content__headline">
           <strong>${user.name}<br></strong>${user.department}<br>
         </div>
+        <div class="epygi-content__status">
+              <div class="epygi-content__status__indicator ${statusClass}"></div>
+              ${statusClass}
+            </div>
         <div class="epygi-content__address">
       <div class="epygi-icons">
         <div>

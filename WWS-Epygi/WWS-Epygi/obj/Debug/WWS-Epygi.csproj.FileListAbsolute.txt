@@ -9,3 +9,14 @@ C:\Users\danil\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\Newtonsoft.Json.xml
 C:\Users\danil\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.CopyComplete
 C:\Users\danil\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.exe
 C:\Users\danil\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.pdb
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\WWS-Epygi.exe.config
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\WWS-Epygi.exe
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\WWS-Epygi.pdb
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\Newtonsoft.Json.dll
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\SuperSimpleTcp.dll
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\bin\Debug\Newtonsoft.Json.xml
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.AssemblyReference.cache
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.CoreCompileInputs.cache
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.CopyComplete
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.exe
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.pdb

@@ -37,11 +37,13 @@ namespace WWS_Epygi
         {
             Thread t = new Thread(new ThreadStart(Connect));
             t.IsBackground = true;
+            Send("QXEpygiClient:Start", "StartThread", "INFO");
             t.Start();
         }
         void Connect()
         {
             string host = server + ":" + port;
+            Send("QXEpygiClient:Connect", "TO " + host, "INFO");
             // instantiate
             client = new SimpleTcpClient(host);
             client.Events.Connected += Events_Connected;
@@ -61,6 +63,7 @@ namespace WWS_Epygi
 
         private void Events_Disconected(object sender, ConnectionEventArgs e)
         {
+            Send("QXEpygiClient:Events_Disconected", "", "INFO");
             _startRetries += 1;
             if (_startRetries < 5)
             {

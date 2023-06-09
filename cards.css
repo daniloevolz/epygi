@@ -39,8 +39,11 @@
 .epygi-tab__supporter-img.DND {/* Status do usuário */
     border-left: 8px solid #a32300; 
 }
-.epygi-tab__supporter-img.lounch {/* Status do usuário */
-    border-left: 8px solid #9800a3; 
+.epygi-tab__supporter-img.lunch {/* Status do usuário */
+    border-left: 8px solid #e822a9; 
+}
+.epygi-tab__supporter-img.meeting {/* Status do usuário */
+    border-left: 8px solid #3400a3; 
 }
 .epygi-tab__supporter-img.Offline {/* Status do usuário */
     border-left: 8px solid #9b9b9b; 
@@ -87,6 +90,21 @@
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
+.epygi-content__status__indicator.away {/* Status do usuário */
+    background-color: #a3a000; 
+}
+.epygi-content__status__indicator.DND {/* Status do usuário */
+    background-color: #a32300; 
+}
+.epygi-content__status__indicator.lunch {/* Status do usuário */
+    background-color: #e822a9; 
+}
+.epygi-content__status__indicator.meeting {/* Status do usuário */
+    background-color: #3400a3; 
+}
+.epygi-content__status__indicator.Offline {/* Status do usuário */
+    background-color: #9b9b9b; 
+}
 .epygi-content__address {
     margin-top: 5px;
     line-height: 1.2em;
@@ -131,6 +149,10 @@
     float: left; 
 }
 .epygi-icons__item.available {
+    opacity: 1 !important;
+    cursor: pointer;
+}
+.epygi-icons__item.online {
     opacity: 1 !important;
     cursor: pointer;
 }

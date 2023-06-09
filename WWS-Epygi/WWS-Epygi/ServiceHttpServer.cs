@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -111,8 +112,9 @@ namespace WWS_Epygi
                 {
                     context = _listener.EndGetContext(ar);
                 }
-                catch (HttpListenerException e)
+                catch (HttpListenerException ex)
                 {
+                    _log.Send("ListenerCallback:HttpListenerContext", ex.Message, "ERRO");
                     return;
                 }
 
@@ -129,72 +131,121 @@ namespace WWS_Epygi
                 int recId = 0;
                 int result = 0;
                 string reason = "";
-                switch (metodo[0])
+                switch (context.Request.HttpMethod)
                 {
-                    case "/api/pabx/prslistrequest":
-                        body = new StreamReader(context.Request.InputStream).ReadToEnd();
-                        // Converter o corpo da requisição para objeto dynamic
-                        dynamic requestBodyObject = JsonConvert.DeserializeObject(body);
-
-                        // Criar uma lista para armazenar os objetos dynamic encontrados
-                        List<dynamic> resultPresence = new List<dynamic>();
-
-                        //Cria a lista para armazenaro status dos usuários do QX
-                        List<User> listUsers = _qx.GetUserStatus();
-                        // Verificar cada usuário recebido no corpo da requisição
-                        foreach (string username in requestBodyObject.users)
+                    case "POST":
+                        switch (metodo[0])
                         {
-                            // Procurar um usuário com o mesmo valor de Sip na lista de objetos User
-                            User user = listUsers.Find(u => u.Sip == username);
-                            if (user != null)
-                            {
-                                // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
-                                //resultPresence.Add(new {[username] = user.Status });
-                                // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
-                                resultPresence.Add(new Dictionary<string, string> { { username, user.Status } });
-                            }
-                        }
-                        // Converter a lista de resultados para JSON
-                        string resultJson = JsonConvert.SerializeObject(new { users = result }, Formatting.Indented);
-                        Console.WriteLine(resultJson);
-                        var serializer = new JavaScriptSerializer();
-                        var serializedResult = serializer.Serialize(resultPresence);
+                            case "/api/pabx/prslistrequest":
+                                try
+                                {
+                                    body = new StreamReader(context.Request.InputStream).ReadToEnd();
+                                    // Converter o corpo da requisição para objeto dynamic
+                                    dynamic requestBodyObject = JsonConvert.DeserializeObject(body);
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest body ", body, "INFO");
+                                    // Criar uma lista para armazenar os objetos dynamic encontrados
+                                    List<dynamic> resultPresence = new List<dynamic>();
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest resultPresence ", Convert.ToString(resultPresence), "INFO");
+                                    //Cria a lista para armazenaro status dos usuários do QX
+                                    List<User> listUsers = _qx.GetUserStatus();
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest listUsers ", Convert.ToString(listUsers), "INFO");
+                                    // Verificar cada usuário recebido no corpo da requisição
+                                    JArray usersArray = requestBodyObject.users;
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest usersArray ", Convert.ToString(usersArray), "INFO");
+                                    List<string> usernames = usersArray.ToObject<List<string>>();
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest usernames ", Convert.ToString(usernames), "INFO");
+                                    foreach (string username in usernames)
+                                    {
+                                        // Procurar um usuário com o mesmo valor de Sip na lista de objetos User
+                                        User user = listUsers.Find(u => u.Sip == username);
+                                        if (user != null)
+                                        {
+                                            // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
+                                            //resultPresence.Add(new {[username] = user.Status });
+                                            // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
+                                            resultPresence.Add(new Dictionary<string, string> { { username, user.Status } });
+                                        }
+                                    }
 
-                        byte[] byteArray = Encoding.UTF8.GetBytes(serializedResult);
+                                    /*
+                                    foreach (string username in requestBodyObject.users)
+                                    {
+                                        // Procurar um usuário com o mesmo valor de Sip na lista de objetos User
+                                        User user = listUsers.Find(u => u.Sip == username);
+                                        if (user != null)
+                                        {
+                                            // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
+                                            //resultPresence.Add(new {[username] = user.Status });
+                                            // Adicionar um novo objeto dynamic com o par "Nome: Status" na lista de resultados
+                                            resultPresence.Add(new Dictionary<string, string> { { username, user.Status } });
+                                        }
+                                    }
+                                    */
+                                    // Converter a lista de resultados para JSON
+                                    //string resultJson = JsonConvert.SerializeObject(new { users = result }, Formatting.Indented);
+                                    //Console.WriteLine(resultJson);
+                                    var serializer = new JavaScriptSerializer();
+                                    var serializedResult = serializer.Serialize(resultPresence);
+                                    context.Response.AddHeader("Access-Control-Allow-Origin", "*");// Especifique os cabeçalhos suportados
+                                    byte[] byteArray = Encoding.UTF8.GetBytes(serializedResult);
+                                    context.Response.StatusCode = 200;
+                                    context.Response.ContentType = "application/json";
+                                    context.Response.ContentLength64 = byteArray.Length;
+                                    Stream dataStream = context.Response.OutputStream;
+                                    dataStream.Write(byteArray, 0, byteArray.Length);
+                                    dataStream.Close();
+                                    break;
+                                }
+                                catch (Exception ex)
+                                {
+                                    _log.Send("ListenerCallback:/api/pabx/prslistrequest", ex.Message, "ERRO");
+                                }
+                                break;
+                            case "/api/pabx/makecall":
+                                body = new StreamReader(context.Request.InputStream).ReadToEnd();
+                                dynamic respostaMakecall = JsonConvert.DeserializeObject(body);
+                                recId = Convert.ToInt32(respostaMakecall.RecID);
+                                string callNumber = respostaMakecall.CallNumber;
+
+                                //_micc.Log("ListenerCallbak", "/makecall " + qry[0] + "=" + qry[1], "INFO");
+                                //Console.WriteLine("{0} {1}", qry[0], qry[1]);
+                                //int resultMakecall = _micc.MakeCall(Convert.ToInt32(qry[0]), qry[1]);
+                                //result = MakeCall(recId, callNumber);
+                                if (result == 0)
+                                {
+                                    //reason = _sqlClient.AgentReason(recId);
+                                    //reason = AgentReason(recId);
+                                }
+                                break;
+                            case "/api/pabx/hangup":
+                                body = new StreamReader(context.Request.InputStream).ReadToEnd();
+                                dynamic respostaHangup = JsonConvert.DeserializeObject(body);
+                                recId = Convert.ToInt32(respostaHangup.RecID);
+                                //callId = Convert.ToInt32(respostaHangup.CallID);
+                                //_micc.Log("ListenerCallbak", "/hangup "+ qry[0]+"="+qry[1], "INFO");
+                                //Console.WriteLine("{0} {1}", qry[0], qry[1]);
+                                //_micc.HangupCall(Convert.ToInt32(qry[0]), Convert.ToInt32(qry[1]));
+                                //result = HangupCall(recId);
+                                break;
+                        }
+                        break;
+                    case "OPTIONS": // Lidar com a solicitação OPTIONS
                         context.Response.StatusCode = 200;
-                        context.Response.ContentType = "application/json";
-                        context.Response.ContentLength64 = byteArray.Length;
-                        Stream dataStream = context.Response.OutputStream;
-                        dataStream.Write(byteArray, 0, byteArray.Length);
-                        dataStream.Close();
+                        context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+                        context.Response.AddHeader("Access-Control-Allow-Methods", "POST, OPTIONS"); // Especifique os métodos suportados
+                        context.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Especifique os cabeçalhos suportados
+                        context.Response.AddHeader("Access-Control-Max-Age", "86400"); // Especifique o tempo máximo de cache para a resposta OPTIONS (em segundos)
+                        context.Response.Close();
                         break;
-                    case "/api/pabx/makecall":
-                        body = new StreamReader(context.Request.InputStream).ReadToEnd();
-                        dynamic respostaMakecall = JsonConvert.DeserializeObject(body);
-                        recId = Convert.ToInt32(respostaMakecall.RecID);
-                        string callNumber = respostaMakecall.CallNumber;
-
-                        //_micc.Log("ListenerCallbak", "/makecall " + qry[0] + "=" + qry[1], "INFO");
-                        //Console.WriteLine("{0} {1}", qry[0], qry[1]);
-                        //int resultMakecall = _micc.MakeCall(Convert.ToInt32(qry[0]), qry[1]);
-                        //result = MakeCall(recId, callNumber);
-                        if (result == 0)
-                        {
-                            //reason = _sqlClient.AgentReason(recId);
-                            //reason = AgentReason(recId);
-                        }
-                        break;
-                    case "/api/pabx/hangup":
-                        body = new StreamReader(context.Request.InputStream).ReadToEnd();
-                        dynamic respostaHangup = JsonConvert.DeserializeObject(body);
-                        recId = Convert.ToInt32(respostaHangup.RecID);
-                        //callId = Convert.ToInt32(respostaHangup.CallID);
-                        //_micc.Log("ListenerCallbak", "/hangup "+ qry[0]+"="+qry[1], "INFO");
-                        //Console.WriteLine("{0} {1}", qry[0], qry[1]);
-                        //_micc.HangupCall(Convert.ToInt32(qry[0]), Convert.ToInt32(qry[1]));
-                        //result = HangupCall(recId);
+                    default:
+                        context.Response.StatusCode = 404;
+                        context.Response.Close();
                         break;
                 }
+            }
+            catch(Exception ex) 
+            {
+                _log.Send("ListenerCallback:", ex.Message, "ERRO"); 
             }
             finally
             {
