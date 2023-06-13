@@ -1,49 +1,18 @@
-var supporters = [{
-  name: 'Danilo Volz',
-  sip: 'danilo',
-  num:'4101',
-  department:'suporte',
-  location: 'Porto Alegre-RS',
-  email:'danilo@wecom.com.br',
-  img:'./images/danilo-user.jpg'
-},
-{
-  name: 'Daniel Farias',
-  sip: 'daniel',
-  num:'4102',
-  department:'pre-vendas',
-  location: 'Porto Alegre-RS',
-  email:'daniel@wecom.com.br',
-  img:'./images/daniel-user.jpg'
-},
-{
-  name: 'Rodrigo Holz',
-  sip: 'holz',
-  num:'4103',
-  department:'pre-vendas',
-  location: 'Porto Alegre-RS',
-  email:'holz@wecom.com.br',
-  img:'./images/unknown-user.jpg'
-},
-{
-  name: 'Rodrigo Pinheiro',
-  sip: 'pinheiro',
-  num:'4104',
-  department:'suporte',
-  location: 'Porto Alegre-RS',
-  email:'rodrigo.pinheiro@wecom.com.br',
-  img:'./images/unknown-user.jpg'
-},
-{
-  name: 'Uberlan',
-  sip: 'uberlan',
-  num:'4105',
-  department:'vendas',
-  location: 'Porto Alegre-RS',
-  email:'uberlan@wecom.com.br',
-  img:'./images/unknown-user.jpg'
-}
-]
+var supporters = []
+fetch('./usersWecom.json')
+ .then(response => response.json())
+ .then( data => {
+
+    console.log(data)
+    supporters = data
+
+    // const dadosDiv = document.getElementById('dataUsers');
+    // dadosDiv.innerText = JSON.stringify(dataUsers);
+   })
+  .catch(error => {
+    console.error('Erro ao carregar o arquivo JSON', error);
+  });
+
 // Variável para armazenar o identificador do intervalo
 var intervalId;
 function getUsersByDepartment(department) {
@@ -59,7 +28,7 @@ function getUsersByDepartment(department) {
 }
 
 function getUsersStatus(department) {
-    const url = 'http://10.10.10.53:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
+    const url = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
     const data = getUsersByDepartment(department);
     const divCards = document.getElementById("div-cards");
     const divUsers = document.getElementById("div-users");
