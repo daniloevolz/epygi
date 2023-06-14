@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="login.css">
-    <link rel="stylesheet" href="wecom.css">
-    <link rel="stylesheet" href="cards.css">
+
     
     <title>Login</title>
 </head>
@@ -15,19 +14,19 @@
     <h2>Entrar</h2>
     <form>
       <div class="user-box">
-        <input type="text" name="" required="">
+        <input type="text" name="" required="" id="name">
         <label>Nome</label>
       </div>
       <div class="user-box">
-        <input type="password" name="" required="">
+        <input type="password" name="" required="" id="pass">
         <label>Senha</label>
       </div>
 
-      <a href="#">
+      <a href="#" id="clickSend">
         <span></span>
         <span></span>
         <span></span>
-        <span></span>
+        <span></span> 
         entrar
       </a>
       <div class="lostlink">
@@ -38,5 +37,34 @@
       </div>
     </form>
   </div>
+  <script>
+  var logindata = [];
 
+fetch('./password.json')
+  .then(response => response.json())
+  .then(data => {
+    logindata = data;
+  })
+  .catch(error => {
+    console.error('Erro ao carregar o arquivo JSON', error);
+  });
+
+  const Btnlogin = document.getElementById("clickSend");
+
+    Btnlogin.addEventListener("click", function() {
+
+      var Namelogin = document.getElementById("name").value;
+      var Passlogin = document.getElementById("pass").value;
+
+      logindata.forEach(function(admin) {
+        // console.log(admin.login);
+        if(Namelogin == admin.login && Passlogin == admin.pass){
+          window.location.href = 'admin-interf.html';
+        }else{
+          window.alert("Credenciais Inválidas")
+        }
+      });
+    });
+    
+  </script>
 </body>
