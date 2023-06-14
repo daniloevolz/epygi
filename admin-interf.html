@@ -4,34 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WECOM ADMINISTRADOR DE USUÁRIOS</title>
-    <link rel="stylesheet" type="text/css" href="admin.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <h1>Inclusão de Dados</h1>
-  <form id="dataForm">
-    <label for="name">Nome:</label>
-    <input type="text" id="name" required>
-
-    <label for="sip">SIP:</label>
-    <input type="text" id="sip" required>
-
-    <label for="num">Número:</label>
-    <input type="text" id="num" required>
-
-    <label for="department">Departamento:</label>
-    <input type="text" id="department" required>
-
-    <label for="location">Localização:</label>
-    <input type="text" id="location" required>
-
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" required>
-
-    <label for="img">Imagem:</label>
-    <input type="text" id="img" required>
-
-    <button type="submit">Adicionar</button>
-  </form>
+<div class="login-box">
+    <h2>Inclusão de Dados</h2>
+    <form>
+        <div class="user-box">
+            <input type="text" id="name" name="" required="" autocomplete="off">
+            <label>Nome</label>
+          </div>
+          <div class="user-box">
+            <input type="text" id="sip" required="" autocomplete="off">
+            <label>SIP</label>
+          </div>            
+        <div class="user-box">
+            <input type="text" id="num"name="" required="" maxlength="4" autocomplete="off">
+            <label>Ramal</label>
+          </div>
+        <div class="user-box">
+            <input type="text" id="department"name="" required="" autocomplete="off">
+            <label>Departamento</label>
+          </div>
+        <div class="user-box">
+            <input type="text" id="location" name="" required="" autocomplete="off">
+            <label>Localização</label>
+          </div>
+        <div class="user-box">
+            <input type="text" id="email" name="" required="" autocomplete="off">
+            <label>E-mail</label>
+          </div>    
+            <div class="img-box">
+            <label>Imagem</label>
+            <input type="file" id="img" name="" required="" >
+          </div>                 
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Adicionar
+          </a>
+    </form>
+  
+</div>   
 
   <script src="admin.js"></script>
 </body>
