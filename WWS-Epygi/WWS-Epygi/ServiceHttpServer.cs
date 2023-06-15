@@ -81,6 +81,7 @@ namespace WWS_Epygi
         protected override void OnStop()
         {
             // TODO: Adicione aqui o código para realizar qualquer desmontagem necessária para interromper seu serviço.
+            timer.Dispose();
             Unsubscribe();
             _stop.Set();
             _listenerThread.Join();
@@ -270,6 +271,7 @@ namespace WWS_Epygi
         int _startRetries = 5;
         string filePath = ConfigurationManager.AppSettings["USERSJSONPATCH"];
         SimpleTcpClient client;
+        Timer timer;
         //Log _log = new Log();
 
         #endregion
@@ -292,6 +294,9 @@ namespace WWS_Epygi
             try
             {
                 client.ConnectWithRetries(10000);
+                // Cria um temporizador com intervalo de 60 segundos (60000 milissegundos)
+                timer = new Timer(SystemInfo, null, 0, 60000);
+
             }
             catch (System.TimeoutException ex)
             {
@@ -453,7 +458,7 @@ namespace WWS_Epygi
                         }
 
                     }
-                    if (responseValue == "0")
+                    else if (responseValue == "0")
                     {
                         foreach (User user in listUsers)
                         {
@@ -477,6 +482,11 @@ namespace WWS_Epygi
 
                         }
 
+                    }
+                    else
+                    {
+                        string responseString = GetResponseString(xmltest);
+                        _log.Send("Services.SystemService.getsysteminfo", "Info: " + responseString, "INFO");
                     }
 
                 }
@@ -659,6 +669,25 @@ namespace WWS_Epygi
             Byte[] data = System.Text.Encoding.ASCII.GetBytes(xml.ToString());
             client.Send(data);
             return true;
+        }
+        public void SystemInfo(object state)
+        {
+            // Cria uma instância da classe Random
+            Random random = new Random();
+            // Gera um número aleatório entre 0 e 100
+            string rand = Convert.ToString(random.Next(0, 9999999));
+            var xml = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement("methodCall",
+                                             new XElement("methodName", "Services.SystemService.getsysteminfo"),
+                                             new XElement("params",
+                                             new XElement("param",
+                                             new XElement("value",
+                                             new XElement("string", rand))))), CrLf);
+            var wr = new StringWriter();
+            xml.Save(wr);
+            //Console.Write(wr.ToString());
+            //SendText(wr.ToString());
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(xml.ToString());
+            client.Send(data);
         }
         public void Unsubscribe()
         {
