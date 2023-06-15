@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+
+    
+    <title>Login</title>
+</head>
+<body>
+<div class="login-box">
+    <h2>Entrar</h2>
+    <form>
+      <div class="user-box">
+        <input type="text" name="" required="" id="name">
+        <label>Nome</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="" required="" id="pass">
+        <label>Senha</label>
+      </div>
+
+      <a href="#" id="clickSend">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span> 
+        entrar
+      </a>
+      <div class="lostlink">
+        <a href="link">
+          <label>Esqueceu sua senha?</label>
+          <link rel="stylesheet" href="/forgotpassword">
+        </a>
+      </div>
+    </form>
+  </div>
+  <script>
+  var logindata = [];
+
+fetch('./password.json')
+  .then(response => response.json())
+  .then(data => {
+    logindata = data;
+  })
+  .catch(error => {
+    console.error('Erro ao carregar o arquivo JSON', error);
+  });
+
+  const Btnlogin = document.getElementById("clickSend");
+
+    Btnlogin.addEventListener("click", function() {
+
+      var Namelogin = document.getElementById("name").value;
+      var Passlogin = document.getElementById("pass").value;
+
+      logindata.forEach(function(admin) {
+        // console.log(admin.login);
+        if(Namelogin == admin.login && Passlogin == admin.pass){
+          window.location.href = 'admin-interf.html';
+        }else{
+          window.alert("Credenciais Inválidas")
+        }
+      });
+    });
+    
+  </script>
+</body>
