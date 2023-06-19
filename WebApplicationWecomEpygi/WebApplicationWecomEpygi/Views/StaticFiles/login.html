@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">    
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Entrar</h2>
+        <form>
+            <div class="user-box">
+                <input type="text" name="" required="" id="name">
+                <label>Nome</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="" required="" id="pass">
+                <label>Senha</label>
+            </div>
+
+            <a href="#" id="clickSend">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                entrar
+            </a>
+            <div id="forgotPassword" class="lostlink">
+                <a href="#">
+                    <label>Esqueceu sua senha?</label>
+                    <link rel="stylesheet" href="./forgotpassword.html">
+                </a>
+            </div>
+        </form>
+    </div>
+    <script src="login.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+</body>
