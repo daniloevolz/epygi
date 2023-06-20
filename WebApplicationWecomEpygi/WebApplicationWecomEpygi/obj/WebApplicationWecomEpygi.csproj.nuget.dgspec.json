@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj": {}
+    "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj": {
+    "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
+        "projectUniqueName": "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
         "projectName": "WebApplicationWecomEpygi",
-        "projectPath": "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
+        "projectPath": "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
         "packagesPath": "C:\\Users\\danil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\obj\\",
+        "outputPath": "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\danil\\AppData\\Roaming\\NuGet\\NuGet.Config",

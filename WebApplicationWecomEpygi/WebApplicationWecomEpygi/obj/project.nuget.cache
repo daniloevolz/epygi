@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sZRF0NWh/PVUlfdNaejMXHcM5cn++USdbl+HM2rdXu7LEuWmQ//teITuT0NQVh981/3QHPQh/GfYxgKc45EC6w==",
+  "dgSpecHash": "QRKKbB1cO3Gyap/4l1O8usMO2APk0PyapMAsoZCkfYmgfahfjm7YPEJ6NIiqgeKA2jr8S2VXLrSbrKf0CTgbQg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\danil\\source\\repos\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
+  "projectFilePath": "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danil\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.18\\microsoft.aspnetcore.authentication.jwtbearer.6.0.18.nupkg.sha512",
