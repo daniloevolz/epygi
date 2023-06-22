@@ -1,13 +1,139 @@
 html {
-    height: 100%;
-  }
-  body {
-    margin:0;
-    padding:0;
-    font-family: sans-serif;
-    background: linear-gradient(#141e30, #243b55);
-  }
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+  overflow: hidden;
+}
+.colDireita {
+  position: absolute;
+  width: 77%;
+  left: 23%;
+  height: 100%;
+}
+.colEsquerda{
+  position: absolute;
+  float: left;
+  width: 23%;
+  height: 100%;
+}
+.box-left{
+  position: absolute;
+  height: 100%;
+  float: left;
+  width: 100%;
+  /* padding: 12px; */
+  /* height: 100%; */
+  /* transform: translate(-50%, -50%); */
+  background: rgba(0,0,0,.5);
+  background-size: cover;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+.box-left ul h3 {
+  position: relative;
+  width: 180px;
+  height: 30px;
+  left: -30px;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(252, 252, 252, 0);
+  font-size: 20px;
+  orientation: center;
+  justify-content: left;
+  display: flex;
+  align-items: center;
+  /* padding-right: 20px; */
+  margin-left: 10px;
+}
+.box-left a {
+  top: 1px;
+  position: relative;
+  width: 200px;
+  height: 40px;
+  align-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+}
+
+.listusers {
+  vertical-align: center;
+  width: 50px;
+  height: 10px;
+  padding-bottom: 40px;
+  background-image: url(./images/Lista.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-color: rgba(255, 255, 255, 0.60);
+  background-position: center;
+  position: relative;
+  border-radius: 50px;
+  list-style-type: none;
+  left: -40px;
+}
+.useradd {
+  vertical-align: center;
+  width: 50px;
+  height: 10px;
+  padding-bottom: 40px;
+  background-image: url(./images/unknown-user.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-color: rgba(255, 255, 255, 0.60);
+  background-position: center;
+  position: relative;
+  border-radius: 50px;
+  list-style-type: none;
+  left: -40px;
+}
+.logo-box ul {
+  position: absolute;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  background-image: url(./images/wecom.svg);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: right;
+}
+
+.action {
+  display: flex;
+  position: relative;
+  left: 380px;
+  top: 100%;
+}
+.a-user{
+  width: 50px;
+  height: 10px;
+  padding-bottom: 40px;
+  background-image: url(./images/unknown-user.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-color: rgba(255, 255, 255, 0.60);
+  background-position: center;
+  position: relative;
+  border-radius: 50px;
+  list-style-type: none;
+  left: -40px;
+}
+.div-users {
+  position: absolute;
+  /* top: 10%; */
+  /* left: 50%; */
+  width: 80%;
+  /* padding: 40px; */
+  /* transform: translate(-50%, -50%); */
+  /* background: rgba(0,0,0,.5); */
+  box-sizing: border-box;
+  /* box-shadow: 0 15px 25px rgba(0,0,0,.6); */
+  border-radius: 10px;
+}
   .login-box {
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -20,7 +146,7 @@ html {
     border-radius: 10px;
   }
   .login-box h2 {
-    margin: 0 0 30px;
+    margin: 0 0 20px;
     padding: 0;
     color: #fff;
     text-align: center;
@@ -38,10 +164,10 @@ html {
   
   .login-box .user-box input {
     width: 100%;
-    padding: 10px 0;
+    padding: 19px 0;
     font-size: 16px;
     color: #fff;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
@@ -76,7 +202,7 @@ html {
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
+    margin-top: 20px;
     letter-spacing: 4px
   }
   
@@ -200,3 +326,46 @@ html {
   pointer-events: none !important;
   text-transform: none !important
 }  
+
+
+
+/* estilo tabela users */
+
+.container {
+	position: absolute;
+	/* top: 50%; */
+  width: 100%;
+  overflow-y: auto;
+	/* transform: translate(-50%, -50%); */
+}
+
+#table-users {
+	width: 100%;
+	border-collapse: collapse;
+	/* overflow: hidden; */
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+}
+thead{
+  width: 100%;
+}
+thead th{
+		background-color: #55608f;
+}
+
+tbody tr {
+	background-color: rgba(255,255,255,0.3);
+}
+tbody tr :hover{
+  background-color: rgba(255,255,255,0.3);
+}

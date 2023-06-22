@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,71 @@
     <link rel="stylesheet" href="./admin.css">
 </head>
 <body onload="load()">
-<div class="login-box">
+
+<div class="colEsquerda">
+  <div id="box" class="box-left">
+    <div id="userpainel"class="box-left">
+        <div id="logo-box"> 
+        <img src="/images/wecom.svg" alt="" width="300PX" >
+    </div>
+    <div id="box" class="itens">
+        <ul style= "display: flex; align-items: center; height: 45px; cursor: pointer;" id="useradd">               
+            <li class="useradd">
+                <a href="#" class="user white usuario" id="usuario">
+                    <span class="bggray"></span>
+                </a>
+            </li>
+            <h3>Adição de Usuário</h3>
+            
+        </ul>
+
+        <ul style = "display: flex; align-items: center; height: 45px; align-items: center; cursor: pointer;" id="show-users">
+            <li class="listusers">
+                <a href="#" class="user white usuario" id="usuario">
+                    <span class="bggray"></span>
+                </a>
+            </li>
+            <h3>Lista de Usuários</h3>
+        </ul>
+    </div>
+    </div>
+    <div class="" id="main-user" style="height: 100%; display: flex; width: 278px; align-items: flex-end; justify-content: flex-end;">
+        <ul style="display: flex; justify-content: center; align-items: center;">
+            <li class="a-user">
+                <a href="#" class="user white usuario" id="usuario">
+                    <span class="bggray"></span>
+                </a>
+            </li>   
+                <h3 style="color: rgb(19, 137, 235);">Admin</h3>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<div class="colDireita">
+
+<div class="div-users" id="div-users">
+  <div class="container">
+    <table id="table-users">
+      <thead>
+        <tr>
+              <th>Imagem</th>
+              <th>Nome</th>
+              <th>Departamento</th>
+              <th>Sip</th>
+              <th>Ramal</th>
+              <th>E-mail</th>
+              <th>Localização</th>
+        </tr>
+      </thead>
+    </table>
+
+</div>
+</div>
+
+
+<div class="login-box" id="addUsers">
     <h2>Inclusão de Dados</h2>
     <form id="dataForm">
         <div class="user-box">
@@ -23,8 +87,12 @@
             <label>Ramal</label>
           </div>
         <div class="user-box">
-            <input type="text" id="department"name="" required="" autocomplete="off">
-            <label>Departamento</label>
+            <!-- <label>Departamento</label>
+            <select id="department">
+              <option id="opt-department"></option>
+            </select> -->
+              <input type="text" id="department"name="" required="" autocomplete="off">
+              <label>Departamento</label>
           </div>
         <div class="user-box">
             <input type="text" id="location" name="" required="" autocomplete="off">
@@ -47,8 +115,9 @@
           </a>
     </form>
   
-</div>   
+</div>  
 
+</div>
   <script src="./admin.js"></script>
 </body>
 </html>

@@ -1,14 +1,46 @@
 
-var cookie;
-function load() {
-    // Exemplo de uso: obtém o valor do cookie "successCookie"
-    var successValue = getCookie("successLoginCookie");
-    if (successValue == null) {
-        window.location.href = "./login.html";
-    } else {
-        cookie = successValue;
-    }
-}
+ var cookie;
+//  function load() {
+//     // exemplo de uso: obtÃ©m o valor do cookie "successCookie"
+//      var successValue = getCookie("successLoginCookie");
+//     if (successValue == null) {
+//         window.location.href = "./login.html";
+//    } else {
+//        cookie = successValue;
+//    }
+//  }
+ 
+ var users = []
+ fetch('./users.json')
+  .then(response => response.json())
+  .then( data => {
+     users = data
+ 
+     users.forEach(function(user){
+         var html = `
+		<tbody>
+			<tr>
+            <td><img src="${user.img}" alt="" style="width:35px ;height:25px" ></td>
+            <td>${user.name}</td>
+            <td>${user.department}</td>
+            <td><strong>${user.sip}</strong></td>
+            <td>${user.email}</td>
+            <td>${user.num}</td>
+            <td>${user.location}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+       `;
+      
+    //   document.getElementById("div-users").innerHTML = '';
+      document.getElementById("table-users").innerHTML += html
+       })
+       
+    })
+   .catch(error => {
+     console.error('Erro ao carregar o arquivo JSON', error);
+   });
 
 
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
@@ -17,10 +49,10 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     const name = document.getElementById('name').value;
     const sip = document.getElementById('sip').value;
     const num = document.getElementById('num').value;
-    const department = document.getElementById('department').value;
+    const department = document.getElementById('department').value.toLowerCase();
     const location = document.getElementById('location').value;
     const email = document.getElementById('email').value;
-    const imgFile = document.getElementById('ipt-img-user').files[0]; // Obter o arquivo de imagem
+    const imgFile = document.getElementById('ipt-img-user').files[0]; // obter o arquivo de imagem
 
     const data = {
         "user": {
@@ -34,15 +66,15 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
         "image": {
             "name": imgFile.name,
             "size": imgFile.size,
-            "data": null // Será preenchido posteriormente
+            "data": null // serÃ¡ preenchido posteriormente
         }
     };
 
-    // Ler o conteúdo da imagem usando FileReader
+    // ler o conteÃºdo da imagem usando FileReader
     const reader = new FileReader();
     reader.onload = function (event) {
-        data.image.data = event.target.result; // Definir o conteúdo da imagem no objeto de dados
-        // Enviar os dados para o servidor
+        data.image.data = event.target.result; // definir o conteÃºdo da imagem no objeto de dados
+        // enviar os dados para o servidor
         fetch('/Home/AddUser', {
             method: 'POST',
             headers: {
@@ -62,10 +94,13 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
                 console.error('Erro:', error);
             });
     };
-    reader.readAsDataURL(imgFile); // Ler o conteúdo da imagem como base64
+    reader.readAsDataURL(imgFile); // ler o conteÃºdo da imagem como base64
+
+    showUsersDiv();
+    // buildUserHTML(users)
 });
 
-// Função para obter o valor de um cookie pelo nome
+// funÃ§Ã£o para obter o valor de um cookie pelo nome
 function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -76,5 +111,25 @@ function getCookie(name) {
     }
     return null;
 }
+function showUsersDiv(){
+    document.getElementById('name').value = ''
+    document.getElementById('sip').value = ''
+    document.getElementById('num').value = ''
+    document.getElementById('department').value = ''
+    document.getElementById('location').value = ''
+    document.getElementById('email').value = ''
+    document.getElementById('ipt-img-user').value = '';
+    
+    document.getElementById("div-users").style.display = 'block';
+    document.getElementById("addUsers").style.display = 'none';
+}
+document.getElementById("show-users").addEventListener("click",showUsersDiv)
+
+document.getElementById("useradd").addEventListener("click",function(){
+    document.getElementById("addUsers").style.display = 'block';
+    document.getElementById("div-users").style.display = 'none';
+    
+})
+
 
 
