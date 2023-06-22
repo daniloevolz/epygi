@@ -1,10 +1,10 @@
 document.getElementById("clickSend").addEventListener("click", function (event) {
-    event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página
+    event.preventDefault(); // Evita o comportamento padrï¿½o do formulï¿½rio de recarregar a pï¿½gina
 
     var username = document.getElementById("name").value;
     var password = document.getElementById("pass").value;
 
-    // Hash MD5 do usuário e senha
+    // Hash MD5 do usuï¿½rio e senha
     var hashedPassword = CryptoJS.MD5(password).toString();
 
     // Cria um objeto com os dados do login
@@ -13,7 +13,7 @@ document.getElementById("clickSend").addEventListener("click", function (event) 
         passwordhash: hashedPassword
     };
 
-    // Envia uma requisição POST para o backend
+    // Envia uma requisiï¿½ï¿½o POST para o backend
     fetch("/Home/Login", {
         method: "POST",
         headers: {
@@ -25,11 +25,12 @@ document.getElementById("clickSend").addEventListener("click", function (event) 
                 const data = await response.json();
                 // Armazena o valor em um cookie chamado "sucessCookie" com uma validade de 30 dias
                 setCookie("successLoginCookie", data.success, 1);
-                // Login bem-sucedido, redireciona para a página autenticada
+                // Login bem-sucedido, redireciona para a pï¿½gina autenticada
                 window.location.href = "./admin-interf.html";
             } else {
-                    // Login inválido, exibe uma mensagem de erro
-                    alert("Credenciais inválidas. Por favor, tente novamente.");
+                    // Login invï¿½lido, exibe uma mensagem de erro
+                    // Colocar POP UP AQ
+                    alert("Credenciais invï¿½lidas. Por favor, tente novamente.");
                 }
             })
         .catch(function (error) {
@@ -38,11 +39,11 @@ document.getElementById("clickSend").addEventListener("click", function (event) 
 });
 
 document.getElementById("forgotPassword").addEventListener("click", function (event) {
-    event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página
+    event.preventDefault(); // Evita o comportamento padrï¿½o do formulï¿½rio de recarregar a pï¿½gina
     window.location.href = "./forgotPassword.html";
 });
 
-// Função para definir um cookie
+// Funï¿½ï¿½o para definir um cookie
 function setCookie(name, value, days) {
     var expires = "";
     if (days) {

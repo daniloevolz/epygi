@@ -54,6 +54,12 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     const email = document.getElementById('email').value;
     const imgFile = document.getElementById('ipt-img-user').files[0]; // obter o arquivo de imagem
 
+    
+    if (name === '' || sip === '' || num === '' || department === '' || location === '' || email === '' || !imgFile) {
+        window.alert('Por favor, preencha todos os campos');
+        return; 
+    }
+
     const data = {
         "user": {
             "name": name,
@@ -70,11 +76,11 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
         }
     };
 
-    // ler o conteúdo da imagem usando FileReader
     const reader = new FileReader();
     reader.onload = function (event) {
         data.image.data = event.target.result; // definir o conteúdo da imagem no objeto de dados
         // enviar os dados para o servidor
+    
         fetch('/Home/AddUser', {
             method: 'POST',
             headers: {
@@ -93,11 +99,13 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
             .catch(error => {
                 console.error('Erro:', error);
             });
+    
     };
     reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
 
     showUsersDiv();
     // buildUserHTML(users)
+
 });
 
 // função para obter o valor de um cookie pelo nome
@@ -130,6 +138,8 @@ document.getElementById("useradd").addEventListener("click",function(){
     document.getElementById("div-users").style.display = 'none';
     
 })
+
+
 
 
 
