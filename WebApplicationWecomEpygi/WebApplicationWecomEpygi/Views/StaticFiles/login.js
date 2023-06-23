@@ -28,9 +28,8 @@ document.getElementById("clickSend").addEventListener("click", function (event) 
                 // Login bem-sucedido, redireciona para a p�gina autenticada
                 window.location.href = "./admin-interf.html";
             } else {
-                    // Login inv�lido, exibe uma mensagem de erro
-                    // Colocar POP UP AQ
-                    alert("Credenciais inv�lidas. Por favor, tente novamente.");
+                    // Login inválido, exibe uma mensagem de erro
+                    makePopUp();  
                 }
             })
         .catch(function (error) {
@@ -52,4 +51,11 @@ function setCookie(name, value, days) {
         expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+function makePopUp() {
+    var error =  document.getElementById("loginErro");
+    error.style.display = 'block';
+    setTimeout(function() {
+        error.style.display = 'none';
+    }, 1500);
 }

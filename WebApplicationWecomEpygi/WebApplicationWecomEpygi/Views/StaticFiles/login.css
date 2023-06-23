@@ -78,9 +78,9 @@ html {
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
-    letter-spacing: 4px
-  }
+    margin-top: 20px;
+    letter-spacing: 4px;
+}
   
   .login-box a:hover {
     background: #1665db;
@@ -114,7 +114,13 @@ html {
       left: 100%;
     }
   }
-  
+  .loginErro{
+    display: none;
+    font-size: 11px;
+    color: red;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
   .login-box a span:nth-child(2) {
     top: -100%;
     right: 0;
@@ -171,6 +177,9 @@ html {
       bottom: 100%;
     }
   }
+.lostlink{
+  cursor: pointer;
+}
 .lostlink a {
   position: relative !important;
   top:0 !important;
@@ -178,6 +187,15 @@ html {
   padding: 5px 0 !important;
   font-size: 11px !important;
   color: #fff !important;
-  pointer-events: none !important;
-  text-transform: none !important
+  /* pointer-events: none !important; */
+  text-transform: none !important;
+  cursor: pointer;
+  
 }  
+.lostlink a:hover{
+  background: none;
+  box-shadow: none;
+}
+.lostlink a label{
+  cursor: pointer;
+}

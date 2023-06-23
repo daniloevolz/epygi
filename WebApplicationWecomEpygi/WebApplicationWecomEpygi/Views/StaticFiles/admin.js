@@ -56,7 +56,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
 
     
     if (name === '' || sip === '' || num === '' || department === '' || location === '' || email === '' || !imgFile) {
-        window.alert('Por favor, preencha todos os campos');
+        makePopUp();
         return; 
     }
 
@@ -138,7 +138,14 @@ document.getElementById("useradd").addEventListener("click",function(){
     document.getElementById("div-users").style.display = 'none';
     
 })
+function makePopUp(){
+    var error = document.getElementById("loginErro");
+    error.style.display = 'block';
+    setTimeout(function(){
+        error.style.display = 'none'
+    },1200)
 
+}
 
 
 

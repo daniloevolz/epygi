@@ -20,6 +20,13 @@ body {
   width: 23%;
   height: 100%;
 }
+.loginErro{
+  display: none;
+  font-size: 11px;
+  color: red;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
 .box-left{
   position: absolute;
   height: 100%;
