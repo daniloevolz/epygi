@@ -435,7 +435,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 .cc-nb-okagree{background-color:#0075AC!important; color:#FFFFFF!important;}
 
 /*estruturais*/
-.card {margin:auto; width:100%; max-width:1280px; position:relative; font-size:0;}
+/* .card {margin:auto; width:100%; max-width:1280px; position:relative; font-size:0;}  REVER ISSO*/
 .article {width:65.6%; margin:auto; position:relative; display:inline-block; vertical-align:text-top;}
 .column-2 {width:48.4%; margin-right:3.2%; position:relative; display:inline-block; vertical-align:text-top;}
 .column-2:nth-child(2n), .column-2:last-child{margin-right:0;}
@@ -461,7 +461,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006ea5', end
 .bgRed{background-color:#C92615;}
 .bgdRed{background-color:#B0132B;}
 .bgBlue{background-color:#0075AC;}
-.bgdBlue{background-color:#02163F;}
+/* .bgdBlue{background-image: linear-gradient(to right,rgb(168,17,6),rgb(248,65,69));} */
 .bglBlue{background-color:#C6DDF1;}
 .bgelBlue{background-color:#E3EEF8;}
 .bgGray{background-color:#677981;}

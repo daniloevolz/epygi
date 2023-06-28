@@ -1,10 +1,10 @@
 @charset "UTF-8"; 
 
 #section.title.dwc {
-    height: 165px;
+    height: 170px;
     background-image: url(./images/header-dwc.png);
     background-repeat: no-repeat;
-    /* background-position: left 25% center; */
+    background-position: left 25% center; 
     background-size: cover;
     border-bottom: solid 1px #FFFFFF;
 }
@@ -12,30 +12,40 @@
     margin: 0;
     border: 0;
 }
-.scroll-cards{
-    overflow-y: auto;
-    /* position: absolute; */
+body{
+    overflow: hidden;
+    font-family: 'Montserrat semi bold';
+}
+.div-anuncios {
+    width: 93%;
+    height: 100vh;
     display: flex;
-    width: 100%;
-    /* left: 1%;
-    top: 25%;
-    right: 1%;
-    width: 98%; */
-    height: -webkit-fill-available;
-}
-.div-anuncios{
-    /* position: fixed;
-    height: -webkit-fill-available; */
-    width: 100%;
-}
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .content-one {
+    position: sticky;
+    top: 0;
+  }
+  
+  .scroll-cards {
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-top: 10px;
+  }
 .div-content{
-   /* background-color: rgba(132, 161, 152, 0.699); */
-   width: 40%;
+    display: flex;
+    justify-content: center; 
+    width: 40%;
    
 }
-.content-one{
-    margin-top: 10px;
-}
+#div-cards {
+    overflow-y: auto;
+    height: calc(100vh - 160px);
+    overflow-x: hidden;
+  }
+
 .div-cards{
     width: 60%; 
     /* background: #dddbdb; */
@@ -91,38 +101,32 @@
 }
 
 #sectionPrincipal.dwc {
-    overflow-x: hidden;
+    /* overflow-y: auto; */
     display: inline-flex;
 }
 
 #sectionPrincipal.dwc ul {
-    margin-top: 15px;
-    font-size: 0;
+    margin-top: 25px;
+    font-size: 0px;
     list-style: none;
-    display: inline-block;
-    vertical-align: top;
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+  #sectionPrincipal.dwc ul li {
+    width: 29%;
     margin-right: 3.2%;
-}
-
-#sectionPrincipal.dwc ul li {
-    width: 45%;
-    margin: 0 3.2% 3.2% 0;
+    margin-bottom: 3.2%;
     position: relative;
-    display: inline-block;
-    vertical-align: text-top;
-    padding-bottom: 26%;
+    border-radius: 10px;
+    padding-bottom: 17%;
 }
-
-#sectionPrincipal.dwc ul li:nth-child(4n), #sectionPrincipal.dwc ul li:last-child {
+  
+  /* #sectionPrincipal.dwc ul li:nth-child(3n) {
     margin-right: 0;
-}
-
-/* #sectionPrincipal.dwc ul li:nth-child(n+9):nth-child(-n+12) {
-    margin-bottom: 0;
-} */
-
-#sectionPrincipal.dwc ul li a {
+  } */
+  
+  #sectionPrincipal.dwc ul li a {
     position: absolute;
     top: 0;
     right: 0;
@@ -132,31 +136,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 20px 30px 20px;
+    padding: 0 20px 15px 20px;
     background-position: center;
     background-size: cover;
 }
 
-#sectionPrincipal.dwc ul li a::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(255,255,255,0);
-    z-index: 0;
-    -webkit-transition: background 1s;
-    -moz-transition: background 1s;
-    -ms-transition: background 1s;
-    transition: background 1s;
-}
 
-#sectionPrincipal.dwc ul li a:hover::after {
-    background-color: rgba(255,255,255,.5);
-}
-
-#sectionPrincipal.dwc ul li a.pre-vendas {
+/* #sectionPrincipal.dwc ul li a.pre-vendas {
     background-image: url(./images/flag-pre-vendas.png);
 }
 
@@ -202,7 +188,7 @@
 
 #sectionPrincipal.dwc ul li a.pricing {
     background-image: url(./images/flag-pricing.png);
-}
+} */
 
 #sectionPrincipal.dwc ul li h5 {
     font-weight: 400;
@@ -212,24 +198,52 @@
 #sectionPrincipal.dwc ul li span {
     display: block;
     position: absolute;
-    bottom: 25px;
-    left: 25px;
-    right: 25px;
+    bottom: 13px;
+    left: 120px;
+    right: 12px;
     height: 30px;
     line-height: 30px;
-    border-radius: 15px;
+    border-radius: 20px;
     -khtml-border-radius: 15px;
     -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+    /* -webkit-border-radius: 15px; */
     text-align: center;
     font-weight: 400;
     background-image: url(./images/dwc-button.png);
-    background-position: right 4px center;
+    background-position: right 6.5px center;
     background-repeat: no-repeat;
-    background-size: 26px;
+    background-size: 23px;
     padding-right: 25px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-family: 'Montserrat semi bold';
+    color: black;
+    font-weight: bold;
 }
+/* li bg */
+.bgdBlue{background-image: linear-gradient(to right,rgb(168,17,6),rgb(248,65,69));}
 
+/* webkit scroll bar div-cards */
+
+::-webkit-scrollbar {
+    width: 10px;
+    /* height: 20px; */
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px rgb(139, 139, 139); 
+    border-radius: 15px;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to right, rgb(168, 17, 6), rgb(248, 65, 69));
+    border-radius: 15px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #960909dc; 
+  }
+  
 .aside {
     display: inline-block;
     vertical-align: top;
