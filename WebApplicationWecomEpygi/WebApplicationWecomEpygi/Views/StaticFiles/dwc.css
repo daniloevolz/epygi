@@ -17,8 +17,8 @@ body{
     font-family: 'Montserrat semi bold';
 }
 .div-anuncios {
-    width: 93%;
-    height: 100vh;
+    width: 83%;
+    height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
     margin-top: 10px;
@@ -199,7 +199,7 @@ body{
     display: block;
     position: absolute;
     bottom: 13px;
-    left: 120px;
+    left: 100px;
     right: 12px;
     height: 30px;
     line-height: 30px;
@@ -286,14 +286,14 @@ body{
 }
 
 @media screen and (max-width: 1300px) {
-    #section.title.dwc {
-        height:200px;
-    }
 
-    #section.title.dwc h1 {
-        font-size: 32px;
-        padding: 100px 0 0 30%;
-        background-size: auto 130px;
+    #section.title.dwc {
+        height: 170px;
+        background-image: url(./images/header-dwc.png);
+        background-repeat: no-repeat;
+        background-position: 0%;
+        background-size: cover;
+        border-bottom: solid 1px #FFFFFF;
     }
 
     @keyframes animaLogo {
@@ -325,11 +325,35 @@ body{
     #sectionPrincipal.dwc ul li a {
         padding: 0 15px 25px 15px;
     }
-
     #sectionPrincipal.dwc ul li span {
-        bottom: 15px;
-        left: 15px;
-        right: 15px;
+        display: block;
+        position: absolute;
+        bottom: 13px;
+        left: 100px;
+        right: 12px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 20px;
+        -khtml-border-radius: 15px;
+        -moz-border-radius: 15px;
+        /* -webkit-border-radius: 15px; */
+        text-align: center;
+        font-weight: 400;
+        background-image: url(./images/dwc-button.png);
+        background-position: right 6.5px center;
+        background-repeat: no-repeat;
+        background-size: 23px;
+        padding-right: 25px;
+        text-align: center;
+        font-size: 0.8rem;
+        font-family: 'Montserrat semi bold';
+        color: black;
+        font-weight: bold;
+    }
+    #sectionPrincipal.dwc ul li span {
+        bottom: 10px;
+        left: 45px;
+        right: 10px;
     }
 
     .aside .lembrete h4 {
@@ -337,20 +361,19 @@ body{
     }
 }
 
-/*
+
 @media screen and (max-width: 950px) {
     #section.title.dwc {
-        height:160px;
+        height: 110px;
         background-position: center right;
-        background-image: url(./images/titulo-background950px.png);
+        background-image: url(./images/header-dwc.png);
+        background-position: left 0% center;
     }
-
-    #section.title.dwc h1 {
-        font-size: 26px;
-        padding: 85px 0 0 3%;
-        background-size: auto 120px;
+    #div-cards {
+        overflow-y: auto;
+        height: calc(100vh - 120px);
+        overflow-x: hidden;
     }
-
     @keyframes animaLogo {
         0% {
             background-position: bottom 250px right 5%;
@@ -375,57 +398,73 @@ body{
         100% {
             background-position: bottom 0 right 5%;
         }
+        
     }
-
+    #sectionPrincipal.dwc ul li a {
+        padding: 0 15px 25px 15px;
+    }
     #sectionPrincipal.dwc ul {
-        display: block;
-        width: 100%;
-        max-width: 650px;
-        margin-right: auto;
-        margin-left: auto;
+        margin-left: -20px;
+        margin-top: 25px;
+        font-size: 0px;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
-
     #sectionPrincipal.dwc ul li {
-        width: 100%;
-        margin: 0;
-        padding-bottom: 65%;
-    }
-
-    #sectionPrincipal.dwc ul li:nth-child(2n) {
-        margin-right: 0;
-    }
-
-    #sectionPrincipal.dwc ul li:nth-child(n+9):nth-child(-n+12) {
+        width: 42%;
+        margin-right: 3.2%;
         margin-bottom: 3.2%;
+        position: relative;
+        border-radius: 10px;
+        padding-bottom: 17%;
     }
-
-    .aside {
+    #sectionPrincipal.dwc ul li span {
         display: block;
-        width: 100%;
-        max-width: 650px;
-        margin: 0 auto;
-        padding-right: 230px;
+        position: absolute;
+        bottom: 13px;
+        left: 100px;
+        right: 12px;
+        height: 25px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        line-height: 30px;
+        border-radius: 20px;
+        -khtml-border-radius: 15px;
+        -moz-border-radius: 15px;
+        /* -webkit-border-radius: 15px; */
+        text-align: center;
+        font-weight: 400;
+        background-image: url(./images/dwc-button.png);
+        background-position: right 6.5px center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        padding-right: 25px;
+        text-align: center;
+        font-size: 0.65rem;
+        font-family: 'Montserrat semi bold';
+        color: black;
+        font-weight: bold;
+    }
+    #sectionPrincipal.dwc ul li span {
+        bottom: 10px;
+        left: 65px;
+        right: 10px;
     }
 
-    .aside .lembrete {
-        padding: 15px 10px;
+    .aside .lembrete h4 {
+        font-size: 18px;
     }
 
-    .aside .lembrete + a {
-        right: 0;
-    }
-
-    #sectionPrincipal.dwc .label + span {
-        width: 32px;
-        padding-bottom: 32px;
-    }
 }
-*/
-@media screen and (max-width: 550px) {
+
+@media screen and (max-width: 600px) {
     #section.title.dwc {
         height:130px;
         background-position: center;
-        background-image: url(./images/titulo-background550px.png);
+        background-image: url(./images/header-dwc.png);
     }
 
     #section.title.dwc h1 {
