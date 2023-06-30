@@ -34,13 +34,6 @@ function getUsersStatus(department) {
     const divUsers = document.getElementById("div-users");
     const divContent = document.getElementById("div-content");
 
-    // Definir os novos estilos para as divs
-    divCards.style.width = "40%";
-    divUsers.innerHTML = "";
-    divUsers.style.width = "40%";
-    divUsers.style.display = "flex";
-    divContent.style.width = "20%";
-
   const requestBody = JSON.stringify(data);
   const contentLength = requestBody.length;
     fetch(url, {
