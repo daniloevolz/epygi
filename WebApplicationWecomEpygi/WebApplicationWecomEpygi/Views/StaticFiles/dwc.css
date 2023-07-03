@@ -364,7 +364,29 @@ body{
     background-position: center;
     position: relative;
 }
+/*and (max-width: 1900px)*/
 
+
+/*telas maiores*/
+@media screen and (min-width: 1500px) {
+    #section.title.dwc {
+        height: 240px;
+        background-image: url(./images/header-dwc.png);
+        background-repeat: no-repeat;
+        background-position: left 25% center; 
+        background-size: cover;
+        border-bottom: solid 1px #FFFFFF;
+    }
+    #div-cards {
+    overflow-y: auto;
+    height: calc(100vh - 260px);
+    overflow-x: hidden;
+  }
+  .div-anuncios{
+    width: 92%;
+    margin-top: 10px;
+}
+}
 @media screen and (max-width: 1300px) {
 
     #section.title.dwc {
@@ -375,7 +397,10 @@ body{
         background-size: cover;
         border-bottom: solid 1px #FFFFFF;
     }
-
+    .div-anuncios{
+        width: 93%;
+        margin-top: 20px;
+    }
     @keyframes animaLogo {
         0% {
             background-position: bottom 300px left 5%;
@@ -453,6 +478,10 @@ body{
         overflow-y: auto;
         height: calc(100vh - 120px);
         overflow-x: hidden;
+        width: 75%;
+    }
+    .div-content{
+        width: 25%;
     }
     .div-anuncios-950px{
         display: flex;
@@ -506,12 +535,12 @@ body{
         justify-content: center;
     }
     #sectionPrincipal.dwc ul li {
-        width: 45%;
-        margin-right: 3.2%;
-        margin-bottom: 3.2%;
+        width: 30%;
+        margin-right: 2.0%;
+        margin-bottom: 2.0%;
         position: relative;
         border-radius: 10px;
-        padding-bottom: 24%;
+        padding-bottom: 18%;
     }
     #sectionPrincipal.dwc ul li span {
         display: block;
@@ -552,14 +581,33 @@ body{
     }
 
 }
+/*mobile */
 
 @media screen and (max-width: 600px) {
-    #section.title.dwc {
-        height:130px;
-        background-position: center;
-        background-image: url(./images/header-dwc.png);
+    body{
+        overflow: auto;
     }
-
+    #sectionPrincipal.dwc {
+        /* overflow-y: auto; */
+        display: block;
+    }
+    #section.title.dwc {
+        height: 60px;
+        background-position: right 0% center !important;
+        background-image: url(./images/headerMobile.png);
+        /* background-position: left 0% center !important; */
+    }
+    #div-cards{
+        width: 100%;
+        height: auto;
+    }
+    .div-content{
+        width: 100%;
+    }
+    .div-anuncios{
+        width: 95%;
+        height: auto !important;
+    }
     #section.title.dwc h1 {
         font-size: 22px;
         padding: 100px 160px 0 0;
@@ -580,7 +628,15 @@ body{
             background-position: bottom 0 right 0;
         }
     }
-
+    #sectionPrincipal.dwc ul li {
+        width: 45%;
+        margin-right: 3.2%;
+        margin-bottom: 3.2%;
+        position: relative;
+        border-radius: 10px;
+        padding-bottom: 25%;
+        background-image: linear-gradient(to right,rgb(168,17,6),rgb(248,65,69));
+    }
     #sectionPrincipal.dwc ul li span {
         height: 24px;
         line-height: 24px;
