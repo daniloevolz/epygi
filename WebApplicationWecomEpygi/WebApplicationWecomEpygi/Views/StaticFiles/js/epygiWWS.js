@@ -86,41 +86,22 @@ function buildUserHTML(user, response) {
 
   var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
   var html = `
-    <div class="epygi-root-visitenkarten">
-      <div class="epygi-image">
-        <img src="${user.img}" class="epygi-tab__supporter-img ${statusClass}" alt="">
-      </div>
-      <div class="epygi-content">
-        <div class="epygi-content__headline">
-          <strong>${user.name}<br></strong>${user.department}<br>
-        </div>
-        <div class="epygi-content__address">
-              <address>
-                <strong>${user.location}</strong>
-                <a href="mailto:${user.email}">${user.email}</a>
-              </address>
-        </div>
-        <div class="epygi-content__status">
-              <div class="epygi-content__status__indicator ${statusClass}"></div>
-              ${statusClass}
-        </div>
-        <div class="epygi-icons">
-          <div>
-            <a href="#" id="${user.sip}" class="iconCall epygi-icons__item ${statusClass}" style="display: flex; align-items: center; justify-content: center;"onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
-              <div class="epygi-tooltip">Ligação</div>
-              <img src="./images/icone-fone.png" alt="" style="width: 28px; height: 28px; display: inline-flex; align-items: center;">
-            </a>
-          </div>
-          <div>
-            <a href="mailto:${user.email}" class="epygi-icons__item epygi-icons__item--mail" style="display: flex; align-items: center; justify-content: center;">
-              <div class="epygi-tooltip">Envie um e-mail</div>
-              <img src="./images/icone-email.png" alt=""style="width: 30px; height: 30px">
-            </a>
-          </div>
-        </div>         
-      </div>
-      <div class="epygi-copy">Powered by <a href="https://wecom.com.br/">Wecom</a></div>
-    </div>     
+  <ul>
+  <li>
+<div class="user-card">
+  <img src="${user.img}" class = "${statusClass}">
+  <div class="user-details">
+    <div class="user-name">${user.name}</div>
+    <div class="user-status">${statusClass}</div>
+  </div>
+ <div class="user-icons">
+    <img src="./images/call.png" class="img-icons">
+    <img src="./images/mensagem.png" class="img-icons">
+  </div>
+  
+</div>
+</li>
+</ul>
   `;
 
   return html;
@@ -128,7 +109,9 @@ function buildUserHTML(user, response) {
 
 // Função para atualizar a div 'div-users' com a estrutura HTML construída
 function updateUsersHTML(department, response) {
-    const divUsers = document.getElementById("div-users");;
+    const divUsers = document.getElementById("div-users");
+    document.getElementById("div-users").style.display = 'block';
+    document.getElementById("div-cards").style.display = 'none'
 
   supporters.forEach(function(supporter) {
     if (supporter.department === department) {
@@ -136,6 +119,7 @@ function updateUsersHTML(department, response) {
       divUsers.innerHTML += userHTML;
     }
   });
+
 }
   function prepareCall(id, num, status){
     if(status=="online"){

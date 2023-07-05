@@ -30,7 +30,7 @@
     height: 140px;
     
 }
-.epygi-tab__supporter-img.online {/* Status do usuário */
+img.online {/* Status do usuário */
     border-left: 8px solid #00a300; 
 }
 .epygi-tab__supporter-img.away {/* Status do usuário */

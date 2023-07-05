@@ -2,7 +2,7 @@
 
 #section.title.dwc {
     height: 170px;
-    background-image: url(./images/header-dwc.png);
+    background-image: url(../images/header-dwc.png);
     background-repeat: no-repeat;
     background-position: left 25% center; 
     background-size: cover;
@@ -594,7 +594,7 @@ body{
     #section.title.dwc {
         height: 60px;
         background-position: right 0% center !important;
-        background-image: url(./images/headerMobile.png);
+        background-image: url(./images/cabeçalho-600px.png);
         /* background-position: left 0% center !important; */
     }
     #div-cards{
@@ -605,7 +605,8 @@ body{
         width: 100%;
     }
     .div-anuncios{
-        width: 95%;
+        width: 85%;
+        margin-top: 0px;
         height: auto !important;
     }
     #section.title.dwc h1 {
@@ -646,7 +647,9 @@ body{
         -webkit-border-radius: 12px;
         background-size: 20px;
     }
-
+    #sectionPrincipal.dwc ul{
+        padding-inline-start: 25px;
+    }
     .aside {
         max-width: 450px;
         margin: 0 auto;

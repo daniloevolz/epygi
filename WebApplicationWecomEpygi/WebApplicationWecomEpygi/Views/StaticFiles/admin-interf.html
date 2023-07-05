@@ -3,122 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WECOM ADMINISTRADOR DE USUÁRIOS</title>
-    <link rel="stylesheet" href="./admin.css">
+    <link id="theme-dark" rel="stylesheet" href="./css/admin.css" >
+    <link rel="stylesheet" href="./css/cards.css">
+    <title>Painel Admin</title>
 </head>
-<body onload="load()">
-
-<div class="colEsquerda">
-  <div id="box" class="box-left">
-    <div id="userpainel"class="box-left">
-        <div id="logo-box"> 
-        <img src="/images/wecom.svg" alt="" width="300PX" >
-    </div>
-    <div id="box" class="itens">
-        <ul style= "display: flex; align-items: center; height: 45px; cursor: pointer;" id="useradd">               
-            <li class="useradd">
-                <a href="#" class="user white usuario" id="usuario">
-                    <span class="bggray"></span>
-                </a>
-            </li>
-            <h3>Adição de Usuário</h3>
+<body style="overflow-x: hidden; overflow-y: hidden"> 
+<div class="colLeft">
+    <div id="box" class="box-left">
+        <div id="userpainel">
+            <div id="logo-box">
+                <a href="https://www.wecom.com.br">
+                    <img src="/images/wecom.svg" alt="" width="95%">
+                </a> 
+            </div>
             
-        </ul>
-
-        <ul style = "display: flex; align-items: center; height: 45px; align-items: center; cursor: pointer;" id="show-users">
-            <li class="listusers">
-                <a href="#" class="user white usuario" id="usuario">
-                    <span class="bggray"></span>
-                </a>
-            </li>
-            <h3>Lista de Usuários</h3>
-        </ul>
+            <div id="box" class="itens" style="display: flex; flex-direction: column; align-items: baseline;">
+                <ul id="dashhome" style= "display: flex; align-items: center; height: 45px;">               
+                    <li class="dashhome">
+                        <a href="#" class="user white usuario" id="usuario">
+                            <span class="bggray"></span>
+                        </a>
+                    </li>
+                    <h3>Home</h3>                    
+                </ul>
+                <ul id="useradd" style= "display: flex; align-items: center; height: 45px;">               
+                    <li class="useradd">
+                        <a href="#" class="user white usuario" id="usuario">
+                            <span class="bggray"></span>
+                        </a>
+                    </li>
+                    <h3>Adição de Usuário</h3>                    
+                </ul>
+                <ul id="userlist" style = "display: flex; align-items: center; height: 45px; align-items: center;">
+                    <li class="listusers">
+                        <a href="#" class="user white usuario" id="usuario">
+                            <span class="bggray"></span>
+                        </a>
+                    </li>
+                    <h3>Lista de Usuários</h3>
+                </ul>
+            </div>
+        </div> 
     </div>
-    </div>
-    <div class="" id="main-user" style="height: 100%; display: flex; width: 278px; align-items: flex-end; justify-content: flex-end;">
-        <ul style="display: flex; justify-content: center; align-items: center;">
+    <div class="main-user">
+        <ul style="display: flex; align-items: center;">
             <li class="a-user">
                 <a href="#" class="user white usuario" id="usuario">
                     <span class="bggray"></span>
                 </a>
             </li>   
-                <h3 style="color: rgb(19, 137, 235);">Admin</h3>
+            <h3 style="color: rgb(19, 137, 235);">User: Admin</h3>
+            <li class="theme" id="theme"><a href="#"><img id="sun-moon" src="./images/sunny-day.png" alt="" style="width: 100%; height: 100%;"></a></li>
         </ul>
+    </div>      
+</div>
+      
+<div class="colRight" id="action-painel" style="overflow-y: hidden;">
+    <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: block;">
+    <div id="filters" class="filter"style="color: white;"><h3 style="width: 10%;" >Filtros:</h3>
+        <div class="select-box" style="display: flex; flex-wrap: wrap;">
+            <div style="width: 65%;"><label>Departamento: </label>
+            </div>
+            <div><select id="filter-department" ></select>
+            </div>
+          </div>
     </div>
-</div>
-
-</div>
-
-<div class="colDireita">
-
-<div class="div-users" id="div-users">
-  <div class="container">
-    <table id="table-users">
-      <thead>
-        <tr>
-              <th>Imagem</th>
-              <th>Nome</th>
-              <th>Departamento</th>
-              <th>Sip</th>
-              <th>Ramal</th>
-              <th>E-mail</th>
-              <th>Localização</th>
-        </tr>
-      </thead>
-    </table>
-
-</div>
-</div>
-
-
-<div class="login-box" id="addUsers">
-    <h2>Inclusão de Dados</h2>
-    <form id="dataForm">
-        <div class="user-box">
-            <input type="text" id="name" name="" required autocomplete="off">
-            <label>Nome</label>
-          </div>
-          <div class="user-box">
-            <input type="text" id="sip" required autocomplete="off">
-            <label>SIP</label>
-          </div>            
-        <div class="user-box">
-            <input type="text" id="num"name="" required maxlength="4" autocomplete="off" >
-            <label>Ramal</label>
-          </div>
-        <div class="user-box">
-            <!-- <label>Departamento</label>
-            <select id="department">
-              <option id="opt-department"></option>
-            </select> -->
-              <input type="text" id="department"name="" required autocomplete="off">
-              <label>Departamento</label>
-          </div>
-        <div class="user-box">
-            <input type="text" id="location" name="" required autocomplete="off">
-            <label>Localização</label>
-          </div>
-        <div class="user-box">
-            <input type="text" id="email" name="" required autocomplete="off">
-            <label>E-mail</label>
-          </div>    
-            <div class="img-box">
-            <label>Imagem</label>
-            <input type="file" id="ipt-img-user" name="imgFile" required>
-          </div>  
-          <div class="loginErro" id="loginErro">Preencha todos os campos</div>               
-          <a href="#" id="a-upload-user">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Adicionar
-          </a>
-    </form>
-  
-</div>  
-
-</div>
-  <script src="./admin.js"></script>
+    <scroll-container class="scrollcards">
+        <div id="main-cards" class="main-cards">
+        </div>
+    </scroll-container>   
+    </div>
+     <div id="id-add-home" style="display: none;">
+        <div class="login-box">
+            <h2>Inclusão de Usuários</h2>
+            <form>
+                <div class="user-box">
+                    <input type="text" id="name" name="" required="" autocomplete="off">
+                    <label>Nome</label>
+                  </div>
+                  <div class="user-box">
+                    <input type="text" id="sip" required="" autocomplete="off">
+                    <label>SIP</label>
+                  </div>            
+                <div class="user-box">
+                    <input type="text" id="num"name="" required="" maxlength="4" autocomplete="off">
+                    <label>Ramal</label>
+                  </div>
+                <div class="user-box">
+                    <input type="text" id="department"name="" required="" autocomplete="off">
+                    <label>Departamento</label>
+                  </div>
+                <div class="user-box">
+                    <input type="text" id="location" name="" required="" autocomplete="off">
+                    <label>Localização</label>
+                  </div>
+                <div class="user-box">
+                    <input type="text" id="email" name="" required="" autocomplete="off">
+                    <label>E-mail</label>
+                  </div>    
+                    <div class="img-box">
+                    <label>Imagem</label>
+                    <input type="file" id="img" name="" required="" >
+                  </div>                 
+                  <a href="#" id="a-upload-user">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Adicionar
+                  </a>
+            </form>          
+        </div>
+    </div> 
+    <div id="id-list-home" style="display: none; width: 100%;">
+        <div id="list-users" style="display: flex; width: 100%;">
+            <scroll-container class="scrolltable"> 
+              <div>
+                <table id="data-table">
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Departamento</th>
+                    <th>SIP</th>
+                    <th>E-mail</th>
+                    <th>Ramal</th>
+                    <th>Local</th>
+                </table>
+              </div>           
+              <script src="./js/tableUsers.js"></script>
+            </scroll-container>
+        </div>
+    </div>
+</div>    
+    <script src="./js/admin.js"></script>
 </body>
 </html>
