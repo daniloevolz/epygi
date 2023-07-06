@@ -32,6 +32,7 @@ function getUsersStatus(department) {
     const data = getUsersByDepartment(department);
     const divCards = document.getElementById("div-cards");
     const divUsers = document.getElementById("div-users");
+    const ulUsers = document.getElementById("ul-users");
     const divContent = document.getElementById("div-content");
 
   const requestBody = JSON.stringify(data);
@@ -46,13 +47,14 @@ function getUsersStatus(department) {
       body: JSON.stringify(data)
     }).then(response => response.json()).then(jsonData => {
         const response = jsonData;
+        ulUsers.innerHTML = ""; 
         updateUsersHTML(department, response);
       })
       .catch(error => {
         console.error('Erro ao fazer a requisição:', error);
         updateUsersHTML(department, "");
       });
-      clearInterval(intervalId);
+      clearInterval(intervalId); // parar interval
       intervalId = setInterval(function() {
         fetch(url, {
           method: 'POST',
@@ -66,18 +68,25 @@ function getUsersStatus(department) {
           .then(response => response.json())
           .then(jsonData => {
             const response = jsonData;
-            divUsers.innerHTML = "";
-            updateUsersHTML(department, response);
+            ulUsers.innerHTML = "";
+            updateUsersHTML(department, response); 
           })
           .catch(error => {
             console.error('Erro ao fazer a requisição:', error);
-            divUsers.innerHTML = "";
+            ulUsers.innerHTML = "";
             updateUsersHTML(department, "");
           });
         
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
   }
-  
+
+
+document.getElementById("clickBack").addEventListener("click",function(){
+    document.getElementById("div-cards").style.display = 'block'
+    document.getElementById("div-users").style.display = 'none'
+    clearInterval(intervalId);
+  })
+
   // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {
   var userStatus = response.find(function(item) {
@@ -86,7 +95,6 @@ function buildUserHTML(user, response) {
 
   var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
   var html = `
-  <ul>
   <li>
 <div class="user-card">
   <img src="${user.img}" class = "${statusClass}">
@@ -94,29 +102,41 @@ function buildUserHTML(user, response) {
     <div class="user-name">${user.name}</div>
     <div class="user-status">${statusClass}</div>
   </div>
- <div class="user-icons">
-    <img src="./images/call.png" class="img-icons">
+  <div style="display:flex ; justify-content: flex-end ; width: 100%;align-items:center">
+    <div onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')"> 
+    <img src="./images/call.png" class="img-icons" id="imgcall">
+    </div>
+    <div onclick="location.href='mailto:${user.email}'">
     <img src="./images/mensagem.png" class="img-icons">
-  </div>
-  
+    </div>
+    </div>
 </div>
 </li>
-</ul>
   `;
-
   return html;
+  
 }
 
 // Função para atualizar a div 'div-users' com a estrutura HTML construída
 function updateUsersHTML(department, response) {
     const divUsers = document.getElementById("div-users");
+    var divDepart = document.getElementById("depart-div");
+    const ulUsers = document.getElementById("ul-users");
     document.getElementById("div-users").style.display = 'block';
     document.getElementById("div-cards").style.display = 'none'
+
+    // document.getElementById("clickBack").addEventListener("click",function(){
+    //   document.getElementById("div-users").style.display = 'none';
+    //   document.getElementById("div-cards").style.display = 'block';
+    // })
+
 
   supporters.forEach(function(supporter) {
     if (supporter.department === department) {
       var userHTML = buildUserHTML(supporter, response);
-      divUsers.innerHTML += userHTML;
+      divDepart.innerHTML = ''
+      divDepart.innerHTML += supporter.department
+      ulUsers.innerHTML += userHTML;
     }
   });
 
@@ -162,6 +182,7 @@ function updateUsersHTML(department, response) {
     li.addEventListener("click", function() {
       const id = this.id;
       getUsersStatus(id);
+      
       
 
     });

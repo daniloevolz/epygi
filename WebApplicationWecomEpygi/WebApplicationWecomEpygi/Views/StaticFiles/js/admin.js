@@ -1,14 +1,17 @@
 
  var cookie;
-//  function load() {
-//     // exemplo de uso: obtém o valor do cookie "successCookie"
-//      var successValue = getCookie("successLoginCookie");
-//     if (successValue == null) {
-//         window.location.href = "./login.html";
-//    } else {
-//        cookie = successValue;
-//    }
-//  }
+ /*
+ function load() {
+    // exemplo de uso: obtém o valor do cookie "successCookie"
+     var successValue = getCookie("successLoginCookie");
+    if (successValue == null) {
+        window.location.href = "./login.html";
+    } else {
+       cookie = successValue;
+    }
+ }
+ */
+
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
     e.preventDefault();
@@ -19,7 +22,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     const department = document.getElementById('department').value.toLowerCase();
     const location = document.getElementById('location').value;
     const email = document.getElementById('email').value;
-    const imgFile = document.getElementById('ipt-img-user').files[0]; // obter o arquivo de imagem
+    const imgFile = document.getElementById('file-upload-button').files[0]; // obter o arquivo de imagem
 
     
     if (name === '' || sip === '' || num === '' || department === '' || location === '' || email === '' || !imgFile) {
@@ -70,11 +73,31 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     };
     reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
 
-    showUsersDiv();
+    // showUsersDiv();
     // buildUserHTML(users)
 
 });
 
+
+// função para obter o valor de um cookie pelo nome
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+// function makePopUp(){
+//     var error = document.getElementById("loginErro");
+//     error.style.display = 'block';
+//     setTimeout(function(){
+//         error.style.display = 'none'
+//     },1200)
+
+// }
 var users = [];
 
 fetch('users.json')
@@ -159,7 +182,7 @@ fetch('users.json')
   document.getElementById("useradd").addEventListener("click", function(){
     console.log("click Adição de Usuário")
     document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "block"
+    document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-list-home").style.display = "none"
   });
   document.getElementById("userlist").addEventListener("click", function(){
@@ -176,35 +199,16 @@ const themeToggle = document.getElementById('theme');
 const themeLink = document.getElementById('theme-dark');
 
 themeToggle.addEventListener('click', () => {
-  if (themeLink.getAttribute('href') === 'admin-interf.css') {
+  if (themeLink.getAttribute('href') === '../css/admin-interf.css') {
     
-    themeLink.setAttribute('href', './css/themewhite-adm-interf.css');
-    document.getElementById("sun-moon").setAttribute("src", "./images/moon.png")
+    themeLink.setAttribute('href', '../css/themewhite-adm-interf.css');
+    document.getElementById("sun-moon").setAttribute("src", "../images/moon.png")
   } else {
-    themeLink.setAttribute('href', './css/admin-interf.css');
-    document.getElementById("sun-moon").setAttribute("src", "./images/sunny-day.png")
+    themeLink.setAttribute('href', '../css/admin-interf.css');
+    document.getElementById("sun-moon").setAttribute("src", "../images/sunny-day.png")
   }
 });
 
-// função para obter o valor de um cookie pelo nome
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
-// function makePopUp(){
-//     var error = document.getElementById("loginErro");
-//     error.style.display = 'block';
-//     setTimeout(function(){
-//         error.style.display = 'none'
-//     },1200)
-
-// }
 
 
 

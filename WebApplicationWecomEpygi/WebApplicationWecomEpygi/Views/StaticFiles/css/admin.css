@@ -21,7 +21,7 @@ body {
 .theme a {
   width: 70%;
   height: 70%;
-  background-image: url(./images/sunny-day.png);
+  background-image: url(../images/sunny-day.png);
 }
 @media (max-width: 1300px){
   .facet_sidebar{
@@ -96,7 +96,7 @@ body {
   width: 50px;
   height: 10px;
   padding-bottom: 40px;
-  background-image: url(./images/free-home-icon-2502-thumb.png);
+  background-image: url(../images/free-home-icon-2502-thumb.png);
   background-repeat: no-repeat;
   background-size: 30px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -106,12 +106,18 @@ body {
   list-style-type: none;
   left: -40px;
 }
-
+#id-add-home{
+    width: 100%;
+    height: -webkit-fill-available;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
 .listusers {
   width: 50px;
   height: 10px;
   padding-bottom: 40px;
-  background-image: url(./images/Lista.png);
+  background-image: url(../images/Lista.png);
   background-repeat: no-repeat;
   background-size: 30px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -126,7 +132,7 @@ body {
   width: 50px;
   height: 10px;
   padding-bottom: 40px;
-  background-image: url(./images/add-user.png);
+  background-image: url(../images/add-user.png);
   background-repeat: no-repeat;
   background-size: 25px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -141,7 +147,7 @@ body {
   vertical-align: middle;
   width: 100px;
   height: 100px;
-  background-image: url(./images/wecom.svg);
+  background-image: url(../images/wecom.svg);
   background-repeat: no-repeat;
   background-size: 30px;
   background-position: right;
@@ -157,7 +163,7 @@ body {
   width: 50px;
   height: 10px;
   padding-bottom: 40px;
-  background-image: url(./images/unknown-user.png);
+  background-image: url(../images/unknown-user.png);
   background-repeat: no-repeat;
   background-size: 30px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -300,7 +306,15 @@ body {
   border-collapse: collapse;
 
 }
-
+/* html {
+  height: 100%;
+}
+body {
+  /* margin:0;
+  padding:0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55); 
+} */
 .login-box {
   position: absolute;
   top: 50%;

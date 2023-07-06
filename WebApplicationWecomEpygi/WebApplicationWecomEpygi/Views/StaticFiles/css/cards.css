@@ -16,7 +16,7 @@
     display: inline-block;
     vertical-align: text-top;
     margin: 20px;
-    background-image: url(img-bg.png);
+    /*background-image: url(img-bg.png);*/
     background-repeat: no-repeat;
     background-position: top 35px right 45px;
     font-weight: 400;
@@ -30,7 +30,7 @@
     height: 140px;
     
 }
-img.online {/* Status do usuário */
+.epygi-tab__supporter-img.online {/* Status do usuário */
     border-left: 8px solid #00a300; 
 }
 .epygi-tab__supporter-img.away {/* Status do usuário */

@@ -70,7 +70,7 @@ body{
 }
 .div-users {
     overflow-y: auto;
-    height: calc(100vh - 160px);
+    height: calc(100vh - 200px);
     overflow-x: hidden;
   }
 
@@ -78,7 +78,7 @@ body{
     font-size: 36px;
     font-weight: 400;
     padding: 135px 0 0 30%;
-    background-image: url(./images/direct-webcall.png);
+    background-image: url(../images/direct-webcall.png);
     background-repeat: no-repeat;
     background-size: auto 170px;
     animation-name: animaLogo;
@@ -86,6 +86,25 @@ body{
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-duration: 1s;
+}
+/* status dos cards dwc*/
+img.online{
+    border-left: 2px solid rgb(1,253,0);
+}
+img.away {/* Status do usuário */
+    border-left: 2px solid #a3a000;
+}
+img.DND {/* Status do usuário */
+    border-left: 2px solid rgb(255,29,37);
+}
+img.lunch {/* Status do usuário */
+    border-left: 2px solid #e822a9;
+}
+img.meeting {/* Status do usuário */
+    border-left: 2px solid #3400a3;
+}
+img.Offline {/* Status do usuário */
+    border-left: 3px solid #9b9b9b;
 }
 
 @keyframes animaLogo {
@@ -136,27 +155,29 @@ body{
     padding-bottom: 17%;
     background-image: linear-gradient(to right,rgb(168,17,6),rgb(248,65,69));
 }
-.div-users{
-    background-color: rgb(242,242,242); 
-}
-.div-users ul {
+.ul-users{
     margin-top: 20px !important;
     font-size: 0px;
     width: 100% !important;
     list-style: none;
-    display: flex;
+    display: inline-flex !important;
     flex-wrap: wrap;
 }
-.div-users ul li{
-    width: 45% !important;
-    margin-right: 3.2%;
-    margin-bottom: 3.2%;
+.ul-users li{
+    width: 43% !important;
+    margin-right: 3.2% ;
+    margin-bottom: 3.2% ;
     position: relative;
     border-radius: 10px;
     padding-bottom: 1.5% !important;
-    display: flex;
+    display: flex ;
     align-items: center;
     color: white;
+}
+#clickBack{
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
 }
 .div-users ul li img {
     width: 47px;
@@ -165,11 +186,24 @@ body{
     border-radius: 50%;
   }
   #depart-div{
-    width: 50%; 
+    width: 25%; 
     margin-left: 40px;
-    margin-top: 25px;
+    /* margin-top: 25px; */
     /* background-color: blue; */
     font-family: 'Montserrat';
+    text-transform: capitalize;
+    color: black;
+    font-weight: bold;
+    font-size: x-large;
+  }
+  .main-depart-div{
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+  }
+  .imgBtnBack{
+    width: 120px;
+    cursor: pointer;
   }
   .user-card {
     display: flex;
@@ -184,6 +218,7 @@ body{
   .user-name {
     font-weight: bold;
     font-size: large;
+    white-space: nowrap;
   }
   .user-status{
     font-size: x-small;
@@ -193,7 +228,7 @@ body{
   }
   .user-icons {
     display: flex;
-    width: 65%;
+    width: 100%;
     justify-content: flex-end;
   }
   
@@ -289,7 +324,7 @@ body{
     /* -webkit-border-radius: 15px; */
     text-align: center;
     font-weight: 400;
-    background-image: url(./images/dwc-button.png);
+    background-image: url(../images/dwc-button.png);
     background-position: right 6.5px center;
     background-repeat: no-repeat;
     background-size: 23px;
@@ -331,7 +366,7 @@ body{
 }
 
 .aside .lembrete {
-    background-image: url(./images/bg-lembrete.png);
+    background-image: url(../images/bg-lembrete.png);
     background-position: bottom right;
     background-repeat: no-repeat;
     padding: 25px 10px;
@@ -358,7 +393,7 @@ body{
     width: 40px;
     padding-bottom: 40px;
     margin-right: 1em;
-    background-image: url(./images/dwc.png);
+    background-image: url(../images/dwc.png);
     background-repeat: no-repeat;
     background-size: 90%;
     background-position: center;
@@ -371,7 +406,7 @@ body{
 @media screen and (min-width: 1500px) {
     #section.title.dwc {
         height: 240px;
-        background-image: url(./images/header-dwc.png);
+        background-image: url(../images/header-dwc.png);
         background-repeat: no-repeat;
         background-position: left 25% center; 
         background-size: cover;
@@ -391,7 +426,7 @@ body{
 
     #section.title.dwc {
         height: 170px;
-        background-image: url(./images/header-dwc.png);
+        background-image: url(../images/header-dwc.png);
         background-repeat: no-repeat;
         background-position: 0%;
         background-size: cover;
@@ -444,7 +479,7 @@ body{
         /* -webkit-border-radius: 15px; */
         text-align: center;
         font-weight: 400;
-        background-image: url(./images/dwc-button.png);
+        background-image: url(../images/dwc-button.png);
         background-position: right 6.5px center;
         background-repeat: no-repeat;
         background-size: 23px;
@@ -471,7 +506,7 @@ body{
     #section.title.dwc {
         height: 110px;
         background-position: center right;
-        background-image: url(./images/header-dwc.png);
+        background-image: url(../images/header-dwc.png);
         background-position: left 0% center;
     }
     #div-cards {
@@ -559,7 +594,7 @@ body{
         /* -webkit-border-radius: 15px; */
         text-align: center;
         font-weight: 400;
-        background-image: url(./images/dwc-button.png);
+        background-image: url(../images/dwc-button.png);
         background-position: right 6.5px center;
         background-repeat: no-repeat;
         background-size: 16px;
@@ -594,7 +629,7 @@ body{
     #section.title.dwc {
         height: 60px;
         background-position: right 0% center !important;
-        background-image: url(./images/cabeçalho-600px.png);
+        background-image: url(../images/cabeçalho-600px.png);
         /* background-position: left 0% center !important; */
     }
     #div-cards{
