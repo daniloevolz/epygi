@@ -84,11 +84,13 @@
     margin-top: -4px;
     display: inline-block;
     vertical-align: middle;
-    background-color: #00a300;
     border-radius: 50%;
     -khtml-border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
+}
+.epygi-content__status__indicator.online{
+    background-color: #00a300;
 }
 .epygi-content__status__indicator.away {/* Status do usuário */
     background-color: #a3a000; 

@@ -70,9 +70,11 @@ body{
 }
 .div-users {
     overflow-y: auto;
-    height: calc(100vh - 200px);
+    /* height: calc(100vh - 200px); */
     overflow-x: hidden;
-  }
+    height: auto;
+    padding-bottom: 40px;
+}
 
 #section.title.dwc h1 {
     font-size: 36px;
@@ -89,22 +91,22 @@ body{
 }
 /* status dos cards dwc*/
 img.online{
-    border-left: 2px solid rgb(1,253,0);
+    border: 3px solid rgb(1,253,0);
 }
 img.away {/* Status do usuário */
-    border-left: 2px solid #a3a000;
+    border: 3px solid #a3a000;
 }
 img.DND {/* Status do usuário */
-    border-left: 2px solid rgb(255,29,37);
+    border: 3px solid rgb(255,29,37);
 }
 img.lunch {/* Status do usuário */
-    border-left: 2px solid #e822a9;
+    border: 3px solid #e822a9;
 }
 img.meeting {/* Status do usuário */
-    border-left: 2px solid #3400a3;
+    border: 3px solid #3400a3;
 }
 img.Offline {/* Status do usuário */
-    border-left: 3px solid #9b9b9b;
+    border: 3px solid #9b9b9b;
 }
 
 @keyframes animaLogo {
@@ -408,7 +410,7 @@ img.Offline {/* Status do usuário */
         height: 240px;
         background-image: url(../images/header-dwc.png);
         background-repeat: no-repeat;
-        background-position: left 25% center; 
+        background-position: left 0% center; 
         background-size: cover;
         border-bottom: solid 1px #FFFFFF;
     }
@@ -418,10 +420,13 @@ img.Offline {/* Status do usuário */
     overflow-x: hidden;
   }
   .div-anuncios{
-    width: 92%;
+    width: 80%;
     margin-top: 10px;
 }
-}
+ /* .div-content{
+    width: 35%;
+ }*/
+} 
 @media screen and (max-width: 1300px) {
 
     #section.title.dwc {
@@ -435,6 +440,17 @@ img.Offline {/* Status do usuário */
     .div-anuncios{
         width: 93%;
         margin-top: 20px;
+    }
+    .ul-users li{
+        width: 90% !important;
+        margin-right: 3.2% ;
+        margin-bottom: 3.2% ;
+        position: relative;
+        border-radius: 10px;
+        padding-bottom: 1.5% !important;
+        display: flex ;
+        align-items: center;
+        color: white;
     }
     @keyframes animaLogo {
         0% {
@@ -637,6 +653,9 @@ img.Offline {/* Status do usuário */
         height: auto;
     }
     .div-content{
+        width: 100%;
+    }
+    .div-users{
         width: 100%;
     }
     .div-anuncios{

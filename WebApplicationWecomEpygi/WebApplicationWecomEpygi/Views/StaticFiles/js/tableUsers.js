@@ -1,3 +1,4 @@
+// tabela de usuários adm
 var users = []
  fetch('./users.json')
   .then(response => response.json())

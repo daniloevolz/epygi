@@ -98,11 +98,16 @@ function getCookie(name) {
 //     },1200)
 
 // }
-var users = [];
+
+
+var supporters = [];
+
+// filtro de usuários 
 
 fetch('users.json')
   .then(response => response.json())
   .then(data => {
+    supporters = data;
     const departmentSelect = document.getElementById("filter-department");
     const uniqueDepartments = new Set();
     
@@ -110,6 +115,7 @@ fetch('users.json')
     const optionTodos = document.createElement("option");
     optionTodos.value = "todos";
     optionTodos.text = "todos";
+    optionTodos.id = "all";
     departmentSelect.appendChild(optionTodos);
 
     data.forEach(obj => {
@@ -122,57 +128,181 @@ fetch('users.json')
       const option = document.createElement("option");
       option.value = department;
       option.text = department;
+      option.id = department
       departmentSelect.appendChild(option);
     });
-
-    users = data;
-    displayUsers(users); // Exibe todos os usuários inicialmente
-
-    departmentSelect.addEventListener("change", function() {
-      const selectedDepartment = departmentSelect.value;
-      if(selectedDepartment === "todos"){
-        displayUsers(users)
-      }else{
-      const filteredUsers = users.filter(user => user.department === selectedDepartment);
-      displayUsers(filteredUsers); // Exibe apenas os usuários filtrados
-    }
-    });
+      getUsersStatus("all")
+      departmentSelect.addEventListener("change", function(event) {
+      const selectedOption = event.target.selectedOptions[0];
+      const selectedDepartmentId = selectedOption.id;
+      getUsersStatus(selectedDepartmentId);
   })
-  .catch(error => {
-    console.log(error);
+  })
+  //   users = data;
+  //   displayUsers(users); // Exibe todos os usuários inicialmente
+
+  //   departmentSelect.addEventListener("change", function() {
+  //     const selectedDepartment = departmentSelect.value;
+  //     if(selectedDepartment === "todos"){
+  //       displayUsers(users)
+  //     }else{
+  //     const filteredUsers = users.filter(user => user.department === selectedDepartment);
+  //     displayUsers(filteredUsers); // Exibe apenas os usuários filtrados
+  //   }
+  //   });
+  // })
+  // .catch(error => {
+  //   console.log(error);
+  // });
+
+  // function displayUsers(users) {
+  //   const departmentSelect = document.getElementById("filter-department");
+  //   const selectedDepartment = departmentSelect.value;
+  
+  //   let filteredUsers = users;
+  //   if (selectedDepartment !== "todos" ) {
+  //     filteredUsers = users.filter(user => user.department === selectedDepartment);
+  //   }
+  
+  //   const html = filteredUsers
+  //     .map(user => `
+  //       <div class="cards" id="cards">
+  //         <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
+  //           <div class="epygi-image">
+  //             <img src=${user.img} class="epygi-tab__supporter-img" alt="">
+  //           </div>
+  //           <div class="epygi-content" style="width: 200px; height: 45px;margin-top: -6%;">
+  //             <div class="epygi-content__headline" style="text-transform: capitalize">
+  //               <strong>${user.name}<br></strong>${user.department}<br>
+  //             </div>
+  //             <div class="epygi-content__status" style="display:flex;align-items:center;">
+  //               <div class="epygi-content__status__indicator "></div>
+  //               <div>Online</div>
+  //             </div>    
+  //           </div>
+  //         </div>
+  //       </div>
+  //     `)
+  //     .join('');
+  
+  //   document.getElementById("main-cards").innerHTML = html;
+  // }
+
+  // Variável para armazenar o identificador do intervalo
+var intervalId;
+
+function getUsersByDepartment(department) {
+  var users = [];
+
+  if(department == "all"){
+    for (var i = 0; i < supporters.length; i++) {
+        users.push(supporters[i].sip);
+    }
+  }else{
+    for (var i = 0; i < supporters.length; i++) {
+      if (supporters[i].department === department) {
+        users.push(supporters[i].sip);
+      }
+    }
+  }
+  return { users: users };
+}
+
+function getUsersStatus(department) {
+    const url = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
+    const data = getUsersByDepartment(department);
+    const divCards = document.getElementById("main-cards");
+
+  const requestBody = JSON.stringify(data);
+  const contentLength = requestBody.length;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Content-Length': contentLength.toString()
+      },
+      body: JSON.stringify(data)
+    }).then(response => response.json()).then(jsonData => {
+        const response = jsonData;
+        divCards.innerHTML = ""; 
+        updateUsersHTML(department, response);
+      })
+      .catch(error => {
+        console.error('Erro ao fazer a requisição:', error);
+        updateUsersHTML(department, "");
+      });
+      clearInterval(intervalId); // parar interval
+      intervalId = setInterval(function() {
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+              'Accept': '*/*',
+              'Content-Length': contentLength.toString()
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(jsonData => {
+            const response = jsonData;
+            divCards.innerHTML = "";
+            updateUsersHTML(department, response); 
+          })
+          .catch(error => {
+            console.error('Erro ao fazer a requisição:', error);
+            divCards.innerHTML = "";
+            updateUsersHTML(department, "");
+          });
+        
+      }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
+  }
+
+  // Função para construir a estrutura HTML com base nos valores correspondentes
+function buildUserHTML(user, response) {
+  var userStatus = response.find(function(item) {
+    return item[user.sip] !== undefined;
   });
 
-  function displayUsers(users) {
-    const departmentSelect = document.getElementById("filter-department");
-    const selectedDepartment = departmentSelect.value;
+  var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+  var html = `
+  <div class="cards" id="cards">
+  <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
+    <div class="epygi-image">
+      <img src=${user.img} class="epygi-tab__supporter-img" alt="">
+    </div>
+    <div class="epygi-content" style="width: 200px; height: 45px;margin-top: -6%;">
+      <div class="epygi-content__headline" style="text-transform: capitalize">
+        <strong>${user.name}<br></strong>${user.department}<br>
+      </div>
+      <div class="epygi-content__status" style="display:flex;align-items:center;">
+        <div class="epygi-content__status__indicator ${statusClass} "></div>
+        <div>${statusClass}</div>
+      </div>    
+    </div>
+  </div>
+</div>
+  `;
+  return html;
   
-    let filteredUsers = users;
-    if (selectedDepartment !== "todos" ) {
-      filteredUsers = users.filter(user => user.department === selectedDepartment);
+}
+
+// Função para atualizar a div 'div-users' com a estrutura HTML construída
+function updateUsersHTML(department, response) {
+
+  var divCards = document.getElementById("main-cards")
+
+  supporters.forEach(function(supporter) {
+    if (supporter.department === department || department == "all") {
+      var userHTML = buildUserHTML(supporter, response);
+        // divCards.innerHTML =''
+        divCards.innerHTML += userHTML
     }
-  
-    const html = filteredUsers
-      .map(user => `
-        <div class="cards" id="cards">
-          <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
-            <div class="epygi-image">
-              <img src=${user.img} class="epygi-tab__supporter-img" alt="">
-            </div>
-            <div class="epygi-content" style="width: 200px; height: 45px;margin-top: -6%;">
-              <div class="epygi-content__headline" style="text-transform: capitalize">
-                <strong>${user.name}<br></strong>${user.department}<br>
-              </div>
-              <div class="epygi-content__status">
-                <div class="epygi-content__status__indicator "></div>
-              </div>    
-            </div>
-          </div>
-        </div>
-      `)
-      .join('');
-  
-    document.getElementById("main-cards").innerHTML = html;
-  }
+  });
+
+}
+
+  // evt listeners para opções menu lateral
   document.getElementById("dashhome").addEventListener("click", function(){
     console.log("click Dash Home")
     document.getElementById("id-home").style.display = "block"
@@ -194,7 +324,7 @@ fetch('users.json')
   document.getElementById("logo-box").addEventListener("click", function(){
   
   });
-
+// evt listener para light / dark mode
 const themeToggle = document.getElementById('theme');
 const themeLink = document.getElementById('theme-dark');
 
