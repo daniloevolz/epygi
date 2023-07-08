@@ -18,12 +18,14 @@ using System.Security.Principal;
 using System.Security.Claims;
 using System.Xml.Linq;
 using System.Reflection;
+using System.ServiceProcess;
 
 namespace WebApplicationWecomEpygi.Controllers
 {
     public class HomeController : ControllerBase
     {
         private readonly IJwtConfig _jwtConfig;
+
 
         public HomeController(IJwtConfig jwtConfig)
         {
@@ -183,11 +185,12 @@ namespace WebApplicationWecomEpygi.Controllers
                             string name = data.GetProperty("user").GetProperty("name").GetString();
                             string sip = data.GetProperty("user").GetProperty("sip").GetString();
                             string num = data.GetProperty("user").GetProperty("num").GetString();
+                            //string password = data.GetProperty("user").GetProperty("password").GetString();
                             string email = data.GetProperty("user").GetProperty("email").GetString();
                             string location = data.GetProperty("user").GetProperty("location").GetString();
                             string department = data.GetProperty("user").GetProperty("department").GetString();
                             string imageName = sip + "-user.jpg";
-                            string imageUrl = "/images/" + imageName;
+                            string imageUrl = "./images/" + imageName;
                             string imageSize = data.GetProperty("image").GetProperty("size").GetUInt64().ToString();
                             string imageData = data.GetProperty("image").GetProperty("data").GetString();
 
@@ -232,11 +235,13 @@ namespace WebApplicationWecomEpygi.Controllers
                             System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
 
                             // Salvar a imagem em /StaticFiles/images/
-                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "images");
+                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views","StaticFiles","images");
                             string imagePath = Path.Combine(imagesDirectory, imageName);
                             string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
                             byte[] imageBytes = Convert.FromBase64String(base64String);
                             System.IO.File.WriteAllBytes(imagePath, imageBytes);
+                            var password="excluir depois";
+                            UpdateAgentsJSON(name, sip, num, password);
 
                             return Ok(new { success = true, message = "Usuário adicionado com sucesso." });
                         }
@@ -353,6 +358,83 @@ namespace WebApplicationWecomEpygi.Controllers
             {
                 return result;
             }
+        }
+
+        public static void RestartService()
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string nomeServico = config["ServiceName"];
+
+            using (var controller = new ServiceController(nomeServico))
+            {
+                if (controller.Status == ServiceControllerStatus.Running)
+                {
+                    controller.Stop();
+                    controller.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10));
+                }
+
+                controller.Start();
+                controller.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+            }
+        }
+
+        public static void UpdateAgentsJSON(string name, string sip, string num, string password)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var AgentsJSONPatch = config["AgentsJSONPatch"];
+            try
+            {
+                // Carregar os usuários existentes do arquivo users.json (se existir)
+                string usersFilePath = AgentsJSONPatch; //Path.Combine(Directory.GetCurrentDirectory(), "Service", "agents.json");
+                List<Agent> agents = new List<Agent>();
+
+                if (System.IO.File.Exists(usersFilePath))
+                {
+                    string usersJson = System.IO.File.ReadAllText(usersFilePath);
+                    try
+                    {
+                        agents = JsonSerializer.Deserialize<List<Agent>>(usersJson);
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+
+                // Criar um novo objeto User
+                Agent newUser = new Agent
+                {
+                    Name = name,
+                    Sip = sip,
+                    Num = num,
+                    Password = password
+                };
+
+                // Adicionar o novo usuário à lista
+                agents.Add(newUser);
+
+                // Serializar a lista de usuários em JSON
+                string usersJsonUpdated = JsonSerializer.Serialize(agents);
+
+                // Gravar a lista de usuários atualizada no arquivo users.json
+                System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+
+                RestartService();
+            }catch (Exception ex)
+            {
+
+            }
+
+
         }
     }
 // Define a classe auxiliar para desserializar o arquivo password.json
