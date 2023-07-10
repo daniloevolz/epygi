@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="theme-dark" rel="stylesheet" href="./css/admin.css" >
+    <link id="theme-dark" rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="./css/cards.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="./images/favicon.ico">
     <title>Painel Admin</title>
 </head>
 <body style="overflow-x: hidden; overflow-y: hidden" onload="load()" id="body"> 
@@ -18,23 +19,23 @@
             </div>
             
             <div id="box" class="itens" style="display: flex; flex-direction: column; align-items: baseline;">
-                <ul id="dashhome" style= "display: flex; align-items: center; height: 45px;">               
+                <ul id="dashhome" style="display: flex; align-items: center; height: 45px;">
                     <li class="dashhome">
                         <a href="#" class="user white usuario" id="usuario">
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>Home</h3>                    
+                    <h3>Home</h3>
                 </ul>
-                <ul id="useradd" style= "display: flex; align-items: center; height: 45px;">               
+                <ul id="useradd" style="display: flex; align-items: center; height: 45px;">
                     <li class="useradd">
                         <a href="#" class="user white usuario" id="usuario">
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>Adição de Usuário</h3>                    
+                    <h3>Adição de Usuário</h3>
                 </ul>
-                <ul id="userlist" style = "display: flex; align-items: center; height: 45px; align-items: center;">
+                <ul id="userlist" style="display: flex; align-items: center; height: 45px; align-items: center;">
                     <li class="listusers">
                         <a href="#" class="user white usuario" id="usuario">
                             <span class="bggray"></span>
@@ -42,6 +43,7 @@
                     </li>
                     <h3>Lista de Usuários</h3>
                 </ul>
+                
             </div>
         </div> 
     </div>
@@ -51,9 +53,17 @@
                 <a href="#" class="user white usuario" id="usuario">
                     <span class="bggray"></span>
                 </a>
-            </li>   
+            </li>
             <h3 style="color: rgb(19, 137, 235);">User: Admin</h3>
             <li class="theme" id="theme"><a href="#"><img id="sun-moon" src="./images/sunny-day.png" alt="" style="width: 100%; height: 100%;"></a></li>
+        </ul>
+        <ul id="logout" style="display: flex; align-items: center; height: 45px; align-items: center;">
+            <li class="userlogout">
+                <a href="#" class="user white usuario" id="usuario">
+                    <span class="bggray"></span>
+                </a>
+            </li>
+            <h3>Sair</h3>
         </ul>
     </div>      
 </div>
@@ -80,38 +90,42 @@
                 <div class="user-box">
                     <input type="text" id="name" name="" required="" autocomplete="off">
                     <label>Nome</label>
-                  </div>
-                  <div class="user-box">
+                </div>
+                <div class="user-box">
                     <input type="text" id="sip" required="" autocomplete="off">
                     <label>SIP</label>
-                  </div>            
+                </div>
                 <div class="user-box">
-                    <input type="text" id="num"name="" required="" maxlength="4" autocomplete="off">
+                    <input type="text" id="num" name="" required="" maxlength="4" autocomplete="off">
                     <label>Ramal</label>
-                  </div>
+                </div>
                 <div class="user-box">
-                    <input type="text" id="department"name="" required="" autocomplete="off">
+                    <input type="text" id="pass" name="" required="" maxlength="50" autocomplete="off">
+                    <label>Senha 3PCC</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" id="departamento" name="" required="" autocomplete="off">
                     <label>Departamento</label>
-                  </div>
+                </div>
                 <div class="user-box">
                     <input type="text" id="location" name="" required="" autocomplete="off">
                     <label>Localização</label>
-                  </div>
+                </div>
                 <div class="user-box">
                     <input type="text" id="email" name="" required="" autocomplete="off">
                     <label>E-mail</label>
-                  </div>    
-                    <div class="img-box">
+                </div>
+                <div class="img-box">
                     <label>Imagem</label>
                     <input type="file" name="" required="" id="file-upload-button">
-                  </div>                 
-                  <a href="#" id="a-upload-user">
+                </div>
+                <a href="#" id="a-upload-user">
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
                     Adicionar
-                  </a>
+                </a>
             </form>          
         </div>
     </div>

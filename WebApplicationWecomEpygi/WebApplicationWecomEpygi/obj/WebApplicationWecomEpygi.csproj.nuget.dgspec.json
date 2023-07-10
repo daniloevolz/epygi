@@ -52,6 +52,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.31.0, )"
+            },
+            "System.ServiceProcess.ServiceController": {
+              "target": "Package",
+              "version": "[7.0.1, )"
             }
           },
           "imports": [

@@ -61,7 +61,7 @@ namespace WebApplicationWecomEpygi.Controllers
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Issuer = _jwtConfig.Issuer,
-                        Expires = DateTime.UtcNow.AddDays(1),
+                        Expires = DateTime.UtcNow.AddMinutes(10),// AddDays(1),
                         Subject = new ClaimsIdentity(claims),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                     };
@@ -75,11 +75,12 @@ namespace WebApplicationWecomEpygi.Controllers
                 // Credenciais inválidas
                 return BadRequest(new { message = "Credenciais inválidas." });
 
-            }catch(Exception ex)
-            {
-                return BadRequest(new { message = "Erro "+ex.Message });
             }
-            
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Erro " + ex.Message });
+            }
+
         }
 
         [HttpPost]
@@ -102,44 +103,126 @@ namespace WebApplicationWecomEpygi.Controllers
                 };
                 SecurityToken validatedToken;
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-                if (validatedToken != null)
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
                 {
-                    // Carrega os dados de login existentes do arquivo password.json
-                    var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
-                    var json = System.IO.File.ReadAllText(passwordFilePath);
-                    var loginData = JsonSerializer.Deserialize<LoginData[]>(json)?.ToList() ?? new List<LoginData>();
-
-                    // Verifica se o nome de usuário já existe
-                    if (loginData.Any(u => u.Username == model.Username))
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
                     {
-                        return BadRequest(new { message = "Nome de usuário já existe." });
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Carrega os dados de login existentes do arquivo password.json
+                            var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
+                            var json = System.IO.File.ReadAllText(passwordFilePath);
+                            var loginData = JsonSerializer.Deserialize<LoginData[]>(json)?.ToList() ?? new List<LoginData>();
+
+                            // Verifica se o nome de usuário já existe
+                            if (loginData.Any(u => u.Username == model.Username))
+                            {
+                                return BadRequest(new { message = "Nome de usuário já existe." });
+                            }
+
+                            // Hashear a senha usando o BCrypt
+                            //var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash.ToString());
+
+                            // Adicionar o novo objeto de login
+                            loginData.Add(new LoginData
+                            {
+                                Username = model.Username,
+                                PasswordHash = model.PasswordHash
+                            });
+
+                            // Serializar os dados atualizados
+                            var updatedJson = JsonSerializer.Serialize(loginData, new JsonSerializerOptions
+                            {
+                                WriteIndented = true
+                            });
+
+                            // Escrever os dados atualizados no arquivo password.json
+                            System.IO.File.WriteAllText(passwordFilePath, updatedJson);
+
+                            return Ok(new { message = "Login adicionado com sucesso." });
+
+                        }
                     }
 
-                    // Hashear a senha usando o BCrypt
-                    //var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash.ToString());
-
-                    // Adicionar o novo objeto de login
-                    loginData.Add(new LoginData
-                    {
-                        Username = model.Username,
-                        PasswordHash = model.PasswordHash
-                    });
-
-                    // Serializar os dados atualizados
-                    var updatedJson = JsonSerializer.Serialize(loginData, new JsonSerializerOptions
-                    {
-                        WriteIndented = true
-                    });
-
-                    // Escrever os dados atualizados no arquivo password.json
-                    System.IO.File.WriteAllText(passwordFilePath, updatedJson);
-
-                    return Ok(new { message = "Login adicionado com sucesso." });
                 }
-                else
+                return BadRequest(new { message = "Não autorizado" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DelLogin([FromBody] List<string> logins)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
                 {
-                    return BadRequest(new { message = "Não autorizado" });
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Carrega os dados de login existentes do arquivo password.json
+                            var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
+
+                            // Verificar se o arquivo existe
+                            if (System.IO.File.Exists(passwordFilePath))
+                            {
+                                // Ler o conteúdo do arquivo
+                                string usersJson = System.IO.File.ReadAllText(passwordFilePath);
+
+                                // Desserializar o conteúdo em uma lista de usuários
+                                List<LoginData> users = JsonSerializer.Deserialize<List<LoginData>>(usersJson);
+
+                                // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
+                                users.RemoveAll(u => logins.Contains(u.Username));
+
+                                // Serializar a lista de usuários atualizada em JSON
+                                string usersJsonUpdated = JsonSerializer.Serialize(users);
+
+                                // Gravar a lista de usuários atualizada no arquivo users.json
+                                System.IO.File.WriteAllText(passwordFilePath, usersJsonUpdated);
+                            }
+
+                            return Ok(new { message = "Login removido com sucesso." });
+
+                        }
+                    }
+
                 }
+                return BadRequest(new { message = "Não autorizado" });
             }
             catch (Exception ex)
             {
@@ -185,7 +268,7 @@ namespace WebApplicationWecomEpygi.Controllers
                             string name = data.GetProperty("user").GetProperty("name").GetString();
                             string sip = data.GetProperty("user").GetProperty("sip").GetString();
                             string num = data.GetProperty("user").GetProperty("num").GetString();
-                            //string password = data.GetProperty("user").GetProperty("password").GetString();
+                            string password = data.GetProperty("user").GetProperty("pass").GetString();
                             string email = data.GetProperty("user").GetProperty("email").GetString();
                             string location = data.GetProperty("user").GetProperty("location").GetString();
                             string department = data.GetProperty("user").GetProperty("department").GetString();
@@ -235,18 +318,26 @@ namespace WebApplicationWecomEpygi.Controllers
                             System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
 
                             // Salvar a imagem em /StaticFiles/images/
-                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views","StaticFiles","images");
+                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
                             string imagePath = Path.Combine(imagesDirectory, imageName);
                             string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
                             byte[] imageBytes = Convert.FromBase64String(base64String);
                             System.IO.File.WriteAllBytes(imagePath, imageBytes);
-                            var password="excluir depois";
-                            UpdateAgentsJSON(name, sip, num, password);
 
-                            return Ok(new { success = true, message = "Usuário adicionado com sucesso." });
+                            var result = InsertAgentsJSON(name, sip, num, password);
+                            if (result.success == true)
+                            {
+                                return Ok(new { success = true, message = "Usuário adicionado com sucesso." });
+                            }
+                            else
+                            {
+                                return BadRequest(new { success = false, message = "Erro ao adicionar usuário: " + result.message });
+                            }
+
+
                         }
                     }
-                    
+
                 }
                 return BadRequest(new { success = false, message = "Não autorizado!" });
             }
@@ -275,37 +366,55 @@ namespace WebApplicationWecomEpygi.Controllers
                 };
                 SecurityToken validatedToken;
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-                if (validatedToken != null)
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
                 {
-                    // Caminho do arquivo users.json
-                    string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
-
-                    // Verificar se o arquivo existe
-                    if (System.IO.File.Exists(usersFilePath))
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
                     {
-                        // Ler o conteúdo do arquivo
-                        string usersJson = System.IO.File.ReadAllText(usersFilePath);
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
 
-                        // Desserializar o conteúdo em uma lista de usuários
-                        List<User> users = JsonSerializer.Deserialize<List<User>>(usersJson);
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Caminho do arquivo users.json
+                            string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
 
-                        // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
-                        users.RemoveAll(u => sips.Contains(u.sip));
+                            // Verificar se o arquivo existe
+                            if (System.IO.File.Exists(usersFilePath))
+                            {
+                                // Ler o conteúdo do arquivo
+                                string usersJson = System.IO.File.ReadAllText(usersFilePath);
 
-                        // Serializar a lista de usuários atualizada em JSON
-                        string usersJsonUpdated = JsonSerializer.Serialize(users);
+                                // Desserializar o conteúdo em uma lista de usuários
+                                List<User> users = JsonSerializer.Deserialize<List<User>>(usersJson);
 
-                        // Gravar a lista de usuários atualizada no arquivo users.json
-                        System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                                // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
+                                users.RemoveAll(u => sips.Contains(u.sip));
+
+                                // Serializar a lista de usuários atualizada em JSON
+                                string usersJsonUpdated = JsonSerializer.Serialize(users);
+
+                                // Gravar a lista de usuários atualizada no arquivo users.json
+                                System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                            }
+
+                            var result = DeleteAgentsJSON(sips);
+                            if (result.success)
+                            {
+                                return Ok(new { success = true, message = "Usuários removidos dos Cards e da lista de Agents 3PCC. Serviço reiniciado!" });
+                            }
+                            else
+                            {
+                                return Ok(new { success = false, message = "Usuários removidos dos Cards. Ocorreu um erro ao excluir a lista de Agents 3CPP: " + result.message });
+                            }
+                        }
                     }
 
-                    return Ok(new { success = true, message = "Usuários removidos com sucesso." });
                 }
-                else
-                {
-                    return BadRequest(new { success = false, message = "Não autorizado!" });
-                }
-                    
+                return BadRequest(new { success = false, message = "Não autorizado!" });
             }
             catch (Exception ex)
             {
@@ -354,35 +463,46 @@ namespace WebApplicationWecomEpygi.Controllers
                     result = true;
                 }
                 return result;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return result;
             }
         }
 
-        public static void RestartService()
+        public static dynamic RestartService()
         {
-            var config = new ConfigurationBuilder()
+            try
+            {
+                var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            string nomeServico = config["ServiceName"];
+                string nomeServico = config["ServiceName"];
 
-            using (var controller = new ServiceController(nomeServico))
-            {
-                if (controller.Status == ServiceControllerStatus.Running)
+
+                using (var controller = new ServiceController(nomeServico))
                 {
-                    controller.Stop();
-                    controller.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10));
-                }
+                    if (controller.Status == ServiceControllerStatus.Running)
+                    {
+                        controller.Stop();
+                        controller.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10));
+                    }
 
-                controller.Start();
-                controller.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+                    controller.Start();
+                    controller.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+                }
+                return new { success = true, message = "Serviço reiniciado com sucesso" };
             }
+            catch (Exception ex)
+            {
+                return new { success = false, message = ex.Message };
+            }
+
         }
 
-        public static void UpdateAgentsJSON(string name, string sip, string num, string password)
+        public static dynamic InsertAgentsJSON(string name, string sip, string num, string password)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -428,19 +548,55 @@ namespace WebApplicationWecomEpygi.Controllers
                 // Gravar a lista de usuários atualizada no arquivo users.json
                 System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
 
-                RestartService();
-            }catch (Exception ex)
+                return RestartService();
+            }
+            catch (Exception ex)
             {
-
+                return new { success = false, message = ex.Message };
             }
 
 
         }
-    }
-// Define a classe auxiliar para desserializar o arquivo password.json
-public class LoginData
-    {
-        public string Username { get; set; }
-        public string PasswordHash { get; set; }
+
+        public static dynamic DeleteAgentsJSON(List<string> sips)
+        {
+            try
+            {
+                var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+                var AgentsJSONPatch = config["AgentsJSONPatch"];
+                // Caminho do arquivo users.json
+                string usersFilePath = AgentsJSONPatch; //Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
+
+                // Verificar se o arquivo existe
+                if (System.IO.File.Exists(usersFilePath))
+                {
+                    // Ler o conteúdo do arquivo
+                    string usersJson = System.IO.File.ReadAllText(usersFilePath);
+
+                    // Desserializar o conteúdo em uma lista de usuários
+                    List<Agent> users = JsonSerializer.Deserialize<List<Agent>>(usersJson);
+
+                    // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
+                    users.RemoveAll(u => sips.Contains(u.Sip));
+
+                    // Serializar a lista de usuários atualizada em JSON
+                    string usersJsonUpdated = JsonSerializer.Serialize(users);
+
+                    // Gravar a lista de usuários atualizada no arquivo users.json
+                    System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                }
+                return RestartService();
+
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, message = ex.Message };
+            }
+
+
+        }
     }
 }

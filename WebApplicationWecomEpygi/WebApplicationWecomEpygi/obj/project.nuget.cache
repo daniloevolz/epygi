@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QRKKbB1cO3Gyap/4l1O8usMO2APk0PyapMAsoZCkfYmgfahfjm7YPEJ6NIiqgeKA2jr8S2VXLrSbrKf0CTgbQg==",
+  "dgSpecHash": "b8f/bnHWWNpigHJfjKNiYmhCUn118q5+tHPSz6RBjbx2coei6DVWMSa6qZBZT4dbYAehf+reE78xwrvO6iBPgg==",
   "success": true,
   "projectFilePath": "C:\\Users\\danil\\OneDrive\\Documentos\\epygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi\\WebApplicationWecomEpygi.csproj",
   "expectedPackageFiles": [
@@ -15,9 +15,11 @@
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.31.0\\microsoft.identitymodel.tokens.6.31.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\danil\\.nuget\\packages\\system.diagnostics.eventlog\\7.0.0\\system.diagnostics.eventlog.7.0.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.31.0\\system.identitymodel.tokens.jwt.6.31.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "C:\\Users\\danil\\.nuget\\packages\\system.serviceprocess.servicecontroller\\7.0.1\\system.serviceprocess.servicecontroller.7.0.1.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
