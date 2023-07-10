@@ -11,7 +11,6 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\js\admin.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\js\epygiWWS.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\js\login.js
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\js\tableUsers.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\LICENSE
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\WebApplicationWecomEpygi.exe
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
