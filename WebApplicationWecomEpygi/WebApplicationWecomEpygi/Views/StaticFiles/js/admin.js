@@ -140,78 +140,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     };
     reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
 
-    // showUsersDiv();
-    // buildUserHTML(users)
-
 });
-
-
-// função para obter o valor de um cookie pelo nome
-// function makePopUp(){
-//     var error = document.getElementById("loginErro");
-//     error.style.display = 'block';
-//     setTimeout(function(){
-//         error.style.display = 'none'
-//     },1200)
-
-// }
-
-
-
-
-// filtro de usuários 
-  //   users = data;
-  //   displayUsers(users); // Exibe todos os usuários inicialmente
-
-  //   departmentSelect.addEventListener("change", function() {
-  //     const selectedDepartment = departmentSelect.value;
-  //     if(selectedDepartment === "todos"){
-  //       displayUsers(users)
-  //     }else{
-  //     const filteredUsers = users.filter(user => user.department === selectedDepartment);
-  //     displayUsers(filteredUsers); // Exibe apenas os usuários filtrados
-  //   }
-  //   });
-  // })
-  // .catch(error => {
-  //   console.log(error);
-  // });
-
-  // function displayUsers(users) {
-  //   const departmentSelect = document.getElementById("filter-department");
-  //   const selectedDepartment = departmentSelect.value;
-  
-  //   let filteredUsers = users;
-  //   if (selectedDepartment !== "todos" ) {
-  //     filteredUsers = users.filter(user => user.department === selectedDepartment);
-  //   }
-  
-  //   const html = filteredUsers
-  //     .map(user => `
-  //       <div class="cards" id="cards">
-  //         <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
-  //           <div class="epygi-image">
-  //             <img src=${user.img} class="epygi-tab__supporter-img" alt="">
-  //           </div>
-  //           <div class="epygi-content" style="width: 200px; height: 45px;margin-top: -6%;">
-  //             <div class="epygi-content__headline" style="text-transform: capitalize">
-  //               <strong>${user.name}<br></strong>${user.department}<br>
-  //             </div>
-  //             <div class="epygi-content__status" style="display:flex;align-items:center;">
-  //               <div class="epygi-content__status__indicator "></div>
-  //               <div>Online</div>
-  //             </div>    
-  //           </div>
-  //         </div>
-  //       </div>
-  //     `)
-  //     .join('');
-  
-  //   document.getElementById("main-cards").innerHTML = html;
-  // }
-
-  // Variável para armazenar o identificador do intervalo
-
 
 function getUsersByDepartment(department) {
   var users = [];
@@ -278,7 +207,7 @@ function getUsersStatus(department) {
           });
         
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
-  }
+}
 
   // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {

@@ -5,16 +5,14 @@ fetch('https://wetransfer.wecom.com.br:81/StaticFiles/users.json')
 
     console.log(data)
     supporters = data
-
-    // const dadosDiv = document.getElementById('dataUsers');
-    // dadosDiv.innerText = JSON.stringify(dataUsers);
    })
   .catch(error => {
     console.error('Erro ao carregar o arquivo JSON', error);
   });
 
-// Variável para armazenar o identificador do intervalo
+// variável para armazenar o identificador do intervalo
 var intervalId;
+
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -68,8 +66,8 @@ function getUsersStatus(department) {
           .then(response => response.json())
           .then(jsonData => {
             const response = jsonData;
-            ulUsers.innerHTML = "";
-            updateUsersHTML(department, response); 
+           // ulUsers.innerHTML = "";
+           // updateUsersHTML(department, response); 
           })
           .catch(error => {
             console.error('Erro ao fazer a requisição:', error);
@@ -78,7 +76,46 @@ function getUsersStatus(department) {
           });
         
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
-  }
+}
+
+/* get no banco -> tabela de departamentos */
+
+function getDepartments(){
+   fetch("/Home/Departments", {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+       'Accept': '*/*',
+        'Content-Length': contentLength.toString()
+    },
+  }).then(response => response.json())
+     .then(data => {
+      var response = data;
+      makeCards(response)
+    })
+    .catch(error => {
+       console.error('Erro ao fazer a requisição:', error);
+    });
+}
+ function buildCardsHTML(department){
+      var cards = `
+     <li class="bgdBlue"><a href="#" class="card white pre-vendas" id="${department}">
+       <h5>${department}</h5>
+       <span class="bgWhite titillium dBlue">Conectar</span>
+     </a></li>
+    `
+  return cards
+}
+ function makeCards(department){
+    var divCards = document.getElementById("div-cards");
+     const ulCards = document.getElementById("ul-cards");
+    department.forEach(function(){
+      var cardHTML = buildCardsHTML(department);
+     divCards.innerHTML = ''
+      ulCards.innerHTML += cardHTML
+     })
+    
+}
 
 
 document.getElementById("clickBack").addEventListener("click",function(){
@@ -87,7 +124,6 @@ document.getElementById("clickBack").addEventListener("click",function(){
     clearInterval(intervalId);
   })
 
-  // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {
   var userStatus = response.find(function(item) {
     return item[user.sip] !== undefined;
@@ -109,6 +145,20 @@ function buildUserHTML(user, response) {
     <div onclick="location.href='mailto:${user.email}'">
     <img src="./images/mensagem.png" class="img-icons">
     </div>
+   
+    </div>
+    <div style="    
+    /* width: 100%; */
+    /* position: relative; */
+    position: absolute;
+    height:100%;
+    top: calc(100% - 6px);
+    float: right;
+    margin-left: 80%;
+    width: 20%;
+    margin-right: margin;
+   ">
+    <div class="status-line ${statusClass}"> </div>
     </div>
 </div>
 </li>
@@ -117,19 +167,12 @@ function buildUserHTML(user, response) {
   
 }
 
-// Função para atualizar a div 'div-users' com a estrutura HTML construída
 function updateUsersHTML(department, response) {
     const divUsers = document.getElementById("div-users");
     var divDepart = document.getElementById("depart-div");
     const ulUsers = document.getElementById("ul-users");
     document.getElementById("div-users").style.display = 'block';
     document.getElementById("div-cards").style.display = 'none'
-
-    // document.getElementById("clickBack").addEventListener("click",function(){
-    //   document.getElementById("div-users").style.display = 'none';
-    //   document.getElementById("div-cards").style.display = 'block';
-    // })
-
 
   supporters.forEach(function(supporter) {
     if (supporter.department === department) {
@@ -174,17 +217,13 @@ function updateUsersHTML(department, response) {
       
 
   }
-  // Obtendo todos os elementos <li> com a classe "bgdBlue"
   const lis = document.querySelectorAll("a.card");
 
-  // Adicionando um ouvinte de eventos de clique a cada elemento <li>
   lis.forEach(li => {
     li.addEventListener("click", function() {
       const id = this.id;
       getUsersStatus(id);
       
-      
-
     });
   });
   
