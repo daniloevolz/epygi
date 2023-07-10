@@ -3,16 +3,16 @@ var cookie;
 var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
- function load() {
-    // exemplo de uso: obtém o valor do cookie "successCookie"
-     var successValue = getCookie(cookieName);
-    if (successValue == null) {
-        window.location.href = "./login.html";
-    } else {
-       cookie = successValue;
-     }
-     showHome();
-}
+//  function load() {
+//     // exemplo de uso: obtém o valor do cookie "successCookie"
+//      var successValue = getCookie(cookieName);
+//     if (successValue == null) {
+//         window.location.href = "./login.html";
+//     } else {
+//        cookie = successValue;
+//      }
+//      showHome();
+// }
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -388,6 +388,24 @@ function showToast(type, message) {
     console.log("click Adição de Usuário")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+  });
+  document.getElementById("departadd").addEventListener("click", function(){
+    console.log("click Adição de Departamento")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "block"
+    document.getElementById("id-add-local").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+  });
+  document.getElementById("localadd").addEventListener("click", function(){
+    console.log("click Adição de Localidade")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "block"
     document.getElementById("id-list-home").style.display = "none"
   });
   document.getElementById("userlist").addEventListener("click", function(){
@@ -420,6 +438,8 @@ themeToggle.addEventListener('click', () => {
 function showHome() {
     document.getElementById("id-home").style.display = "block"
     document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
     fetch('users.json')
         .then(response => response.json())
@@ -459,6 +479,8 @@ function showHome() {
 function showListUsers() {
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
     document.getElementById("data-table").innerHTML = '';
     // tabela de usuários adm
