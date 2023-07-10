@@ -1,7 +1,8 @@
 ﻿
 var cookie;
 var cookieName = "successLoginCookie";
- 
+var supporters = [];
+var intervalId;
  function load() {
     // exemplo de uso: obtém o valor do cookie "successCookie"
      var successValue = getCookie(cookieName);
@@ -9,7 +10,8 @@ var cookieName = "successLoginCookie";
         window.location.href = "./login.html";
     } else {
        cookie = successValue;
-    }
+     }
+     showHome();
 }
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
@@ -114,15 +116,25 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
             },
             body: JSON.stringify(data)
         })
-            .then(response => {
+            .then(async function (response) {
                 if (response.ok) {
-                    console.log('Dados salvos com sucesso!');
+                    const data = await response.json();
+                    if (data.success == true) {
+                        showToast("success", data.message)
+                        showHome();
+
+                    } else {
+                        showToast("warning", data.message)
+                    }
+                    
                 } else {
                     console.log('Ocorreu um erro ao salvar os dados.');
+                    showToast("danger",response.status)
                 }
             })
             .catch(error => {
                 console.error('Erro:', error);
+                showToast("danger", error)
             });
     
     };
@@ -145,44 +157,9 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
 // }
 
 
-var supporters = [];
+
 
 // filtro de usuários 
-
-fetch('users.json')
-  .then(response => response.json())
-  .then(data => {
-    supporters = data;
-    const departmentSelect = document.getElementById("filter-department");
-    const uniqueDepartments = new Set();
-    
-    // Adiciona o item "Todos" no início da lista de departamentos
-    const optionTodos = document.createElement("option");
-    optionTodos.value = "todos";
-    optionTodos.text = "todos";
-    optionTodos.id = "all";
-    departmentSelect.appendChild(optionTodos);
-
-    data.forEach(obj => {
-      const { department } = obj;
-      uniqueDepartments.add(department);
-    });
-
-    const sortedDepartments = Array.from(uniqueDepartments).sort();
-    sortedDepartments.forEach(department => {
-      const option = document.createElement("option");
-      option.value = department;
-      option.text = department;
-      option.id = department
-      departmentSelect.appendChild(option);
-    });
-      getUsersStatus("all")
-      departmentSelect.addEventListener("change", function(event) {
-      const selectedOption = event.target.selectedOptions[0];
-      const selectedDepartmentId = selectedOption.id;
-      getUsersStatus(selectedDepartmentId);
-  })
-  })
   //   users = data;
   //   displayUsers(users); // Exibe todos os usuários inicialmente
 
@@ -234,7 +211,7 @@ fetch('users.json')
   // }
 
   // Variável para armazenar o identificador do intervalo
-var intervalId;
+
 
 function getUsersByDepartment(department) {
   var users = [];
@@ -404,10 +381,8 @@ function showToast(type, message) {
 
   // evt listeners para opções menu lateral
   document.getElementById("dashhome").addEventListener("click", function(){
-    console.log("click Dash Home")
-    document.getElementById("id-home").style.display = "block"
-    document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-list-home").style.display = "none"
+        console.log("click Dash Home")
+        showHome();
   });
   document.getElementById("useradd").addEventListener("click", function(){
     console.log("click Adição de Usuário")
@@ -417,9 +392,7 @@ function showToast(type, message) {
   });
   document.getElementById("userlist").addEventListener("click", function(){
     console.log("click Lista de Usuário")
-    document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-list-home").style.display = "block"
+      showListUsers();
   });
 document.getElementById("logout").addEventListener("click", function () {
     console.log("click Sair")
@@ -443,6 +416,90 @@ themeToggle.addEventListener('click', () => {
     document.getElementById("sun-moon").setAttribute("src", "../images/sunny-day.png")
   }
 });
+
+function showHome() {
+    document.getElementById("id-home").style.display = "block"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+    fetch('users.json')
+        .then(response => response.json())
+        .then(data => {
+            supporters = data;
+            const departmentSelect = document.getElementById("filter-department");
+            const uniqueDepartments = new Set();
+
+            // Adiciona o item "Todos" no início da lista de departamentos
+            const optionTodos = document.createElement("option");
+            optionTodos.value = "todos";
+            optionTodos.text = "todos";
+            optionTodos.id = "all";
+            departmentSelect.appendChild(optionTodos);
+
+            data.forEach(obj => {
+                const { department } = obj;
+                uniqueDepartments.add(department);
+            });
+
+            const sortedDepartments = Array.from(uniqueDepartments).sort();
+            sortedDepartments.forEach(department => {
+                const option = document.createElement("option");
+                option.value = department;
+                option.text = department;
+                option.id = department
+                departmentSelect.appendChild(option);
+            });
+            getUsersStatus("all")
+            departmentSelect.addEventListener("change", function (event) {
+                const selectedOption = event.target.selectedOptions[0];
+                const selectedDepartmentId = selectedOption.id;
+                getUsersStatus(selectedDepartmentId);
+            })
+        })
+}
+function showListUsers() {
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-list-home").style.display = "block"
+    document.getElementById("data-table").innerHTML = '';
+    // tabela de usuários adm
+    var users = []
+    var titletable = `<th></th>
+        <th>Nome</th>
+        <th>Departamento</th>
+        <th>SIP</th>
+        <th>E-mail</th>
+        <th>Ramal</th>
+        <th>Local</th>`;
+    document.getElementById("data-table").innerHTML += titletable;
+    fetch('./users.json')
+        .then(response => response.json())
+        .then(data => {
+            users = data
+            users.forEach(function (user) {
+                var html = `
+		<tbody>
+			<tr>
+            <td><img src="${user.img}" alt="" style="width:35px ;height:35px" ></td>
+            <td>${user.name}</td>
+            <td style="text-transform: capitalize; text-align: center;">${user.department}</td>
+            <td style="text-align: center;"><strong>${user.sip}</strong></td>
+            <td>${user.email}</td>
+            <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
+            <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
+			</tr>
+		</tbody>
+       `;
+
+                //   document.getElementById("div-users").innerHTML = '';
+                document.getElementById("data-table").innerHTML += html
+            })
+
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON', error);
+        });
+
+}
 
 
 

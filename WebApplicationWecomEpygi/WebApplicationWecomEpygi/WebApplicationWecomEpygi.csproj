@@ -246,9 +246,6 @@
     <None Update="Views\StaticFiles\js\login.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\StaticFiles\js\tableUsers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Views\StaticFiles\LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

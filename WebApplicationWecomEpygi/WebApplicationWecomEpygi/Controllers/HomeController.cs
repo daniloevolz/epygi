@@ -331,7 +331,7 @@ namespace WebApplicationWecomEpygi.Controllers
                             }
                             else
                             {
-                                return BadRequest(new { success = false, message = "Erro ao adicionar usuário: " + result.message });
+                                return Ok(new { success = false, message = "Erro ao adicionar usuário: " + result.message });
                             }
 
 
@@ -339,11 +339,11 @@ namespace WebApplicationWecomEpygi.Controllers
                     }
 
                 }
-                return BadRequest(new { success = false, message = "Não autorizado!" });
+                return Ok(new { success = false, message = "Não autorizado!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { success = false, message = "Erro ao adicionar usuário: " + ex.Message });
+                return Ok(new { success = false, message = "Erro ao adicionar usuário: " + ex.Message });
             }
         }
         [HttpPost]
@@ -414,11 +414,11 @@ namespace WebApplicationWecomEpygi.Controllers
                     }
 
                 }
-                return BadRequest(new { success = false, message = "Não autorizado!" });
+                return Ok(new { success = false, message = "Não autorizado!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { success = false, message = "Erro ao remover usuários: " + ex.Message });
+                return Ok(new { success = false, message = "Erro ao remover usuários: " + ex.Message });
             }
         }
 

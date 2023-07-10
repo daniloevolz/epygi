@@ -511,7 +511,9 @@ namespace WWS_Epygi
             string jsonContent = File.ReadAllText(filePath);
 
             // Desserialização do JSON
-            listUsers = JsonConvert.DeserializeObject<User>(jsonContent).Users;
+
+            listUsers = JsonConvert.DeserializeObject<List<User>>(jsonContent);
+
 
             // Loop para imprimir os parâmetros Num e Password
             foreach (User user in listUsers)

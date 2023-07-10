@@ -20,3 +20,4 @@ C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi
 C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.CopyComplete
 C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.exe
 C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.pdb
+C:\Users\danil\OneDrive\Documentos\epygi\WWS-Epygi\WWS-Epygi\obj\Debug\WWS-Epygi.csproj.SuggestedBindingRedirects.cache

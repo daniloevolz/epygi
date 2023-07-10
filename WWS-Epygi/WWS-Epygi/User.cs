@@ -16,7 +16,6 @@ namespace WWS_Epygi
         public string Status { get; set; }
 
         public string State { get; set; }
-        public List<User> Users { get; set; }
 
     }
 }

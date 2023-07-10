@@ -156,4 +156,3 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\admin.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\epygiWWS.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\login.js
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\tableUsers.js
