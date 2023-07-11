@@ -42,15 +42,7 @@
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>+ Departamentos</h3>
-                </ul>
-                <ul id="localadd" style="display: flex; align-items: center; height: 45px;">
-                    <li class="useradd">
-                        <a href="#" class="user white usuario" id="usuario">
-                            <span class="bggray"></span>
-                        </a>
-                    </li>
-                    <h3>+ Localidades</h3>
+                    <h3>Adição de Locais</h3>
                 </ul>
                 <ul id="userlist" style="display: flex; align-items: center; height: 45px; align-items: center;">
                     <li class="listusers">
@@ -121,7 +113,7 @@
                     <label>Senha 3PCC</label>
                 </div>
                 <div class="user-box">
-                    <input type="text" id="departamento" name="" required="" autocomplete="off">
+                    <input type="select" id="departamento" name="" required="" autocomplete="off">
                     <label>Departamento</label>
                 </div>
                 <div class="user-box">
@@ -157,40 +149,28 @@
         </div>
     </div>
     <div id="id-add-dep" style="display: none;">
-        <div class="login-box">
+        <div class="add-box">
             <h2>Inclusão de Departamentos</h2>
             <form>
                 <div class="user-box">
                     <input type="text" id="name" name="" required="" autocomplete="off">
-                    <label>Nome</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="sip" required="" autocomplete="off">
-                    <label>SIP</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="num" name="" required="" maxlength="4" autocomplete="off">
-                    <label>Ramal</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="pass" name="" required="" maxlength="50" autocomplete="off">
-                    <label>Senha 3PCC</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="departamento" name="" required="" autocomplete="off">
                     <label>Departamento</label>
                 </div>
+                <a href="#" id="a-upload-user">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Adicionar
+                </a>
+            </form>          
+        </div>
+        <div class="add-box">
+            <h2>Inclusão de Localidades</h2>
+            <form>
                 <div class="user-box">
-                    <input type="text" id="location" name="" required="" autocomplete="off">
-                    <label>Localização</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="email" name="" required="" autocomplete="off">
-                    <label>E-mail</label>
-                </div>
-                <div class="img-box">
-                    <label>Imagem</label>
-                    <input type="file" name="" required="" id="file-upload-button">
+                    <input type="text" id="name" name="" required="" autocomplete="off">
+                    <label>Local</label>
                 </div>
                 <a href="#" id="a-upload-user">
                     <span></span>
@@ -203,50 +183,7 @@
         </div>
     </div>
     <div id="id-add-local" style="display: none;">
-        <div class="login-box">
-            <h2>Inclusão de Localidades</h2>
-            <form>
-                <div class="user-box">
-                    <input type="text" id="name" name="" required="" autocomplete="off">
-                    <label>Nome</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="sip" required="" autocomplete="off">
-                    <label>SIP</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="num" name="" required="" maxlength="4" autocomplete="off">
-                    <label>Ramal</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="pass" name="" required="" maxlength="50" autocomplete="off">
-                    <label>Senha 3PCC</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="departamento" name="" required="" autocomplete="off">
-                    <label>Departamento</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="location" name="" required="" autocomplete="off">
-                    <label>Localização</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="email" name="" required="" autocomplete="off">
-                    <label>E-mail</label>
-                </div>
-                <div class="img-box">
-                    <label>Imagem</label>
-                    <input type="file" name="" required="" id="file-upload-button">
-                </div>
-                <a href="#" id="a-upload-user">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    Adicionar
-                </a>
-            </form>          
-        </div>
+        
     </div>
 </div>
     <script src="./js/admin.js"></script>
