@@ -3,16 +3,18 @@ var cookie;
 var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
- function load() {
+
+  function load() {
     // exemplo de uso: obtém o valor do cookie "successCookie"
      var successValue = getCookie(cookieName);
     if (successValue == null) {
         window.location.href = "./login.html";
-    } else {
+     } else {
        cookie = successValue;
      }
      showHome();
-}
+ }
+
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -64,8 +66,6 @@ function getCookieExpiration(cookieValue) {
 function deleteCookie() {
     document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
-
-
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
     e.preventDefault();
@@ -158,7 +158,6 @@ function getUsersByDepartment(department) {
   }
   return { users: users };
 }
-
 function getUsersStatus(department) {
     const url = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
     const data = getUsersByDepartment(department);
@@ -208,7 +207,6 @@ function getUsersStatus(department) {
         
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
 }
-
   // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {
   var userStatus = response.find(function(item) {
@@ -237,7 +235,6 @@ function buildUserHTML(user, response) {
   return html;
   
 }
-
 // Função para atualizar a div 'div-users' com a estrutura HTML construída
 function updateUsersHTML(department, response) {
 
@@ -307,7 +304,6 @@ function showToast(type, message) {
     toastElement.remove();
   }, 3000); // A mensagem toast será removida após 3 segundos (3000 milissegundos)
 }
-
   // evt listeners para opções menu lateral
   document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
@@ -317,6 +313,24 @@ function showToast(type, message) {
     console.log("click Adição de Usuário")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+  });
+  document.getElementById("departadd").addEventListener("click", function(){
+    console.log("click Adição de Departamento")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "block"
+    document.getElementById("id-add-local").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+  });
+  document.getElementById("localadd").addEventListener("click", function(){
+    console.log("click Adição de Localidade")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "block"
     document.getElementById("id-list-home").style.display = "none"
   });
   document.getElementById("userlist").addEventListener("click", function(){
@@ -349,6 +363,8 @@ themeToggle.addEventListener('click', () => {
 function showHome() {
     document.getElementById("id-home").style.display = "block"
     document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
     fetch('users.json')
         .then(response => response.json())
@@ -388,6 +404,8 @@ function showHome() {
 function showListUsers() {
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
     document.getElementById("data-table").innerHTML = '';
     // tabela de usuários adm
@@ -404,31 +422,66 @@ function showListUsers() {
         .then(response => response.json())
         .then(data => {
             users = data
-            users.forEach(function (user) {
-                var html = `
-		<tbody>
-			<tr>
-            <td><img src="${user.img}" alt="" style="width:35px ;height:35px" ></td>
-            <td>${user.name}</td>
-            <td style="text-transform: capitalize; text-align: center;">${user.department}</td>
-            <td style="text-align: center;"><strong>${user.sip}</strong></td>
-            <td>${user.email}</td>
-            <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
-            <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
-			</tr>
-		</tbody>
-       `;
-
-                //   document.getElementById("div-users").innerHTML = '';
-                document.getElementById("data-table").innerHTML += html
-            })
-
+            makeUserTable(users);
+            addDeleteEventListeners();
         })
         .catch(error => {
             console.error('Erro ao carregar o arquivo JSON', error);
         });
-
 }
+function makeUserTable(users) {
+  var html = '';
+  users.forEach(function (user) {
+    html += `
+      <tr>
+        <td><img src="${user.img}" alt="" style="width: 35px; height: 35px;"></td>
+        <td>${user.name}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.department}</td>
+        <td style="text-align: center;"><strong>${user.sip}</strong></td>
+        <td>${user.email}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
+        <td style="text-align: center;"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
+      </tr>
+    `;
+    document.getElementById("data-table").innerHTML += html
+  });
+}
+function addDeleteEventListeners() {
+  var deleteButtons = document.getElementsByClassName("delete-user");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteUser);
+  });
+}
+
+function deleteUser(event) {
+  var userSIP = event.target.id;
+
+  fetch("/Home/DelUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify({ SIP: userSIP }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("usuário removido com sucesso:", data);
+      removeUserRow(userSIP);
+    })
+    .catch(error => {
+      console.error("Erro ao remover usuário:", error);
+    });
+}
+// parent Node para pegar o TR pai 
+function removeUserRow(userSIP) {
+  var tableRow = document.querySelector(`#data-table tr td img[id="${userSIP}"]`).parentNode.parentNode;
+  if (tableRow) {
+    tableRow.remove();
+  }
+}
+
 
 
 

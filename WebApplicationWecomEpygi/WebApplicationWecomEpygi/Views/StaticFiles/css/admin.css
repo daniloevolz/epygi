@@ -14,8 +14,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+  width: 15%;
+  height: 70%;
   border-radius: 50%;
 }
 .theme a {
@@ -190,16 +190,14 @@ body {
 }
 .main-user {
     display: flex;
-    height: 63%;
-    width: 0%;
+    height: 50%;
+    width: 100%;
     align-items: flex-start;
     flex-direction: column-reverse;
-    flex-wrap: wrap;
-    align-content: flex-start;
 }
 .main-user ul h3{
   position: relative;
-  /*width: 230px;*/
+  width: 60%;
   height: 0px;
   left: -30px;
   color: rgba(255, 255, 255, 0.9);
