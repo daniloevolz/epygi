@@ -4,16 +4,16 @@ var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
 
-  function load() {
-    // exemplo de uso: obtém o valor do cookie "successCookie"
-     var successValue = getCookie(cookieName);
-    if (successValue == null) {
-        window.location.href = "./login.html";
-     } else {
-       cookie = successValue;
-     }
-     showHome();
- }
+//   function load() {
+//     // exemplo de uso: obtém o valor do cookie "successCookie"
+//      var successValue = getCookie(cookieName);
+//     if (successValue == null) {
+//         window.location.href = "./login.html";
+//      } else {
+//        cookie = successValue;
+//      }
+//      showHome();
+//  }
 
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
@@ -314,26 +314,16 @@ function showToast(type, message) {
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
   });
   document.getElementById("departadd").addEventListener("click", function(){
     console.log("click Adição de Departamento")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-add-dep").style.display = "block"
-    document.getElementById("id-add-local").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "flex"
     document.getElementById("id-list-home").style.display = "none"
   });
-  document.getElementById("localadd").addEventListener("click", function(){
-    console.log("click Adição de Localidade")
-    document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-add-local").style.display = "block"
-    document.getElementById("id-list-home").style.display = "none"
-  });
-  document.getElementById("userlist").addEventListener("click", function(){
+   document.getElementById("userlist").addEventListener("click", function(){
     console.log("click Lista de Usuário")
       showListUsers();
   });
@@ -430,9 +420,8 @@ function showListUsers() {
         });
 }
 function makeUserTable(users) {
-  var html = '';
   users.forEach(function (user) {
-    html += `
+    var html = `
       <tr>
         <td><img src="${user.img}" alt="" style="width: 35px; height: 35px;"></td>
         <td>${user.name}</td>
