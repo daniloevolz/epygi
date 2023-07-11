@@ -89,24 +89,30 @@ body{
     animation-fill-mode: forwards;
     animation-duration: 1s;
 }
+.status-line {
+    width: 100%;
+    height: 5px;
+    border-radius: 0px 0px 25px 0px !important
+    /* background-color: green; */
+  }
 /* status dos cards dwc*/
-img.online{
-    border: 2px solid rgb(1,253,0);
+.online{
+    border: 4px solid rgb(1,253,0);
 }
-img.away {/* Status do usuário */
-    border-left: 2px solid #a3a000;
+.away {/* Status do usuário */
+    border: 4px solid #a3a000;
 }
-img.DND {/* Status do usuário */
-    border: 2px solid rgb(255,29,37);
+.DND {/* Status do usuário */
+    border: 4px solid rgb(255,29,37);
 }
-img.lunch {/* Status do usuário */
-    border: 2px solid #e822a9;
+.lunch {/* Status do usuário */
+    border: 4px solid #e822a9;
 }
-img.meeting {/* Status do usuário */
-    border: 2px solid #3400a3;
+.meeting {/* Status do usuário */
+    border: 4px solid #3400a3;
 }
-img.Offline {/* Status do usuário */
-    border: 3px solid #9b9b9b;
+.Offline {/* Status do usuário */
+    border: 4px solid #9b9b9b;
 }
 
 @keyframes animaLogo {
@@ -306,7 +312,24 @@ img.Offline {/* Status do usuário */
 #sectionPrincipal.dwc ul li a.pricing {
     background-image: url(./images/flag-pricing.png);
 } */
-
+img.online{
+    border: 2px solid rgb(1,253,0);
+}
+img.away {/* Status do usuário */
+    border: 2px solid #a3a000;
+}
+img.DND {/* Status do usuário */
+    border: 2px solid rgb(255,29,37);
+}
+img.lunch {/* Status do usuário */
+    border: 2px solid #e822a9;
+}
+img.meeting {/* Status do usuário */
+    border: 2px solid #3400a3;
+}
+img.Offline {/* Status do usuário */
+    border: 2px solid #9b9b9b;
+}
 #sectionPrincipal.dwc ul li h5 {
     font-weight: 400;
     text-align: center;

@@ -268,7 +268,7 @@ namespace WWS_Epygi
         string usuario = "4101";
         string senha = "68816719758561";//"86158117678575"; //
         const string CrLf = "\r\n\r\n";
-        int _startRetries = 5;
+        int _startRetries = 1;
         string filePath = ConfigurationManager.AppSettings["USERSJSONPATCH"];
         SimpleTcpClient client;
         Timer timer;
@@ -277,6 +277,11 @@ namespace WWS_Epygi
         #endregion
         public void StartQX()
         {
+            // Leitura do conteúdo do arquivo
+            string jsonContent = File.ReadAllText(filePath);
+            // Desserialização do JSON
+            listUsers = JsonConvert.DeserializeObject<List<User>>(jsonContent);
+
             Thread t = new Thread(new ThreadStart(ConnectQX));
             t.IsBackground = true;
             _log.Send("QXEpygiClient:Start", "StartThread", "INFO");
@@ -309,10 +314,24 @@ namespace WWS_Epygi
         private void Events_Disconected(object sender, ConnectionEventArgs e)
         {
             _log.Send("QXEpygiClient:Events_Disconected", "", "INFO");
+
+            // Loop para imprimir os parâmetros Num e Password
+            foreach (User user in listUsers)
+            {
+                if (user.ID != null && user.State == "auth")
+                {
+                    _log.Send("QXEpygiClient:Events_Disconected", "Delete Authenticate: Num: "+user.Num,"INFO");
+                    user.ID = null;
+                    user.State = null;
+                    break;
+                }
+            }
+
             _startRetries += 1;
             if (_startRetries < 5)
             {
-                StartQX();
+                _log.Send("QXEpygiClient:Events_Disconected", "Reconnectando...", "INFO");
+                ConnectQX();
             }
             else
             {
@@ -398,20 +417,32 @@ namespace WWS_Epygi
                     {
                         string id = GetIDParamValue(xmltest);
                         string status = GetStatusValue(xmltest);
-                        int index = listUsers.FindIndex(listUsers => listUsers.ID.Contains(id));
-                        if (index != -1)
+                        //int index = listUsers.FindIndex(listUsers => listUsers.ID.Contains(id));
+                        //if (index != -1)
+                        //{
+                        //    foreach (User user in listUsers)
+                        //    {
+                        //        if (user.ID == id)
+                        //        {
+                        //            user.Status = status;
+                        //            _log.Send("Services.CallProcessingService.prslistarrived", "Services.CallProcessingService.prslistarrived: Found Num: " + user.Num + ", ID: " + user.ID + ", Status: " + user.Status, "INFO");
+
+                        //        }
+
+
+                        //    }
+
+                        //}
+
+                        foreach (User user in listUsers)
                         {
-                            foreach (User user in listUsers)
+                            if (user.ID == id)
                             {
-                                if (user.ID == id)
-                                {
-                                    user.Status = status;
-                                    _log.Send("Services.CallProcessingService.prslistarrived", "Services.CallProcessingService.prslistarrived: Found Num: " + user.Num + ", ID: " + user.ID + ", Status: " + user.Status, "INFO");
-
-                                }
-
+                                user.Status = status;
+                                _log.Send("Services.CallProcessingService.prslistarrived", "Services.CallProcessingService.prslistarrived: Found Num: " + user.Num + ", ID: " + user.ID + ", Status: " + user.Status, "INFO");
 
                             }
+
 
                         }
                         //ParsePresenceXml(Convert.ToString(xmltest));
@@ -444,18 +475,18 @@ namespace WWS_Epygi
 
                         }
                         // Loop para imprimir os parâmetros Num e Password
-                        foreach (User user in listUsers)
-                        {
-                            if (user.ID == null && user.State == null)
-                            {
-                                _log.Send("Services.CallProcessingService.prslistarrived", "Authenticate New User: Num " + user.Num + ", Password: " + user.Password, "INFO");
-                                //Console.WriteLine($"Authenticate New User: Num: {user.Num}, Password: {user.Password}");
-                                Authenticate(user.Num, user.Password);
-                                user.State = "sent";
-                                break;
-                            }
+                        //foreach (User user in listUsers)
+                        //{
+                        //    if (user.ID == null && user.State == null)
+                        //    {
+                        //        _log.Send("Services.CallProcessingService.prslistarrived", "Authenticate New User: Num " + user.Num + ", Password: " + user.Password, "INFO");
+                        //        //Console.WriteLine($"Authenticate New User: Num: {user.Num}, Password: {user.Password}");
+                        //        Authenticate(user.Num, user.Password);
+                        //        user.State = "sent";
+                        //        break;
+                        //    }
 
-                        }
+                        //}
 
                     }
                     else if (responseValue == "0")
@@ -469,18 +500,18 @@ namespace WWS_Epygi
                                 user.State = "faill";
                             }
                         }
-                        // Loop para imprimir os parâmetros Num e Password
-                        foreach (User user in listUsers)
-                        {
-                            if (user.ID == null && user.State == null)
-                            {
-                                _log.Send("Services.CallProcessingService.prslistarrived", "Authenticate New User: Num: " + user.Num + ", Password: " + user.Password, "INFO");
-                                Authenticate(user.Num, user.Password);
-                                user.State = "sent";
-                                break;
-                            }
+                        //// Loop para imprimir os parâmetros Num e Password
+                        //foreach (User user in listUsers)
+                        //{
+                        //    if (user.ID == null && user.State == null)
+                        //    {
+                        //        _log.Send("Services.CallProcessingService.prslistarrived", "Authenticate New User: Num: " + user.Num + ", Password: " + user.Password, "INFO");
+                        //        Authenticate(user.Num, user.Password);
+                        //        user.State = "sent";
+                        //        break;
+                        //    }
 
-                        }
+                        //}
 
                     }
                     else
@@ -506,14 +537,6 @@ namespace WWS_Epygi
         private void Events_Connected(object sender, ConnectionEventArgs e)
         {
             _log.Send("Events_Connected", "Connected ", "INFO");
-
-            // Leitura do conteúdo do arquivo
-            string jsonContent = File.ReadAllText(filePath);
-
-            // Desserialização do JSON
-
-            listUsers = JsonConvert.DeserializeObject<List<User>>(jsonContent);
-
 
             // Loop para imprimir os parâmetros Num e Password
             foreach (User user in listUsers)
