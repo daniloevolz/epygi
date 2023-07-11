@@ -31,58 +31,20 @@ namespace WebApplicationWecomEpygi.Controllers
             _jwtConfig = jwtConfig;
         }
         [HttpGet]
-        [Authorize]
         public IActionResult Departments()
         {
             try
             {
-                // Verifique o token JWT
-                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
-                var validationParameters = new TokenValidationParameters
+                if (true)
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = _jwtConfig.Issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                };
-                SecurityToken validatedToken;
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-                if (validatedToken != null && principal.Identity.IsAuthenticated)
-                {
-                    // Verificar se as reivindicações necessárias estão presentes no token
-                    if (principal.HasClaim(c => c.Type == "Username") &&
-                        principal.HasClaim(c => c.Type == "Password"))
-                    {
-                        // Extrair os dados das reivindicações
-                        string Username = principal.FindFirstValue("Username");
-                        string Password = principal.FindFirstValue("Password");
-
-                        bool valid = ValidateUser(Username, Password);
-                        if (valid)
-                        {
-
-                            if (true)
-                            {
-                                return Ok(["suporte","vendas"]);
-                            }
-                            else
-                            {
-                                
-                            }
-
-
-                        }
-                        else
-                        {
-                            return Ok(new { success = false, message = "Token inválido" });
-                        }
-                    }
-
+                    List<string> dataList = new List<string> { "vendas", "suporte" };
+                    return Ok(dataList);
                 }
-                return Ok(new { success = false, message = "Não autorizado!" });
+                else
+                {
+                    return Ok(new { success = false, message = "Token inválido" });
+                }
+           
             }
             catch (Exception ex)
             {

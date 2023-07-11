@@ -66,8 +66,8 @@ function getUsersStatus(department) {
           .then(response => response.json())
           .then(jsonData => {
             const response = jsonData;
-           // ulUsers.innerHTML = "";
-           // updateUsersHTML(department, response); 
+            ulUsers.innerHTML = "";
+            updateUsersHTML(department, response); 
           })
           .catch(error => {
             console.error('Erro ao fazer a requisição:', error);
