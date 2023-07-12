@@ -1,14 +1,14 @@
 var cookie;
  
- function load() {
-    // exemplo de uso: obtém o valor do cookie "successCookie"
-     var successValue = getCookie("successLoginCookie");
-    if (successValue != null) {
-        window.location.href = "./admin-interf.html";
-    } else {
-       cookie = successValue;
-    }
-}
+//  function load() {
+//     // exemplo de uso: obtém o valor do cookie "successCookie"
+//      var successValue = getCookie("successLoginCookie");
+//     if (successValue != null) {
+//         window.location.href = "./admin-interf.html";
+//     } else {
+//        cookie = successValue;
+//     }
+// }
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
     var nameEQ = name + "=";

@@ -4,16 +4,16 @@ var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
 
-//   function load() {
-//     // exemplo de uso: obtém o valor do cookie "successCookie"
-//      var successValue = getCookie(cookieName);
-//     if (successValue == null) {
-//         window.location.href = "./login.html";
-//      } else {
-//        cookie = successValue;
-//      }
-//      showHome();
-//  }
+   function load() {
+    // exemplo de uso: obtém o valor do cookie "successCookie"
+      var successValue = getCookie(cookieName);
+     if (successValue == null) {
+         window.location.href = "./login.html";
+      } else {
+           cookie = successValue;
+      }
+      showHome();
+  }
 
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
@@ -320,7 +320,8 @@ function showToast(type, message) {
     console.log("click Adição de Departamento")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-add-dep").style.display = "flex"
+      document.getElementById("id-add-dep").style.display = "inline-grid"
+
     document.getElementById("id-list-home").style.display = "none"
   });
    document.getElementById("userlist").addEventListener("click", function(){
@@ -335,19 +336,35 @@ document.getElementById("logout").addEventListener("click", function () {
   document.getElementById("logo-box").addEventListener("click", function(){
   
   });
-// evt listener para light / dark mode
-const themeToggle = document.getElementById('theme');
-const themeLink = document.getElementById('theme-dark');
+//// evt listener para light / dark mode
+//const themeToggle = document.getElementById('theme');
+//const themeLink = document.getElementById('theme-dark');
 
-themeToggle.addEventListener('click', () => {
-  if (themeLink.getAttribute('href') === '../css/admin-interf.css') {
-    
-    themeLink.setAttribute('href', '../css/themewhite-adm-interf.css');
-    document.getElementById("sun-moon").setAttribute("src", "../images/moon.png")
-  } else {
-    themeLink.setAttribute('href', '../css/admin-interf.css');
-    document.getElementById("sun-moon").setAttribute("src", "../images/sunny-day.png")
-  }
+//themeToggle.addEventListener('click', () => {
+//  if (themeLink.getAttribute('href') === '../css/admin-interf.css') {
+
+//    themeLink.setAttribute('href', '../css/themewhite-adm-interf.css');
+//    document.getElementById("sun-moon").setAttribute("src", "../images/moon.png")
+//  } else {
+//    themeLink.setAttribute('href', '../css/admin-interf.css');
+//    document.getElementById("sun-moon").setAttribute("src", "../images/sunny-day.png")
+//  }
+//});
+// evt listener para light / dark mode
+const theme = document.getElementById('theme');
+
+theme.addEventListener("click", function () {
+    if (theme.getAttribute("color") === "dark") {
+        console.log("Light Mode");
+        document.getElementById("body").style.background = 'linear-gradient(#ababab, #3594ff)';
+        document.getElementById("sun-moon").setAttribute("src", "./images/moon.png");
+        theme.setAttribute("color", "light");
+    } else {
+        console.log("Dark Mode");
+        document.getElementById("body").style.background = 'linear-gradient(#141e30, #243b55)';
+        document.getElementById("sun-moon").setAttribute("src", "./images/sunny-day.png");
+        theme.setAttribute("color", "dark");
+    }
 });
 
 function showHome() {
@@ -356,11 +373,13 @@ function showHome() {
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
-    fetch('users.json')
+    fetch('/Home/Users')
         .then(response => response.json())
         .then(data => {
+            supporters = [];
             supporters = data;
             const departmentSelect = document.getElementById("filter-department");
+            departmentSelect.innerHTML = '';
             const uniqueDepartments = new Set();
 
             // Adiciona o item "Todos" no início da lista de departamentos
@@ -408,7 +427,7 @@ function showListUsers() {
         <th>Ramal</th>
         <th>Local</th>`;
     document.getElementById("data-table").innerHTML += titletable;
-    fetch('./users.json')
+    fetch('/Home/Users')
         .then(response => response.json())
         .then(data => {
             users = data
@@ -452,24 +471,26 @@ function deleteUser(event) {
       "Content-Type": "application/json",
       'Authorization': "Bearer " + cookie
     },
-    body: JSON.stringify({ SIP: userSIP }),
+    body: JSON.stringify([userSIP]),
   })
     .then(response => response.json())
     .then(data => {
-      console.log("usuário removido com sucesso:", data);
-      removeUserRow(userSIP);
+        console.log("usuário removido com sucesso:", data);
+        showToast("success","Usuário removido com sucesso!")
+        showListUsers()
+      //removeUserRow(userSIP);
     })
     .catch(error => {
       console.error("Erro ao remover usuário:", error);
     });
 }
-// parent Node para pegar o TR pai 
-function removeUserRow(userSIP) {
-  var tableRow = document.querySelector(`#data-table tr td img[id="${userSIP}"]`).parentNode.parentNode;
-  if (tableRow) {
-    tableRow.remove();
-  }
-}
+//// parent Node para pegar o TR pai 
+//function removeUserRow(userSIP) {
+//  var tableRow = document.querySelector(`#data-table tr td img[id="${userSIP}"]`).parentNode.parentNode;
+//  if (tableRow) {
+//    tableRow.remove();
+//  }
+//}
 
 
 

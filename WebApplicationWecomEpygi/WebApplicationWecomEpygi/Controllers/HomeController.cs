@@ -26,29 +26,85 @@ namespace WebApplicationWecomEpygi.Controllers
     public class HomeController : ControllerBase
     {
         private readonly IJwtConfig _jwtConfig;
+        private readonly DatabaseContext _databaseContext;
         public HomeController(IJwtConfig jwtConfig)
         {
             _jwtConfig = jwtConfig;
+            _databaseContext = new DatabaseContext();
         }
         [HttpGet]
         public IActionResult Departments()
         {
             try
             {
-                if (true)
-                {
-                    List<string> dataList = new List<string> { "vendas", "suporte" };
-                    return Ok(dataList);
-                }
-                else
-                {
-                    return Ok(new { success = false, message = "Token inválido" });
-                }
+                // Exemplo de execução de consulta SELECT
+                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Departments");
+                return Ok(dataTable);
            
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Erro ao adicionar usuário: " + ex.Message });
+                return Ok(new { success = false, message = "Erro ao consultar Departamentos: " + ex.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult Locations()
+        {
+            try
+            {
+                // Exemplo de execução de consulta SELECT
+                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Locations");
+                return Ok(dataTable);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Localizações: " + ex.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult Users()
+        {
+            try
+            {
+                var query = "SELECT DWC.dbo.Users.*, " +
+                    "DWC.dbo.Departments.Department AS DepartmentName, " +
+                    "DWC.dbo.Locations.Location AS LocationName " +
+                    "FROM Users " +
+                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
+                    "JOIN Locations ON Users.LocationId = Locations.Id";
+
+                //Trata resposta padrronizada para View
+                var queryResult = _databaseContext.ExecuteQuery(query);
+
+                List<User> users = new List<User>();
+                foreach (dynamic row in queryResult)
+                {
+                    // Criar um novo objeto User
+                    User newUser = new User
+                    {
+                        id = row.UserId,
+                        name = row.Name,
+                        sip = row.Sip,
+                        num = row.Number,
+                        department = row.DepartmentName,
+                        location = row.LocationName,
+                        email = row.Email,
+                        img = row.Image
+                    };
+
+                    // Adicionar o novo usuário à lista
+                    users.Add(newUser);
+                }
+                // Serializar a lista de usuários em JSON
+                string usersJsonUpdated = JsonSerializer.Serialize(users);
+                //Responde
+                return Ok(users);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Usuários: " + ex.Message });
             }
         }
 
@@ -298,23 +354,23 @@ namespace WebApplicationWecomEpygi.Controllers
                             string imageData = data.GetProperty("image").GetProperty("data").GetString();
 
                             // Carregar os usuários existentes do arquivo users.json (se existir)
-                            string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
-                            List<User> users = new List<User>();
+                            //string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
+                            //List<User> users = new List<User>();
 
-                            if (System.IO.File.Exists(usersFilePath))
-                            {
-                                string usersJson = System.IO.File.ReadAllText(usersFilePath);
-                                try
-                                {
-                                    users = JsonSerializer.Deserialize<List<User>>(usersJson);
+                            //if (System.IO.File.Exists(usersFilePath))
+                            //{
+                            //    string usersJson = System.IO.File.ReadAllText(usersFilePath);
+                            //    try
+                            //    {
+                             //       users = JsonSerializer.Deserialize<List<User>>(usersJson);
 
-                                }
-                                catch (Exception ex)
-                                {
+                             //   }
+                             //   catch (Exception ex)
+                             //   {
 
-                                }
+                             //   }
 
-                            }
+                            //}
 
                             // Criar um novo objeto User
                             User newUser = new User
@@ -329,13 +385,23 @@ namespace WebApplicationWecomEpygi.Controllers
                             };
 
                             // Adicionar o novo usuário à lista
-                            users.Add(newUser);
+                            //users.Add(newUser);
 
                             // Serializar a lista de usuários em JSON
-                            string usersJsonUpdated = JsonSerializer.Serialize(users);
+                            //string usersJsonUpdated = JsonSerializer.Serialize(users);
 
                             // Gravar a lista de usuários atualizada no arquivo users.json
-                            System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                            //System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+
+                            // Montar a query de inserção com parâmetros
+                            string query = "INSERT INTO [DWC].[dbo].[Users] " +
+                                           "([UserId], [Name], [Sip], [Number], [Email], [Image], [DepartmentId], [LocationId]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @Name, @Sip, @Number, @Email, @Image, " +
+                                           "(SELECT [Id] FROM [DWC].[dbo].[Departments] WHERE [Department] = @Department), " +
+                                           "(SELECT [Id] FROM [DWC].[dbo].[Locations] WHERE [Location] = @Location))";
+
+                            _databaseContext.InsertUser(query, newUser);
 
                             // Salvar a imagem em /StaticFiles/images/
                             string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
@@ -366,6 +432,129 @@ namespace WebApplicationWecomEpygi.Controllers
                 return Ok(new { success = false, message = "Erro ao adicionar usuário: " + ex.Message });
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddLocation([FromBody] JsonElement data)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Extrair os dados do JSON
+                            string name = data.GetProperty("name").GetString();
+                            
+
+                            // Montar a query de inserção com parâmetros
+                            string query = "INSERT INTO [DWC].[dbo].[Locations] " +
+                                           "([Id], [Location]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @Location)";
+
+                            _databaseContext.Location(query, name);
+
+                            return Ok(new { success = true, message = "Local adicionado com sucesso." });
+                            
+
+
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao adicionar Local: " + ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddDepartment([FromBody] JsonElement data)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Extrair os dados do JSON
+                            string name = data.GetProperty("name").GetString();
+
+
+                            // Montar a query de inserção com parâmetros
+                            string query = "INSERT INTO [DWC].[dbo].[Departments] " +
+                                           "([Id], [Department]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @Department)";
+
+                            _databaseContext.Department(query, name);
+
+                            return Ok(new { success = true, message = "Departamento adicionado com sucesso." });
+
+
+
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao adicionar Departamento: " + ex.Message });
+            }
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult DelUser([FromBody] List<string> sips)
@@ -399,28 +588,34 @@ namespace WebApplicationWecomEpygi.Controllers
                         bool valid = ValidateUser(Username, Password);
                         if (valid)
                         {
-                            // Caminho do arquivo users.json
-                            string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
+                            //// Caminho do arquivo users.json
+                            //string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
 
-                            // Verificar se o arquivo existe
-                            if (System.IO.File.Exists(usersFilePath))
+                            //// Verificar se o arquivo existe
+                            //if (System.IO.File.Exists(usersFilePath))
+                            //{
+                            //    // Ler o conteúdo do arquivo
+                            //    string usersJson = System.IO.File.ReadAllText(usersFilePath);
+
+                            //    // Desserializar o conteúdo em uma lista de usuários
+                            //    List<User> users = JsonSerializer.Deserialize<List<User>>(usersJson);
+
+                            //    // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
+                            //    users.RemoveAll(u => sips.Contains(u.sip));
+
+                            //    // Serializar a lista de usuários atualizada em JSON
+                            //    string usersJsonUpdated = JsonSerializer.Serialize(users);
+
+                            //    // Gravar a lista de usuários atualizada no arquivo users.json
+                            //    System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                            //}
+
+                            string query = "DELETE FROM [DWC].[dbo].[Users] " +
+                                           "WHERE [Sip] = @sip ";
+                            foreach (dynamic s in sips)
                             {
-                                // Ler o conteúdo do arquivo
-                                string usersJson = System.IO.File.ReadAllText(usersFilePath);
-
-                                // Desserializar o conteúdo em uma lista de usuários
-                                List<User> users = JsonSerializer.Deserialize<List<User>>(usersJson);
-
-                                // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
-                                users.RemoveAll(u => sips.Contains(u.sip));
-
-                                // Serializar a lista de usuários atualizada em JSON
-                                string usersJsonUpdated = JsonSerializer.Serialize(users);
-
-                                // Gravar a lista de usuários atualizada no arquivo users.json
-                                System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
+                                _databaseContext.DeleteUser(query, s);
                             }
-
                             var result = DeleteAgentsJSON(sips);
                             if (result.success)
                             {

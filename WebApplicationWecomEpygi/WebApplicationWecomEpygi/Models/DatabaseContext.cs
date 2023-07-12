@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 
 namespace WebApplicationWecomEpygi.Models
 {
@@ -9,24 +10,43 @@ namespace WebApplicationWecomEpygi.Models
     {
         private readonly string _connectionString;
 
-        public DatabaseContext(IConfiguration configuration)
+        public DatabaseContext()
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            _connectionString = config["DefaultConnection"];
+
         }
 
-        public DataTable ExecuteQuery(string query)
+        public dynamic ExecuteQuery(string query)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     connection.Open();
-                    DataTable dataTable = new DataTable();
-                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    List<dynamic> results = new List<dynamic>();
+
+                    while (reader.Read())
                     {
-                        dataAdapter.Fill(dataTable);
+                        dynamic result = new System.Dynamic.ExpandoObject();
+                        var dict = result as IDictionary<string, object>;
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            dict[reader.GetName(i)] = reader[i];
+                        }
+
+                        results.Add(result);
                     }
-                    return dataTable;
+                    connection.Close();
+
+                    return results;
                 }
             }
         }
@@ -39,6 +59,77 @@ namespace WebApplicationWecomEpygi.Models
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void InsertUser(string query, User user)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Name", user.name);
+                    command.Parameters.AddWithValue("@Sip", user.sip);
+                    command.Parameters.AddWithValue("@Number", user.num);
+                    command.Parameters.AddWithValue("@Email", user.email);
+                    command.Parameters.AddWithValue("@Image", user.img);
+                    command.Parameters.AddWithValue("@Department", user.department);
+                    command.Parameters.AddWithValue("@Location", user.location);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void DeleteUser(string query, string sip)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Sip", sip);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void Department(string query, string department)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Department", department);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void Location(string query, string location)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Location", location);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
         }

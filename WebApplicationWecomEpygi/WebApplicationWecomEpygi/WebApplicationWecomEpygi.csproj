@@ -73,9 +73,6 @@
     <None Update="Views\StaticFiles\css\login.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\StaticFiles\css\themewhite-adm-interf.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Views\StaticFiles\css\toast.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

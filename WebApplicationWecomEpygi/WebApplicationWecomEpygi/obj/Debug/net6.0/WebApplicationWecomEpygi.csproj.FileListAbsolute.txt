@@ -151,7 +151,6 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\css\cards.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\css\dwc.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\css\login.css
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\css\themewhite-adm-interf.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\css\wecom.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\admin.js
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\js\epygiWWS.js

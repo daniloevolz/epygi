@@ -6,7 +6,6 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\cards.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\dwc.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\login.css
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\themewhite-adm-interf.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\toast.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\css\wecom.css
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\js\admin.js
@@ -65,6 +64,7 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\titulo-background550px.png
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\titulo-background950px.png
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\titulo-dwc.png
+C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\trash.png
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\unknown-user.jpg
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\unknown-user.png
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\user.png

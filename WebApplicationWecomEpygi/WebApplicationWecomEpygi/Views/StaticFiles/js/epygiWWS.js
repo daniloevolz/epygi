@@ -1,5 +1,8 @@
 ﻿var supporters = []
-fetch('https://wetransfer.wecom.com.br:81/StaticFiles/users.json')
+var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
+var urlUsers = "https://wetransfer.wecom.com.br:81/Home/Users";
+const urlStatus = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest';
+fetch(urlUsers)
  .then(response => response.json())
  .then( data => {
 
@@ -26,7 +29,6 @@ function getUsersByDepartment(department) {
 }
 
 function getUsersStatus(department) {
-    const url = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
     const data = getUsersByDepartment(department);
     const divCards = document.getElementById("div-cards");
     const divUsers = document.getElementById("div-users");
@@ -35,7 +37,7 @@ function getUsersStatus(department) {
 
   const requestBody = JSON.stringify(data);
   const contentLength = requestBody.length;
-    fetch(url, {
+    fetch(urlStatus, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ function getUsersStatus(department) {
       });
       clearInterval(intervalId); // parar interval
       intervalId = setInterval(function() {
-        fetch(url, {
+          fetch(urlStatus, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -187,7 +189,6 @@ function updateUsersHTML(department, response) {
   function prepareCall(id, num, status){
     if(status=="online"){
       const divContent = document.getElementById("div-content");
-      var url ="https://epygidemo.wecom.com.br/ctc/";
       // Limpar o conteúdo existente da div-content
       //divContent.innerHTML = "";
 
@@ -195,7 +196,7 @@ function updateUsersHTML(department, response) {
       const iframe = document.createElement("iframe");
       iframe.style.width = "100%";
       iframe.style.height = "100%";
-      iframe.src = url+id; // Substitua pela URL desejada
+      iframe.src = urlEpygi+id; // Substitua pela URL desejada
 
       // Adicionar o iframe à div-content
       //divContent.appendChild(iframe);
@@ -210,7 +211,7 @@ function updateUsersHTML(department, response) {
       const top = (screenHeight - windowHeight) / 2;
 
       // Abrir o conteúdo desejado em uma nova janela ou guia, posicionada no centro da tela
-      window.open(url+id, "_blank", "toolbar=no,width="+windowWidth+",height="+windowHeight+",left=" + left + ",top=" + top);
+      window.open(urlEpygi+id, "_blank", "toolbar=no,width="+windowWidth+",height="+windowHeight+",left=" + left + ",top=" + top);
     }else{
       window.alert("Usuário indisponível no momento!");
     }
