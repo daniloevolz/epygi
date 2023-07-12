@@ -4,16 +4,16 @@ var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
 
-//   function load() {
-//     // exemplo de uso: obtém o valor do cookie "successCookie"
-//      var successValue = getCookie(cookieName);
-//     if (successValue == null) {
-//         window.location.href = "./login.html";
-//      } else {
-//        cookie = successValue;
-//      }
-//      showHome();
-//  }
+   function load() {
+    // exemplo de uso: obtém o valor do cookie "successCookie"
+      var successValue = getCookie(cookieName);
+     if (successValue == null) {
+         window.location.href = "./login.html";
+      } else {
+           cookie = successValue;
+      }
+      showHome();
+  }
 
 // função para obter o valor de um cookie pelo nome
 function getCookie(name) {
@@ -373,11 +373,13 @@ function showHome() {
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-add-local").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
-    fetch('users.json')
+    fetch('/Home/Users')
         .then(response => response.json())
         .then(data => {
+            supporters = [];
             supporters = data;
             const departmentSelect = document.getElementById("filter-department");
+            departmentSelect.innerHTML = '';
             const uniqueDepartments = new Set();
 
             // Adiciona o item "Todos" no início da lista de departamentos
@@ -425,7 +427,7 @@ function showListUsers() {
         <th>Ramal</th>
         <th>Local</th>`;
     document.getElementById("data-table").innerHTML += titletable;
-    fetch('./users.json')
+    fetch('/Home/Users')
         .then(response => response.json())
         .then(data => {
             users = data
@@ -469,7 +471,7 @@ function deleteUser(event) {
       "Content-Type": "application/json",
       'Authorization': "Bearer " + cookie
     },
-    body: JSON.stringify({ SIP: userSIP }),
+    body: JSON.stringify([userSIP]),
   })
     .then(response => response.json())
     .then(data => {

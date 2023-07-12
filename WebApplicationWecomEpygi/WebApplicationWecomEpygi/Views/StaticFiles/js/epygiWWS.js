@@ -34,7 +34,7 @@ function getUsersStatus(department) {
     const divUsers = document.getElementById("div-users");
     const ulUsers = document.getElementById("ul-users");
     const divContent = document.getElementById("div-content");
-
+    
   const requestBody = JSON.stringify(data);
   const contentLength = requestBody.length;
     fetch(urlStatus, {
@@ -174,13 +174,13 @@ function updateUsersHTML(department, response) {
     var divDepart = document.getElementById("depart-div");
     const ulUsers = document.getElementById("ul-users");
     document.getElementById("div-users").style.display = 'block';
-    document.getElementById("div-cards").style.display = 'none'
-
+    document.getElementById("div-cards").style.display = 'none';
+    divDepart.innerHTML = '';
+    divDepart.innerHTML = department;
   supporters.forEach(function(supporter) {
     if (supporter.department === department) {
       var userHTML = buildUserHTML(supporter, response);
-      divDepart.innerHTML = ''
-      divDepart.innerHTML += supporter.department
+
       ulUsers.innerHTML += userHTML;
     }
   });
