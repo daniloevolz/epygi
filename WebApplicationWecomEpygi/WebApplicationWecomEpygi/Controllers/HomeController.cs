@@ -32,82 +32,8 @@ namespace WebApplicationWecomEpygi.Controllers
             _jwtConfig = jwtConfig;
             _databaseContext = new DatabaseContext();
         }
-        [HttpGet]
-        public IActionResult Departments()
-        {
-            try
-            {
-                // Exemplo de execução de consulta SELECT
-                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Departments");
-                return Ok(dataTable);
-           
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { success = false, message = "Erro ao consultar Departamentos: " + ex.Message });
-            }
-        }
-        [HttpGet]
-        public IActionResult Locations()
-        {
-            try
-            {
-                // Exemplo de execução de consulta SELECT
-                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Locations");
-                return Ok(dataTable);
 
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { success = false, message = "Erro ao consultar Localizações: " + ex.Message });
-            }
-        }
-        [HttpGet]
-        public IActionResult Users()
-        {
-            try
-            {
-                var query = "SELECT DWC.dbo.Users.*, " +
-                    "DWC.dbo.Departments.Department AS DepartmentName, " +
-                    "DWC.dbo.Locations.Location AS LocationName " +
-                    "FROM Users " +
-                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
-                    "JOIN Locations ON Users.LocationId = Locations.Id";
-
-                //Trata resposta padrronizada para View
-                var queryResult = _databaseContext.ExecuteQuery(query);
-
-                List<User> users = new List<User>();
-                foreach (dynamic row in queryResult)
-                {
-                    // Criar um novo objeto User
-                    User newUser = new User
-                    {
-                        id = row.UserId,
-                        name = row.Name,
-                        sip = row.Sip,
-                        num = row.Number,
-                        department = row.DepartmentName,
-                        location = row.LocationName,
-                        email = row.Email,
-                        img = row.Image
-                    };
-
-                    // Adicionar o novo usuário à lista
-                    users.Add(newUser);
-                }
-                // Serializar a lista de usuários em JSON
-                string usersJsonUpdated = JsonSerializer.Serialize(users);
-                //Responde
-                return Ok(users);
-
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { success = false, message = "Erro ao consultar Usuários: " + ex.Message });
-            }
-        }
-
+        #region Autenticação Administração
         [HttpPost]
         public IActionResult Login([FromBody] LoginData model)
         {
@@ -306,7 +232,54 @@ namespace WebApplicationWecomEpygi.Controllers
             }
 
         }
+        #endregion
 
+        #region Agentes e Usuários
+        [HttpGet]
+        public IActionResult Users()
+        {
+            try
+            {
+                var query = "SELECT DWC.dbo.Users.*, " +
+                    "DWC.dbo.Departments.Department AS DepartmentName, " +
+                    "DWC.dbo.Locations.Location AS LocationName " +
+                    "FROM Users " +
+                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
+                    "JOIN Locations ON Users.LocationId = Locations.Id";
+
+                //Trata resposta padrronizada para View
+                var queryResult = _databaseContext.ExecuteQuery(query);
+
+                List<User> users = new List<User>();
+                foreach (dynamic row in queryResult)
+                {
+                    // Criar um novo objeto User
+                    User newUser = new User
+                    {
+                        id = row.UserId,
+                        name = row.Name,
+                        sip = row.Sip,
+                        num = row.Number,
+                        department = row.DepartmentName,
+                        location = row.LocationName,
+                        email = row.Email,
+                        img = row.Image
+                    };
+
+                    // Adicionar o novo usuário à lista
+                    users.Add(newUser);
+                }
+                // Serializar a lista de usuários em JSON
+                string usersJsonUpdated = JsonSerializer.Serialize(users);
+                //Responde
+                return Ok(users);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Usuários: " + ex.Message });
+            }
+        }
         [HttpPost]
         [Authorize]
         public IActionResult AddUser([FromBody] JsonElement data)
@@ -432,7 +405,83 @@ namespace WebApplicationWecomEpygi.Controllers
                 return Ok(new { success = false, message = "Erro ao adicionar usuário: " + ex.Message });
             }
         }
+        [HttpPost]
+        [Authorize]
+        public IActionResult DelUser([FromBody] List<string> sips)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
 
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            string query = "DELETE FROM [DWC].[dbo].[Users] " +
+                                           "WHERE [Sip] = @sip ";
+                            foreach (dynamic s in sips)
+                            {
+                                _databaseContext.DeleteUser(query, s);
+                            }
+                            var result = DeleteAgentsJSON(sips);
+                            if (result.success)
+                            {
+                                return Ok(new { success = true, message = "Usuários removidos dos Cards e da lista de Agents 3PCC. Serviço reiniciado!" });
+                            }
+                            else
+                            {
+                                return Ok(new { success = false, message = "Usuários removidos dos Cards. Ocorreu um erro ao excluir a lista de Agents 3CPP: " + result.message });
+                            }
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao remover usuários: " + ex.Message });
+            }
+        }
+        #endregion
+
+        #region Localizações
+        [HttpGet]
+        public IActionResult Locations()
+        {
+            try
+            {
+                // Exemplo de execução de consulta SELECT
+                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Locations");
+                return Ok(dataTable);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Localizações: " + ex.Message });
+            }
+        }
         [HttpPost]
         [Authorize]
         public IActionResult AddLocation([FromBody] JsonElement data)
@@ -496,6 +545,76 @@ namespace WebApplicationWecomEpygi.Controllers
 
         [HttpPost]
         [Authorize]
+        public IActionResult DelLocations([FromBody] List<string> locations)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+
+                            string query = "DELETE FROM [DWC].[dbo].[Locations] " +
+                                           "WHERE [Location] = @Location ";
+                            foreach (dynamic loc in locations)
+                            {
+                                _databaseContext.Location(query, loc);
+                            }
+                            return Ok(new { success = true, message = "Locais removidos." });
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao remover local: " + ex.Message });
+            }
+        }
+        #endregion
+
+        #region Departamentos
+        [HttpGet]
+        public IActionResult Departments()
+        {
+            try
+            {
+                // Exemplo de execução de consulta SELECT
+                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Departments");
+                return Ok(dataTable);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Departamentos: " + ex.Message });
+            }
+        }
+        [HttpPost]
+        [Authorize]
         public IActionResult AddDepartment([FromBody] JsonElement data)
         {
             try
@@ -557,7 +676,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult DelUser([FromBody] List<string> sips)
+        public IActionResult DelDepartments([FromBody] List<string> departments)
         {
             try
             {
@@ -588,43 +707,14 @@ namespace WebApplicationWecomEpygi.Controllers
                         bool valid = ValidateUser(Username, Password);
                         if (valid)
                         {
-                            //// Caminho do arquivo users.json
-                            //string usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "users.json");
 
-                            //// Verificar se o arquivo existe
-                            //if (System.IO.File.Exists(usersFilePath))
-                            //{
-                            //    // Ler o conteúdo do arquivo
-                            //    string usersJson = System.IO.File.ReadAllText(usersFilePath);
-
-                            //    // Desserializar o conteúdo em uma lista de usuários
-                            //    List<User> users = JsonSerializer.Deserialize<List<User>>(usersJson);
-
-                            //    // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
-                            //    users.RemoveAll(u => sips.Contains(u.sip));
-
-                            //    // Serializar a lista de usuários atualizada em JSON
-                            //    string usersJsonUpdated = JsonSerializer.Serialize(users);
-
-                            //    // Gravar a lista de usuários atualizada no arquivo users.json
-                            //    System.IO.File.WriteAllText(usersFilePath, usersJsonUpdated);
-                            //}
-
-                            string query = "DELETE FROM [DWC].[dbo].[Users] " +
-                                           "WHERE [Sip] = @sip ";
-                            foreach (dynamic s in sips)
+                            string query = "DELETE FROM [DWC].[dbo].[Departments] " +
+                                           "WHERE [Department] = @Department ";
+                            foreach (dynamic dep in departments)
                             {
-                                _databaseContext.DeleteUser(query, s);
+                                _databaseContext.Department(query, dep);
                             }
-                            var result = DeleteAgentsJSON(sips);
-                            if (result.success)
-                            {
-                                return Ok(new { success = true, message = "Usuários removidos dos Cards e da lista de Agents 3PCC. Serviço reiniciado!" });
-                            }
-                            else
-                            {
-                                return Ok(new { success = false, message = "Usuários removidos dos Cards. Ocorreu um erro ao excluir a lista de Agents 3CPP: " + result.message });
-                            }
+                            return Ok(new { success = true, message = "Departamentos removidos." });
                         }
                     }
 
@@ -633,12 +723,14 @@ namespace WebApplicationWecomEpygi.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Erro ao remover usuários: " + ex.Message });
+                return Ok(new { success = false, message = "Erro ao remover departamento: " + ex.Message });
             }
         }
+        #endregion
 
 
-        public static string DecodeMd5Hash(string hashedString)
+        #region Funções Internas
+        internal static string DecodeMd5Hash(string hashedString)
         {
             using (var md5 = MD5.Create())
             {
@@ -661,7 +753,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 return decodedString;
             }
         }
-        public static bool ValidateUser(string username, string password)
+        internal static bool ValidateUser(string username, string password)
         {
             bool result = false;
             try
@@ -685,7 +777,7 @@ namespace WebApplicationWecomEpygi.Controllers
             }
         }
 
-        public static dynamic RestartService()
+        internal static dynamic RestartService()
         {
             try
             {
@@ -717,7 +809,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         }
 
-        public static dynamic InsertAgentsJSON(string name, string sip, string num, string password)
+        internal static dynamic InsertAgentsJSON(string name, string sip, string num, string password)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -773,7 +865,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         }
 
-        public static dynamic DeleteAgentsJSON(List<string> sips)
+        internal static dynamic DeleteAgentsJSON(List<string> sips)
         {
             try
             {
@@ -813,5 +905,6 @@ namespace WebApplicationWecomEpygi.Controllers
 
 
         }
+        #endregion
     }
 }

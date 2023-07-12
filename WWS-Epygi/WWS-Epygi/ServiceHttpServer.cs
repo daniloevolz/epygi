@@ -349,7 +349,7 @@ namespace WWS_Epygi
             string[] stringSeparators = new string[] { "\r\n\r\n" };
             string[] xmlStrings;
             xmlStrings = data.Split(stringSeparators, StringSplitOptions.None);
-
+            _log.Send("Events_DataReceived", data, "INFO");
             for (int i = 0; i < xmlStrings.Length - 1; i++)
             {
                 XmlDocument xmltest = new XmlDocument();
@@ -445,11 +445,23 @@ namespace WWS_Epygi
 
 
                         }
+                        //Authnticate users from list
+                        foreach (User user in listUsers)
+                        {
+                            if (user.ID == null && user.State == null)
+                            {
+                                _log.Send("Services.CallProcessingService.prslistarrived", $"Authenticate New User: Num: {user.Num}, Password: {user.Password}","INFO");
+                                Authenticate(user.Num, user.Password);
+                                user.State = "sent";
+                                break;
+                            }
+
+                        }
                         //ParsePresenceXml(Convert.ToString(xmltest));
                     }
 
                 }
-                if (elemlistmethodResponse.Count > 0)
+                else if (elemlistmethodResponse.Count > 0)
                 {
                     //Retorno Síncrono
                     string responseValue = GetResponseValue(xmltest);
@@ -465,7 +477,7 @@ namespace WWS_Epygi
                                 // Gera um número aleatório entre 0 e 100
                                 string rand = Convert.ToString(random.Next(0, 9999999));
                                 user.ID = rand;
-                                _log.Send("Services.CallProcessingService.prslistarrived", "Authenticated: Found Num: " + user.Num + ", ID: " + user.ID, "INFO");
+                                _log.Send("Services.CallProcessingService.AuthenticateReponse", "Authenticated: Found Num: " + user.Num + ", ID: " + user.ID, "INFO");
                                 user.State = "auth";
                                 //Console.WriteLine("Authenticated, Subscribe...");
                                 //Unsubscribe("1844674407");
@@ -496,7 +508,7 @@ namespace WWS_Epygi
                             if (user.ID == null && user.State == "sent")
                             {
                                 string responseString = GetResponseString(xmltest);
-                                _log.Send("Services.CallProcessingService.prslistarrived", "ERRO Authenticate: Found Num: " + user.Num + ", ERRO: " + responseString, "ERRO");
+                                _log.Send("Services.CallProcessingService.AuthenticateReponse", "ERRO Authenticate: Found Num: " + user.Num + ", ERRO: " + responseString, "ERRO");
                                 user.State = "faill";
                             }
                         }
@@ -671,6 +683,8 @@ namespace WWS_Epygi
         }
         public bool Subscribe(string id, string num)
         {
+            _log.Send("Services.Subscribe", "Subscribing.. Num: " + num + ", ID: " + id, "INFO");
+
             var xml = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement("methodCall",
                                              new XElement("methodName", "Services.CallProcessingService.subscribe"),
                                              new XElement("params",
