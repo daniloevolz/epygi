@@ -51,18 +51,8 @@ namespace WebApplicationWecomEpygi.Models
             }
         }
 
-        public void ExecuteNonQuery(string query)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
-        }
+
+        #region Usuario
         public void InsertUser(string query, User user)
         {
             // Executar a query com parâmetros
@@ -101,6 +91,45 @@ namespace WebApplicationWecomEpygi.Models
                 }
             }
         }
+        #endregion
+
+        #region Login
+        public void InsertLogin(string query, LoginData login)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Username", login.Username);
+                    command.Parameters.AddWithValue("@PasswordHash", login.PasswordHash);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void DeleteLogin(string query, string username)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        #endregion
+
+        #region Departamentos
         public void Department(string query, string department)
         {
             // Executar a query com parâmetros
@@ -117,6 +146,9 @@ namespace WebApplicationWecomEpygi.Models
                 }
             }
         }
+        #endregion
+
+        #region Locais
         public void Location(string query, string location)
         {
             // Executar a query com parâmetros
@@ -133,6 +165,44 @@ namespace WebApplicationWecomEpygi.Models
                 }
             }
         }
+        #endregion
+
+        #region Status
+        public void InsertStatus(string query, string status, string color)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@StatusName", status);
+                    command.Parameters.AddWithValue("@Color", color);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public void DeleteStatus(string query, string status)
+        {
+            // Executar a query com parâmetros
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@StatusName", status);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        #endregion
+
     }
 }
 

@@ -119,34 +119,44 @@ namespace WebApplicationWecomEpygi.Controllers
                         if (valid)
                         {
                             // Carrega os dados de login existentes do arquivo password.json
-                            var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
-                            var json = System.IO.File.ReadAllText(passwordFilePath);
-                            var loginData = JsonSerializer.Deserialize<LoginData[]>(json)?.ToList() ?? new List<LoginData>();
+                            //var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
+                            //var json = System.IO.File.ReadAllText(passwordFilePath);
+                            //var loginData = JsonSerializer.Deserialize<LoginData[]>(json)?.ToList() ?? new List<LoginData>();
 
-                            // Verifica se o nome de usuário já existe
-                            if (loginData.Any(u => u.Username == model.Username))
-                            {
-                                return BadRequest(new { message = "Nome de usuário já existe." });
-                            }
+                            //// Verifica se o nome de usuário já existe
+                            //if (loginData.Any(u => u.Username == model.Username))
+                            //{
+                            //    return BadRequest(new { message = "Nome de usuário já existe." });
+                            //}
 
                             // Hashear a senha usando o BCrypt
                             //var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash.ToString());
 
                             // Adicionar o novo objeto de login
-                            loginData.Add(new LoginData
+                            var loginData = new LoginData
                             {
                                 Username = model.Username,
                                 PasswordHash = model.PasswordHash
-                            });
+                            };
 
-                            // Serializar os dados atualizados
-                            var updatedJson = JsonSerializer.Serialize(loginData, new JsonSerializerOptions
-                            {
-                                WriteIndented = true
-                            });
+                            //// Serializar os dados atualizados
+                            //var updatedJson = JsonSerializer.Serialize(loginData, new JsonSerializerOptions
+                            //{
+                            //    WriteIndented = true
+                            //});
 
-                            // Escrever os dados atualizados no arquivo password.json
-                            System.IO.File.WriteAllText(passwordFilePath, updatedJson);
+                            //// Escrever os dados atualizados no arquivo password.json
+                            //System.IO.File.WriteAllText(passwordFilePath, updatedJson);
+
+
+                            // Montar a query de inserção com parâmetros
+                            string query = "INSERT INTO [DWC].[dbo].[Admins] " +
+                                           "([Id], [Username], [PasswordHash]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @Username, @PasswordHash)";
+
+                            _databaseContext.InsertLogin(query, loginData);
+
 
                             return Ok(new { message = "Login adicionado com sucesso." });
 
@@ -197,25 +207,31 @@ namespace WebApplicationWecomEpygi.Controllers
                         if (valid)
                         {
                             // Carrega os dados de login existentes do arquivo password.json
-                            var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
+                            //var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
 
-                            // Verificar se o arquivo existe
-                            if (System.IO.File.Exists(passwordFilePath))
+                            //// Verificar se o arquivo existe
+                            //if (System.IO.File.Exists(passwordFilePath))
+                            //{
+                            //    // Ler o conteúdo do arquivo
+                            //    string usersJson = System.IO.File.ReadAllText(passwordFilePath);
+
+                            //    // Desserializar o conteúdo em uma lista de usuários
+                            //    List<LoginData> users = JsonSerializer.Deserialize<List<LoginData>>(usersJson);
+
+                            //    // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
+                            //    users.RemoveAll(u => logins.Contains(u.Username));
+
+                            //    // Serializar a lista de usuários atualizada em JSON
+                            //    string usersJsonUpdated = JsonSerializer.Serialize(users);
+
+                            //    // Gravar a lista de usuários atualizada no arquivo users.json
+                            //    System.IO.File.WriteAllText(passwordFilePath, usersJsonUpdated);
+                            //}
+                            string query = "DELETE FROM [DWC].[dbo].[Admins] " +
+                                           "WHERE [Username] = @Username ";
+                            foreach (dynamic l in logins)
                             {
-                                // Ler o conteúdo do arquivo
-                                string usersJson = System.IO.File.ReadAllText(passwordFilePath);
-
-                                // Desserializar o conteúdo em uma lista de usuários
-                                List<LoginData> users = JsonSerializer.Deserialize<List<LoginData>>(usersJson);
-
-                                // Remover os usuários correspondentes ao parâmetro sip ["sip1","sip2","sip3"]
-                                users.RemoveAll(u => logins.Contains(u.Username));
-
-                                // Serializar a lista de usuários atualizada em JSON
-                                string usersJsonUpdated = JsonSerializer.Serialize(users);
-
-                                // Gravar a lista de usuários atualizada no arquivo users.json
-                                System.IO.File.WriteAllText(passwordFilePath, usersJsonUpdated);
+                                _databaseContext.DeleteLogin(query, l);
                             }
 
                             return Ok(new { message = "Login removido com sucesso." });
@@ -439,7 +455,7 @@ namespace WebApplicationWecomEpygi.Controllers
                         if (valid)
                         {
                             string query = "DELETE FROM [DWC].[dbo].[Users] " +
-                                           "WHERE [Sip] = @sip ";
+                                           "WHERE [Sip] = @Sip ";
                             foreach (dynamic s in sips)
                             {
                                 _databaseContext.DeleteUser(query, s);
