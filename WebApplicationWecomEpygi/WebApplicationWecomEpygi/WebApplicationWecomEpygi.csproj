@@ -43,9 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\StaticFiles\password.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Views\StaticFiles\users.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

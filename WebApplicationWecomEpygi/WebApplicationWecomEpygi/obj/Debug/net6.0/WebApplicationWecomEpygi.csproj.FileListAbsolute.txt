@@ -58,7 +58,6 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\appsettings.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\WebApplicationWecomEpygi.staticwebassets.runtime.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\WebApplicationWecomEpygi.exe
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\password.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\users.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\admin-interf.html
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\bin\Debug\net6.0\Views\StaticFiles\dwc.html

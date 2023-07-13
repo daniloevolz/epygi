@@ -39,40 +39,44 @@ namespace WebApplicationWecomEpygi.Controllers
         {
             try
             {
-                // Carrega os dados de login do arquivo password.json
-                var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
-                var json = System.IO.File.ReadAllText(passwordFilePath);
-                var loginData = JsonSerializer.Deserialize<LoginData[]>(json);
 
-                // Procura pelo usuário correspondente ao nome de usuário fornecido
-                var user = loginData.FirstOrDefault(u => u.Username == model.Username);
-                string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash.ToString()); ;
-                if (user != null && model.PasswordHash == user.PasswordHash)
+                var query = "SELECT * FROM DWC.dbo.Admins WHERE Username = '" + model.Username + "'";
+
+                //Trata resposta padrronizada para View
+                var queryResult = _databaseContext.ExecuteQuery(query);
+
+
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash.ToString());
+
+                foreach (dynamic row in queryResult)
                 {
-                    // Autenticação bem-sucedida
-                    // Gerar o token JWT
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
-
-                    var claims = new List<Claim>
+                    if (queryResult.Count == 1 && model.PasswordHash == row.PasswordHash)
                     {
-                        new Claim("Username", model.Username),
-                        new Claim("Password", model.PasswordHash),
-                    };
+                        // Autenticação bem-sucedida
+                        // Gerar o token JWT
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
 
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Issuer = _jwtConfig.Issuer,
-                        Expires = DateTime.UtcNow.AddMinutes(10),// AddDays(1),
-                        Subject = new ClaimsIdentity(claims),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                    };
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    var tokenString = tokenHandler.WriteToken(token);
+                        var claims = new List<Claim>
+                        {
+                            new Claim("Username", model.Username),
+                            new Claim("Password", model.PasswordHash),
+                        };
 
+                        var tokenDescriptor = new SecurityTokenDescriptor
+                        {
+                            Issuer = _jwtConfig.Issuer,
+                            Expires = DateTime.UtcNow.AddMinutes(10),// AddDays(1),
+                            Subject = new ClaimsIdentity(claims),
+                            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                        };
+                        var token = tokenHandler.CreateToken(tokenDescriptor);
+                        var tokenString = tokenHandler.WriteToken(token);
 
-                    return Ok(new { success = tokenString, message = "Login bem-sucedido." });
+                        return Ok(new { success = tokenString, message = "Login bem-sucedido." });
+                    }
                 }
+                
 
                 // Credenciais inválidas
                 return BadRequest(new { message = "Credenciais inválidas." });
@@ -744,6 +748,137 @@ namespace WebApplicationWecomEpygi.Controllers
         }
         #endregion
 
+        #region Status
+        [HttpGet]
+        public IActionResult Status()
+        {
+            try
+            {
+                // Exemplo de execução de consulta SELECT
+                var dataTable = _databaseContext.ExecuteQuery("SELECT * FROM DWC.dbo.Status");
+                return Ok(dataTable);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Status: " + ex.Message });
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddStatus([FromBody] JsonElement data)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Extrair os dados do JSON
+                            string name = data.GetProperty("name").GetString();
+                            string color = data.GetProperty("color").GetString();
+
+
+                            // Montar a query de inserção com parâmetros
+                            string query = "INSERT INTO [DWC].[dbo].[Status] " +
+                                           "([Id], [StatusName], [Color]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @StatusName , @Color)";
+
+                            _databaseContext.InsertStatus(query, name, color);
+
+                            return Ok(new { success = true, message = "Status adicionado com sucesso." });
+
+
+
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao adicionar Status: " + ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DelStatus([FromBody] List<string> status)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+
+                            string query = "DELETE FROM [DWC].[dbo].[Status] " +
+                                           "WHERE [StatusName] = @StatusName ";
+                            foreach (dynamic s in status)
+                            {
+                                _databaseContext.DeleteStatus(query, s);
+                            }
+                            return Ok(new { success = true, message = "Status removidos." });
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao remover status: " + ex.Message });
+            }
+        }
+        #endregion
 
         #region Funções Internas
         internal static string DecodeMd5Hash(string hashedString)
