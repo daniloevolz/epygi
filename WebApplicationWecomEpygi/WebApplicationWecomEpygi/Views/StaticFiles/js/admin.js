@@ -320,7 +320,7 @@ function showHome() {
             })
         })
 }
-function  showListUsers() {
+function showListUsers() {
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
