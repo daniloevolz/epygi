@@ -3,69 +3,17 @@ var cookie;
 var cookieName = "successLoginCookie";
 var supporters = [];
 var intervalId;
-
+  // validar cookie
    function load() {
-    // exemplo de uso: obtém o valor do cookie "successCookie"
-      var successValue = getCookie(cookieName);
+       var successValue = getCookie(cookieName);
      if (successValue == null) {
-         window.location.href = "./login.html";
+          window.location.href = "./login.html";
       } else {
            cookie = successValue;
-      }
-      showHome();
-  }
+     }
+     showHome();
+   }
 
-// função para obter o valor de um cookie pelo nome
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1, c.length);
-        }
-
-        if (c.indexOf(nameEQ) == 0) {
-            var cookieValue = c.substring(nameEQ.length, c.length);
-
-            // Obter a data de expiração do cookie
-            var cookieExpiration = getCookieExpiration(cookieValue);
-
-            // Verificar se a data de expiração é anterior à data e hora atual
-            if (cookieExpiration && cookieExpiration < new Date()) {
-                // Remover o cookie definindo uma data de expiração no passado
-                document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-                return null;
-            }
-
-            return cookieValue;
-        }
-    }
-
-    return null;
-}
-
-// Função auxiliar para obter a data de expiração do cookie
-function getCookieExpiration(cookieValue) {
-    var cookieParts = cookieValue.split(';');
-
-    for (var i = 0; i < cookieParts.length; i++) {
-        var cookiePart = cookieParts[i].trim();
-
-        if (cookiePart.indexOf('expires=') === 0) {
-            var expirationString = cookiePart.substring('expires='.length);
-            return new Date(expirationString);
-        }
-    }
-
-    return null;
-}
-function deleteCookie() {
-    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
     e.preventDefault();
@@ -141,7 +89,478 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
 
 });
+// requisição para adicionar departamentos
+document.getElementById('add-departs').addEventListener('click', function (e) {
+  e.preventDefault();
 
+  const name = document.getElementById('depart-name').value;
+  
+  if (name === '') {
+      showToast("warning","Complete todos os campos")
+      return; 
+  }
+
+  const data = {
+      
+      "name": name,
+      
+  };
+      fetch('/Home/AddDepartment', {
+          method: 'POST',
+          headers: {
+              'Content-Type' : 'application/json',
+              'Authorization': "Bearer " + cookie
+          },
+          body: JSON.stringify(data)
+      })
+          .then(async function (response) {
+              if (response.ok) {
+                  const data = await response.json();
+                  if (data.success == true) {
+                      showToast("success", data.message)
+                      showHome();
+
+                  } else {
+                      showToast("warning", data.message)
+                  }
+                  
+              } else {
+                  console.log('Ocorreu um erro ao salvar os dados.');
+                  showToast("danger",response.status)
+              }
+          })
+          .catch(error => {
+              console.error('Erro:', error);
+              showToast("danger", error)
+          });
+});
+// requisição para adicionar localidades
+document.getElementById('add-locations').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('location-name').value;
+  
+  if (name === '') {
+      showToast("warning","Complete todos os campos")
+      return; 
+  }
+
+  const data = {
+      
+      "name": name,
+      
+  };
+      fetch('/Home/AddLocation', {
+          method: 'POST',
+          headers: {
+              'Content-Type' : 'application/json',
+              'Authorization': "Bearer " + cookie
+          },
+          body: JSON.stringify(data)
+      })
+          .then(async function (response) {
+              if (response.ok) {
+                  const data = await response.json();
+                  if (data.success == true) {
+                      showToast("success", data.message)
+                      showHome();
+
+                  } else {
+                      showToast("warning", data.message)
+                  }
+                  
+              } else {
+                  console.log('Ocorreu um erro ao salvar os dados.');
+                  showToast("danger",response.status)
+              }
+          })
+          .catch(error => {
+              console.error('Erro:', error);
+              showToast("danger", error)
+          });
+});
+// listeners
+  document.getElementById("dashhome").addEventListener("click", function(){
+        console.log("click Dash Home")
+        showHome();
+});
+  document.getElementById("useradd").addEventListener("click", function(){
+    console.log("click Adição de Usuário")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "flex"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+});
+  document.getElementById("departadd").addEventListener("click", function(){
+    console.log("click Adição de Departamento")
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+      document.getElementById("id-add-dep").style.display = "inline-grid"
+
+    document.getElementById("id-list-home").style.display = "none"
+});
+   document.getElementById("userlist").addEventListener("click", function(){
+    console.log("click Lista de Usuário")
+      showListUsers();
+});
+  document.getElementById("list-data").addEventListener("click", function(){
+    console.log("click Lista de Usuário")
+      showListUsers();
+});
+document.getElementById("list-dep").addEventListener("click", function() {
+  console.log("Click Lista Departamento")
+  showListDep();
+});
+document.getElementById("list-local").addEventListener("click", function() {
+  console.log("Click Lista Local")
+  showListLocal();
+});
+document.getElementById("logout").addEventListener("click", function () {
+    console.log("click Sair")
+    deleteCookie();
+    window.location.href = "./login.html";
+});
+document.getElementById("logo-box").addEventListener("click", function(){
+  
+});
+
+//elementos html por ID
+const tabledata = document.getElementById("data-table")
+const tablelocal = document.getElementById("local-table")
+const tabledep = document.getElementById("department-table")
+
+// funções internas
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+
+  for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1, c.length);
+      }
+
+      if (c.indexOf(nameEQ) == 0) {
+          var cookieValue = c.substring(nameEQ.length, c.length);
+
+          // Obter a data de expiração do cookie
+          var cookieExpiration = getCookieExpiration(cookieValue);
+
+          // Verificar se a data de expiração é anterior à data e hora atual
+          if (cookieExpiration && cookieExpiration < new Date()) {
+              // Remover o cookie definindo uma data de expiração no passado
+              document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+              return null;
+          }
+
+          return cookieValue;
+      }
+  }
+
+  return null;
+}
+function getCookieExpiration(cookieValue) {
+  var cookieParts = cookieValue.split(';');
+
+  for (var i = 0; i < cookieParts.length; i++) {
+      var cookiePart = cookieParts[i].trim();
+
+      if (cookiePart.indexOf('expires=') === 0) {
+          var expirationString = cookiePart.substring('expires='.length);
+          return new Date(expirationString);
+      }
+  }
+
+  return null;
+}
+function deleteCookie() {
+  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+function showHome() {
+    document.getElementById("id-home").style.display = "block"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-list-home").style.display = "none"
+    fetch('/Home/Users')
+        .then(response => response.json())
+        .then(data => {
+            supporters = [];
+            supporters = data;
+            const departmentSelect = document.getElementById("filter-department");
+            departmentSelect.innerHTML = '';
+            const uniqueDepartments = new Set();
+
+            // Adiciona o item "Todos" no início da lista de departamentos
+            const optionTodos = document.createElement("option");
+            optionTodos.value = "todos";
+            optionTodos.text = "todos";
+            optionTodos.id = "all";
+            departmentSelect.appendChild(optionTodos);
+
+            data.forEach(obj => {
+                const { department } = obj;
+                uniqueDepartments.add(department);
+            });
+
+            const sortedDepartments = Array.from(uniqueDepartments).sort();
+            sortedDepartments.forEach(department => {
+                const option = document.createElement("option");
+                option.value = department;
+                option.text = department;
+                option.id = department
+                departmentSelect.appendChild(option);
+            });
+            getUsersStatus("all")
+            departmentSelect.addEventListener("change", function (event) {
+                const selectedOption = event.target.selectedOptions[0];
+                const selectedDepartmentId = selectedOption.id;
+                getUsersStatus(selectedDepartmentId);
+            })
+        })
+}
+function  showListUsers() {
+    document.getElementById("id-home").style.display = "none"
+    document.getElementById("id-add-home").style.display = "none"
+    document.getElementById("id-add-dep").style.display = "none"
+    document.getElementById("id-list-home").style.display = "block"
+    document.getElementById("data-table").innerHTML = '';
+    // tabela de usuários adm
+    var users = []
+    var titletable = `<th></th>
+        <th>Nome</th>
+        <th>Departamento</th>
+        <th>SIP</th>
+        <th>E-mail</th>
+        <th>Ramal</th>
+        <th>Local</th>`;
+    document.getElementById("data-table").innerHTML += titletable;
+    fetch('/Home/Users')
+        .then(response => response.json())
+        .then(data => {
+            users = data
+            makeUserTable(users);
+            addDeleteEventListeners();
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON', error);
+        });
+}
+function makeUserTable(users) {
+  users.forEach(function (user) {
+    tabledata.style.display = "block"
+    tablelocal.style.display = "none"
+    tabledep.style.display = "none"
+    var html = `
+      <tr>
+        <td><img src="${user.img}" alt="" style="width: 35px; height: 35px;"></td>
+        <td>${user.name}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.department}</td>
+        <td style="text-align: center;"><strong>${user.sip}</strong></td>
+        <td>${user.email}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
+        <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
+        <td style="text-align: center;"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
+      </tr>
+    `;
+    document.getElementById("data-table").innerHTML += html
+  });
+}
+function addDeleteEventListeners() {
+  var deleteButtons = document.getElementsByClassName("delete-user");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteUser);
+  });
+}
+function EventDeleteDepart() {
+  var deleteButtons = document.getElementsByClassName("delete-dep");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteDepart);
+    console.log("Dep deletado!")
+  });
+}
+function EventDeleteLocal() {
+  var deleteButtons = document.getElementsByClassName("delete-local");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteLocal);
+    console.log("Local deletado!")
+  });
+}
+function deleteUser(event) {
+  var userSIP = event.target.id;
+
+  fetch("/Home/DelUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([userSIP]),
+  })
+    .then(response => response.json())
+    .then(data => {
+        console.log("usuário removido com sucesso:", data);
+        showToast("success","Usuário removido com sucesso!")
+        showListUsers()
+      //removeUserRow(userSIP);
+    })
+    .catch(error => {
+      console.error("Erro ao remover usuário:", error);
+    });
+}
+function deleteDepart(event) {
+  var departName = event.target.id;
+
+  fetch("/Home/DelDepartments", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([departName]),
+  })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Departamento removido com sucesso:", data);
+        showToast("success","Departamento removido com sucesso!")
+        showListDep()
+    })
+    .catch(error => {
+      console.error("Erro ao remover Departamento:", error);
+    });
+}
+function deleteLocal(event) {
+  var departName = event.target.id;
+
+  fetch("/Home/DelLocations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([departName]),
+  })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Localidade removida com sucesso:", data);
+        showToast("success","Localidade removida com sucesso!")
+        showListDep()
+    })
+    .catch(error => {
+      console.error("Erro ao remover Localidade:", error);
+    });
+}
+function showListDep(){
+  tabledata.style.display = "none"
+  tablelocal.style.display = "none"
+  tabledep.style.display = "block"
+  fetch("/Home/Departments")
+  .then(response => response.json())
+  .then(data => {
+    const departmentList = data;
+
+    const tableContainer = document.getElementById("department-table");
+    const table = document.createElement("table");
+    table.classList.add("department-table");
+
+    // Criação do cabeçalho da tabela
+    const thead = document.createElement("thead");
+    const headerRow = thead.insertRow();
+    const departmentHeader = document.createElement("th");
+    departmentHeader.textContent = "Departamentos";
+    headerRow.appendChild(departmentHeader);
+    const deleteHeader = document.createElement("th");
+    deleteHeader.textContent = "Del";
+    headerRow.appendChild(deleteHeader);
+    table.appendChild(thead);
+
+    // Criação do corpo da tabela
+    const tbody = document.createElement("tbody");
+    
+    departmentList.forEach(local => {
+      const row = tbody.insertRow();
+
+      const departmentCell = row.insertCell();
+      departmentCell.textContent = local.Department;
+
+      const deleteCell = row.insertCell();
+      deleteCell.style.textAlign = "center";
+      const deleteImage = document.createElement("img");
+      deleteImage.classList.add("delete-dep");
+      deleteImage.id = local.Department;
+      deleteImage.src = "./images/trash.png";
+      deleteImage.alt = "";
+      deleteImage.style.width = "25px";
+      deleteImage.style.height = "25px";
+      deleteCell.appendChild(deleteImage);
+    });
+
+    table.appendChild(tbody);
+
+    tableContainer.innerHTML = "";
+    tableContainer.appendChild(table);
+    EventDeleteDepart()
+  })
+    .catch(error => {
+      console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
+    });
+}
+function showListLocal(){
+  tabledata.style.display = "none";
+  tablelocal.style.display = "block";
+  tabledep.style.display = "none";
+
+  fetch("/Home/Locations")
+    .then(response => response.json())
+    .then(data => {
+      const locationList = data;
+      console.log(data)
+      const tableContainer = document.getElementById("local-table");
+      const table = document.createElement("table");
+      table.classList.add("local-table");
+
+      // Criação do cabeçalho da tabela
+      const thead = document.createElement("thead");
+      const headerRow = thead.insertRow();
+      const locationHeader = document.createElement("th");
+      locationHeader.textContent = "Local";
+      headerRow.appendChild(locationHeader);
+      const deleteHeader = document.createElement("th");
+      deleteHeader.textContent = "Del";
+      headerRow.appendChild(deleteHeader);
+      table.appendChild(thead);
+
+      // Criação do corpo da tabela
+      const tbody = document.createElement("tbody");
+      locationList.forEach(data => {
+        const row = tbody.insertRow();
+
+        const locationCell = row.insertCell();
+        locationCell.textContent = data.Location;
+
+        const deleteCell = row.insertCell();
+        deleteCell.style.textAlign = "center";
+        const deleteImage = document.createElement("img");
+        deleteImage.classList.add("delete-local");
+        deleteImage.id = data.Location;
+        deleteImage.src = "./images/trash.png";
+        deleteImage.alt = "";
+        deleteImage.style.width = "25px";
+        deleteImage.style.height = "25px";
+        deleteCell.appendChild(deleteImage);
+      });
+
+      table.appendChild(tbody);
+
+      tableContainer.innerHTML = "";
+      tableContainer.appendChild(table);
+      EventDeleteLocal()
+    })
+    .catch(error => {
+      console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
+    });
+}
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -207,7 +626,6 @@ function getUsersStatus(department) {
         
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
 }
-  // Função para construir a estrutura HTML com base nos valores correspondentes
 function buildUserHTML(user, response) {
   var userStatus = response.find(function(item) {
     return item[user.sip] !== undefined;
@@ -235,7 +653,6 @@ function buildUserHTML(user, response) {
   return html;
   
 }
-// Função para atualizar a div 'div-users' com a estrutura HTML construída
 function updateUsersHTML(department, response) {
 
   var divCards = document.getElementById("main-cards")
@@ -304,55 +721,8 @@ function showToast(type, message) {
     toastElement.remove();
   }, 3000); // A mensagem toast será removida após 3 segundos (3000 milissegundos)
 }
-  // evt listeners para opções menu lateral
-  document.getElementById("dashhome").addEventListener("click", function(){
-        console.log("click Dash Home")
-        showHome();
-  });
-  document.getElementById("useradd").addEventListener("click", function(){
-    console.log("click Adição de Usuário")
-    document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "flex"
-    document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-list-home").style.display = "none"
-  });
-  document.getElementById("departadd").addEventListener("click", function(){
-    console.log("click Adição de Departamento")
-    document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "none"
-      document.getElementById("id-add-dep").style.display = "inline-grid"
-
-    document.getElementById("id-list-home").style.display = "none"
-  });
-   document.getElementById("userlist").addEventListener("click", function(){
-    console.log("click Lista de Usuário")
-      showListUsers();
-  });
-document.getElementById("logout").addEventListener("click", function () {
-    console.log("click Sair")
-    deleteCookie();
-    window.location.href = "./login.html";
-});
-  document.getElementById("logo-box").addEventListener("click", function(){
-  
-  });
-//// evt listener para light / dark mode
-//const themeToggle = document.getElementById('theme');
-//const themeLink = document.getElementById('theme-dark');
-
-//themeToggle.addEventListener('click', () => {
-//  if (themeLink.getAttribute('href') === '../css/admin-interf.css') {
-
-//    themeLink.setAttribute('href', '../css/themewhite-adm-interf.css');
-//    document.getElementById("sun-moon").setAttribute("src", "../images/moon.png")
-//  } else {
-//    themeLink.setAttribute('href', '../css/admin-interf.css');
-//    document.getElementById("sun-moon").setAttribute("src", "../images/sunny-day.png")
-//  }
-//});
-// evt listener para light / dark mode
+//LIGHT AND DARK MODE
 const theme = document.getElementById('theme');
-
 theme.addEventListener("click", function () {
     if (theme.getAttribute("color") === "dark") {
         console.log("Light Mode");
@@ -366,134 +736,6 @@ theme.addEventListener("click", function () {
         theme.setAttribute("color", "dark");
     }
 });
-
-function showHome() {
-    document.getElementById("id-home").style.display = "block"
-    document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-add-local").style.display = "none"
-    document.getElementById("id-list-home").style.display = "none"
-    fetch('/Home/Users')
-        .then(response => response.json())
-        .then(data => {
-            supporters = [];
-            supporters = data;
-            const departmentSelect = document.getElementById("filter-department");
-            departmentSelect.innerHTML = '';
-            const uniqueDepartments = new Set();
-
-            // Adiciona o item "Todos" no início da lista de departamentos
-            const optionTodos = document.createElement("option");
-            optionTodos.value = "todos";
-            optionTodos.text = "todos";
-            optionTodos.id = "all";
-            departmentSelect.appendChild(optionTodos);
-
-            data.forEach(obj => {
-                const { department } = obj;
-                uniqueDepartments.add(department);
-            });
-
-            const sortedDepartments = Array.from(uniqueDepartments).sort();
-            sortedDepartments.forEach(department => {
-                const option = document.createElement("option");
-                option.value = department;
-                option.text = department;
-                option.id = department
-                departmentSelect.appendChild(option);
-            });
-            getUsersStatus("all")
-            departmentSelect.addEventListener("change", function (event) {
-                const selectedOption = event.target.selectedOptions[0];
-                const selectedDepartmentId = selectedOption.id;
-                getUsersStatus(selectedDepartmentId);
-            })
-        })
-}
-function showListUsers() {
-    document.getElementById("id-home").style.display = "none"
-    document.getElementById("id-add-home").style.display = "none"
-    document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-add-local").style.display = "none"
-    document.getElementById("id-list-home").style.display = "block"
-    document.getElementById("data-table").innerHTML = '';
-    // tabela de usuários adm
-    var users = []
-    var titletable = `<th></th>
-        <th>Nome</th>
-        <th>Departamento</th>
-        <th>SIP</th>
-        <th>E-mail</th>
-        <th>Ramal</th>
-        <th>Local</th>`;
-    document.getElementById("data-table").innerHTML += titletable;
-    fetch('/Home/Users')
-        .then(response => response.json())
-        .then(data => {
-            users = data
-            makeUserTable(users);
-            addDeleteEventListeners();
-        })
-        .catch(error => {
-            console.error('Erro ao carregar o arquivo JSON', error);
-        });
-}
-function makeUserTable(users) {
-  users.forEach(function (user) {
-    var html = `
-      <tr>
-        <td><img src="${user.img}" alt="" style="width: 35px; height: 35px;"></td>
-        <td>${user.name}</td>
-        <td style="text-transform: capitalize; text-align: center;">${user.department}</td>
-        <td style="text-align: center;"><strong>${user.sip}</strong></td>
-        <td>${user.email}</td>
-        <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
-        <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
-        <td style="text-align: center;"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
-      </tr>
-    `;
-    document.getElementById("data-table").innerHTML += html
-  });
-}
-function addDeleteEventListeners() {
-  var deleteButtons = document.getElementsByClassName("delete-user");
-  Array.from(deleteButtons).forEach(function (button) {
-    button.addEventListener("click", deleteUser);
-  });
-}
-
-function deleteUser(event) {
-  var userSIP = event.target.id;
-
-  fetch("/Home/DelUser", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': "Bearer " + cookie
-    },
-    body: JSON.stringify([userSIP]),
-  })
-    .then(response => response.json())
-    .then(data => {
-        console.log("usuário removido com sucesso:", data);
-        showToast("success","Usuário removido com sucesso!")
-        showListUsers()
-      //removeUserRow(userSIP);
-    })
-    .catch(error => {
-      console.error("Erro ao remover usuário:", error);
-    });
-}
-//// parent Node para pegar o TR pai 
-//function removeUserRow(userSIP) {
-//  var tableRow = document.querySelector(`#data-table tr td img[id="${userSIP}"]`).parentNode.parentNode;
-//  if (tableRow) {
-//    tableRow.remove();
-//  }
-//}
-
-
-
 
 
 
