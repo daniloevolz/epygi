@@ -50,7 +50,7 @@
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>Lista de Usuários</h3>
+                    <h3>Listas</h3>
                 </ul>
                 
             </div>
@@ -63,7 +63,7 @@
                     <span class="bggray"></span>
                 </a>
             </li>
-            <h3 style="color: rgb(19, 137, 235);">User: Admin</h3>
+            <h3 style="color: rgb(19, 137, 235);">Admin</h3>
             <li class="theme" id="theme" color="dark"><a href="#"><img id="sun-moon" src="./images/sunny-day.png" alt="" style="width: 100%; height: 100%;"></a></li>
         </ul>
         <ul id="logout" style="width: 100%; display: flex; height: 100%; align-items: flex-end;">
@@ -78,7 +78,7 @@
 </div>
       
 <div class="colRight" id="action-painel" style="overflow-y: hidden;">
-    <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: block;">
+    <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: none;">
     <div id="filters" class="filter"style="color: white;"><h3 style="width: 10%;" >Filtros:</h3>
         <div class="select-box" style="display: flex; flex-wrap: wrap;">
             <div style="width: 65%;"><label>Departamento: </label>
@@ -138,25 +138,51 @@
             </form>          
         </div>
     </div>
-    <div id="id-list-home" style="display: none; width: 100%;">
+    
+    <div id="id-list-home" style="display:flex; width: 100%;">
         <div id="list-users" style="display: flex; width: 100%;">
-            <scroll-container class="scrolltable"> 
+            <div id="top-bottons" style="color: white;">
+                <ul id="list-data">
+                  <h2>Usuários</h2>
+                </ul>
+                <ul id="list-local">
+                    <h2>Locais</h2>
+                </ul>
+                <ul id="list-dep">
+                    <h2>Departamentos</h2>
+                </ul>
+                <div class="select-box" style="display: flex; flex-wrap: wrap;">
+
+                  </div>
+            </div>
+            <scroll-container class="list-box scrolltable" style ="display: flex; justify-content: center; align-items:top;"> 
               <div>
-                <table id="data-table">
+                <table id="data-table" class="table">
                 </table>
-              </div>           
+              </div>
+              <div>
+                <table id="local-table" class="table">
+                    
+                </table>
+              </div>
+              <div>
+                <table id="department-table" class="table">
+
+                </table>
+              </div>
             </scroll-container>
         </div>
     </div>
+
     <div id="id-add-dep" style="display: none;">
         <div class="add-box">
             <h2>Inclusão de Departamentos</h2>
             <form>
                 <div class="user-box">
-                    <input type="text" id="name" name="" required="" autocomplete="off">
+                    <input type="text" id="depart-name" name="" required="" autocomplete="off">
                     <label>Departamento</label>
                 </div>
-                <a href="#" id="a-upload-user">
+                <a href="#" id="add-departs">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -169,10 +195,10 @@
             <h2>Inclusão de Localidades</h2>
             <form>
                 <div class="user-box">
-                    <input type="text" id="name" name="" required="" autocomplete="off">
+                    <input type="text" id="location-name" name="" required="" autocomplete="off">
                     <label>Local</label>
                 </div>
-                <a href="#" id="a-upload-user">
+                <a href="#" id="add-locations">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -182,9 +208,7 @@
             </form>          
         </div>
     </div>
-    <div id="id-add-local" style="display: none;">
-        
-    </div>
+
 </div>
     <script src="./js/admin.js"></script>
 </body>

@@ -2,13 +2,10 @@
 
 USE DWC
 GO
-
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Admins](
 	[Id] [nvarchar](128) NOT NULL,
 	[Username] [nvarchar](128) NOT NULL,
@@ -36,13 +33,10 @@ GO
 
 USE DWC
 GO
-
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Locations](
 	[Id] [nvarchar](128) NOT NULL,
 	[Location] [nvarchar](256) NULL,
@@ -59,10 +53,8 @@ USE DWC
 GO
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Departments](
 	[Id] [nvarchar](128) NOT NULL,
 	[Department] [nvarchar](256) NULL,
@@ -77,14 +69,11 @@ GO
 
 /****** Object:  Table [dbo].[Users]    Script Date: 11/07/2023 15:41:49 ******/
 USE DWC
-GO
-
+G
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Users](
 	[UserId] [nvarchar](128) NOT NULL,
 	[Name] [nvarchar](256) NOT NULL,
@@ -140,7 +129,24 @@ CREATE TABLE [dbo].[Users](
 ) ON [PRIMARY]
 GO
 
+/****** Object:  Table [dbo].[Status]    Script Date: 13/07/2023 16:20:58 ******/
+USE [DWC]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
+CREATE TABLE [dbo].[Status](
+	[Id] [nvarchar](128) NOT NULL,
+	[StatusName] [nvarchar](128) NOT NULL,
+	[Color] [nvarchar](128) NOT NULL,
+ CONSTRAINT [PK_dbo.Status] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 
 /****** Insert:  Table [dbo].[Locations]    Script Date: 11/07/2023 15:41:49 ******/
@@ -165,7 +171,6 @@ GO
 /****** Insert:  Table [dbo].[Users]    Script Date: 11/07/2023 15:41:49 ******/
 USE [DWC]
 GO
-
 INSERT INTO [dbo].[Users]
            ([UserId]
            ,[Name]

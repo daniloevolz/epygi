@@ -881,7 +881,7 @@ namespace WebApplicationWecomEpygi.Controllers
         #endregion
 
         #region Funções Internas
-        internal static string DecodeMd5Hash(string hashedString)
+        internal string DecodeMd5Hash(string hashedString)
         {
             using (var md5 = MD5.Create())
             {
@@ -904,21 +904,35 @@ namespace WebApplicationWecomEpygi.Controllers
                 return decodedString;
             }
         }
-        internal static bool ValidateUser(string username, string password)
+        internal bool ValidateUser(string username, string password)
         {
             bool result = false;
             try
             {
+                var query = "SELECT * FROM DWC.dbo.Admins WHERE Username = '" + username + "'";
+
+                //Trata resposta padrronizada para View
+                var queryResult = _databaseContext.ExecuteQuery(query);
+
                 // Carrega os dados de login do arquivo password.json
-                var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
-                var json = System.IO.File.ReadAllText(passwordFilePath);
-                var loginData = JsonSerializer.Deserialize<LoginData[]>(json);
+                //var passwordFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "password.json");
+                //var json = System.IO.File.ReadAllText(passwordFilePath);
+                //var loginData = JsonSerializer.Deserialize<LoginData[]>(json);
 
                 // Procura pelo usuário correspondente ao nome de usuário fornecido
-                var user = loginData.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
-                if (user != null)
+                //var user = loginData.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+                //if (user != null)
+                //{
+                //    result = true;
+                //}
+
+
+                foreach (dynamic row in queryResult)
                 {
-                    result = true;
+                    if (queryResult.Count == 1 && username == row.Username && password == row.PasswordHash)
+                    {
+                        result = true; break;
+                    }
                 }
                 return result;
             }
@@ -928,7 +942,7 @@ namespace WebApplicationWecomEpygi.Controllers
             }
         }
 
-        internal static dynamic RestartService()
+        internal dynamic RestartService()
         {
             try
             {
@@ -960,7 +974,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         }
 
-        internal static dynamic InsertAgentsJSON(string name, string sip, string num, string password)
+        internal dynamic InsertAgentsJSON(string name, string sip, string num, string password)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -1016,7 +1030,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         }
 
-        internal static dynamic DeleteAgentsJSON(List<string> sips)
+        internal dynamic DeleteAgentsJSON(List<string> sips)
         {
             try
             {

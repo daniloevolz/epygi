@@ -59,7 +59,7 @@ body {
   display: flex;
   align-items: center;
   left: 4%;
-  width: 80%;
+  width: 81.5%;
   position: absolute;
   padding: 10px;
   background: rgba(0,0,0,.5);
@@ -82,6 +82,16 @@ body {
   align-items: center;
   margin-left: 10px;
   letter-spacing: 1px;
+}
+.box-left ul h3:hover {
+  background: #1665db;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #1665db,
+              0 0 25px #1665db,
+              0 0 50px #1665db,
+              0 0 100px #1665db;
+
 }
 .box-left a {
   top: 1px;
@@ -106,6 +116,12 @@ body {
   border-radius: 50px;
   list-style-type: none;
   left: -40px;
+}
+ul{
+  cursor: pointer;
+}
+.delete-user{
+  cursor: pointer;
 }
 #id-add-home{
     width: 100%;
@@ -237,35 +253,29 @@ body {
   border-radius: 50%;
 }
 .main-cards {
-  /* top: 1px; */
-  height: -webkit-fill-available;
-  display: flex;
-  position: absolute;
-  width: 90%;
-  background-color: transparent;
-  align-items: center;
-  bottom: 1%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-content: flex-start;
+    /*left: 4.5%;*/
+    top: 12%;
+    height: -webkit-fill-available;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    background-color: transparent;
+    align-items: center;
+    bottom: 1%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: center;
+    overflow-y: auto;
 }
 .scrolltable {
   display: flex;
   overflow-y: auto;
   position: absolute;
   width: 98%;
-  height: -webkit-fill-available;
-  top: 2%;
+  /*height: -webkit-fill-available;*/
+  top: 10%;
   left: 2%;
-}
-.scrollcards {
-    display: flex;
-    justify-content: center;
-    overflow-y: auto;
-    position: absolute;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-    top: 15%;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -317,17 +327,9 @@ body {
 #filter-department option:checked {
   color: #ffffff;
 }
-.scrolltable {
-  display: flex;
-  justify-content: center;
-  overflow-y: auto;
-  position: absolute;
-  width: 90%;
-  height: -webkit-fill-available;
-  top: 8%;
-}
-#data-table, th, td{
-  border: 2px solid #243b55;
+
+.table, th, td{
+  border: 2px solid #2c333b;
   border-collapse: collapse;
 
 }
@@ -371,10 +373,10 @@ body {
 
 .login-box .user-box input {
   width: 100%;
-  padding: 10px 0;
+  padding: 5px 0;
   font-size: 16px;
   color: #fff;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: none;
   border-bottom: 1px solid #fff;
   outline: none;
@@ -416,7 +418,7 @@ body {
 .login-box a:hover {
   background: #1665db;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 30px;
   box-shadow: 0 0 5px #1665db,
               0 0 25px #1665db,
               0 0 50px #1665db,
@@ -540,10 +542,20 @@ text-transform: none !important
   flex-direction: row;
   width: 90%;
 }
+.list-box {
+    margin: 25px;
+    /* position: relative; */
+    width: 90%;
+    padding: 30px;
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}
 .add-box {
   margin: 25px;
   position: relative;
-  /*width: 400px;*/
+  width: 400px;
   padding: 30px;
   background: rgba(0,0,0,.5);
   box-sizing: border-box;
@@ -721,6 +733,57 @@ text-transform: none !important
     bottom: 100%;
   }
 }
+#top-bottons{
+  display: flex;
+  align-items: center;
+  left: 4%;
+  width: 81.5%;
+  position: absolute;
+  padding: 10px;
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  letter-spacing: 1px;
+  justify-content: center;
+  width: 90%;
+  height: 6%;
+}
+#top-bottons ul {
+  position: relative;
+  display: flex;
+  font-size: 12px;
+  transition: .5s;
+  letter-spacing: 4px;
+  width: 34%;
+  padding: 0;
+  justify-content: center;
+}
+
+#top-bottons ul h2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 80%;
+}
+#top-bottons ul :hover {
+  background: #1665db;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #1665db,
+              0 0 25px #1665db,
+              0 0 50px #1665db,
+              0 0 100px #1665db;
+
+}
+#top-bottons:focus {
+  color: #1665db;
+
+}
+
+
+
 /*media query responsivo todas telas */
 
 @media screen and (min-width: 950px) and (max-width: 1300px) {
@@ -870,7 +933,7 @@ text-transform: none !important
         justify-content: center;
         overflow-y: auto;
         position: absolute;
-        width: 100%;
+        /*width: 100%;*/
         height: -webkit-fill-available;
         top: 8%;
     }
@@ -1076,7 +1139,7 @@ text-transform: none !important
         justify-content: center;
         overflow-y: auto;
         position: absolute;
-        width: 100%;
+        /*width: 100%;*/
         height: -webkit-fill-available;
         top: 8%;
     }
@@ -1335,7 +1398,7 @@ text-transform: none !important
         justify-content: center;
         overflow-y: auto;
         position: absolute;
-        width: 100%;
+        /*width: 100%;*/
         height: -webkit-fill-available;
         top: 8%;
     }

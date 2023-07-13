@@ -2,16 +2,21 @@
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
 var urlUsers = "https://wetransfer.wecom.com.br:81/Home/Users";
 const urlStatus = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest';
-fetch(urlUsers)
- .then(response => response.json())
- .then( data => {
+var urlDepart = "https://wetransfer.wecom.com.br:81/Home/Departments";
 
-    console.log(data)
-    supporters = data
-   })
-  .catch(error => {
-    console.error('Erro ao carregar o arquivo JSON', error);
-  });
+function load() {
+    getDepartments();
+    fetch(urlUsers)
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data)
+            supporters = data
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON', error);
+        });
+}
 
 // variável para armazenar o identificador do intervalo
 var intervalId;
@@ -34,7 +39,7 @@ function getUsersStatus(department) {
     const divUsers = document.getElementById("div-users");
     const ulUsers = document.getElementById("ul-users");
     const divContent = document.getElementById("div-content");
-
+    
   const requestBody = JSON.stringify(data);
   const contentLength = requestBody.length;
     fetch(urlStatus, {
@@ -80,44 +85,89 @@ function getUsersStatus(department) {
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
 }
 
+
 /* get no banco -> tabela de departamentos */
 
-function getDepartments(){
-   fetch("/Home/Departments", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-       'Accept': '*/*',
-        'Content-Length': contentLength.toString()
-    },
-  }).then(response => response.json())
-     .then(data => {
-      var response = data;
-      makeCards(response)
-    })
-    .catch(error => {
-       console.error('Erro ao fazer a requisição:', error);
-    });
+function getDepartments() {
+    fetch(urlDepart, {
+        method: 'GET'
+    }).then(response => response.json())
+        .then(data => {
+            var response = data;
+            makeCards(response)
+        })
+        .catch(error => {
+            console.error('Erro ao fazer a requisição:', error);
+        });
 }
- function buildCardsHTML(department){
-      var cards = `
-     <li class="bgdBlue"><a href="#" class="card white pre-vendas" id="${department}">
-       <h5>${department}</h5>
+function buildCardsHTML(department) {
+    var cards = `
+     <li class="bgdBlue"><a href="#" class="card white pre-vendas" id="${department.Department}">
+       <h5>${department.Department}</h5>
        <span class="bgWhite titillium dBlue">Conectar</span>
      </a></li>
     `
-  return cards
+    return cards
 }
- function makeCards(department){
+function makeCards(departments) {
     var divCards = document.getElementById("div-cards");
-     const ulCards = document.getElementById("ul-cards");
-    department.forEach(function(){
-      var cardHTML = buildCardsHTML(department);
-     divCards.innerHTML = ''
-      ulCards.innerHTML += cardHTML
-     })
-    
+    const ulCards = document.getElementById("ul-cards");
+    ulCards.innerHTML = ''
+    departments.forEach(function (department) {
+        var cardHTML = buildCardsHTML(department);
+        
+        ulCards.innerHTML += cardHTML
+    })
+    const lis = document.querySelectorAll("a.card");
+
+    lis.forEach(li => {
+        li.addEventListener("click", function () {
+            const id = this.id;
+            getUsersStatus(id);
+
+        });
+    });
+
 }
+
+/* get no banco -> tabela de departamentos */
+
+//function getDepartments(){
+//   fetch("/Home/Departments", {
+//    method: 'GET',
+//    headers: {
+//      'Content-Type': 'application/json',
+//       'Accept': '*/*',
+//        'Content-Length': contentLength.toString()
+//    },
+//  }).then(response => response.json())
+//     .then(data => {
+//      var response = data;
+//      makeCards(response)
+//    })
+//    .catch(error => {
+//       console.error('Erro ao fazer a requisição:', error);
+//    });
+//}
+// function buildCardsHTML(department){
+//      var cards = `
+//     <li class="bgdBlue"><a href="#" class="card white pre-vendas" id="${department}">
+//       <h5>${department}</h5>
+//       <span class="bgWhite titillium dBlue">Conectar</span>
+//     </a></li>
+//    `
+//  return cards
+//}
+// function makeCards(department){
+//    var divCards = document.getElementById("div-cards");
+//     const ulCards = document.getElementById("ul-cards");
+//    department.forEach(function(){
+//      var cardHTML = buildCardsHTML(department);
+//     divCards.innerHTML = ''
+//      ulCards.innerHTML += cardHTML
+//     })
+    
+//}
 
 
 document.getElementById("clickBack").addEventListener("click",function(){
@@ -174,13 +224,13 @@ function updateUsersHTML(department, response) {
     var divDepart = document.getElementById("depart-div");
     const ulUsers = document.getElementById("ul-users");
     document.getElementById("div-users").style.display = 'block';
-    document.getElementById("div-cards").style.display = 'none'
-
+    document.getElementById("div-cards").style.display = 'none';
+    divDepart.innerHTML = '';
+    divDepart.innerHTML = department;
   supporters.forEach(function(supporter) {
     if (supporter.department === department) {
       var userHTML = buildUserHTML(supporter, response);
-      divDepart.innerHTML = ''
-      divDepart.innerHTML += supporter.department
+
       ulUsers.innerHTML += userHTML;
     }
   });
@@ -218,14 +268,6 @@ function updateUsersHTML(department, response) {
       
 
   }
-  const lis = document.querySelectorAll("a.card");
-
-  lis.forEach(li => {
-    li.addEventListener("click", function() {
-      const id = this.id;
-      getUsersStatus(id);
-      
-    });
-  });
+  
   
   

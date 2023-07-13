@@ -15,7 +15,6 @@ C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplication
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\WebApplicationWecomEpygi.exe
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\appsettings.json
-C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\password.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\users.json
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\add-user.png
 C:\Users\danil\OneDrive\Documentos\epygi\WebApplicationWecomEpygi\WebApplicationWecomEpygi\obj\Release\net6.0\PubTmp\Out\Views\StaticFiles\images\anuncio-room-360.png
