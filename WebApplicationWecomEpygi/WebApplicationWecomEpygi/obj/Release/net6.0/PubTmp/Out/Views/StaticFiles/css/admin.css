@@ -253,18 +253,20 @@ ul{
   border-radius: 50%;
 }
 .main-cards {
-  left: 4.5%;
-  top: 12%;
-  height: -webkit-fill-available;
-  display: flex;
-  position: absolute;
-  width: 90%;
-  background-color: transparent;
-  align-items: center;
-  bottom: 1%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-content: flex-start;
+    /*left: 4.5%;*/
+    top: 12%;
+    height: -webkit-fill-available;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    background-color: transparent;
+    align-items: center;
+    bottom: 1%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: center;
+    overflow-y: auto;
 }
 .scrolltable {
   display: flex;
@@ -535,10 +537,27 @@ text-transform: none !important
 }  
 #id-add-dep{
   display: flex;
+  overflow-y:auto;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  width: 90%;
+  width: 100%;
+}
+input[type="color"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    height: 2em;
+    padding: 0;
+    width: 100%;
+}
+
+*:focus {
+    border-radius: 0;
+    outline: none;
 }
 .list-box {
     margin: 25px;
@@ -1021,10 +1040,12 @@ text-transform: none !important
         flex-direction: row;
         width: 90%;
     }
-
+    ul#dashhome{
+        width:100%;
+    }
     .dashhome {
         vertical-align: center;
-        width: 30px;
+        /*width: 30px;*/
         height: 10px;
         padding-bottom: 25px;
         background-image: url(../images/free-home-icon-2502-thumb.png);
@@ -1037,10 +1058,12 @@ text-transform: none !important
         list-style-type: none;
         left: -40px;
     }
-
+    ul#useradd{
+        width:100%;
+    }
     .useradd {
         vertical-align: center;
-        width: 30px;
+        /*width: 30px;*/
         height: 10px;
         padding-bottom: 25px;
         background-image: url(../images/add-user.png);
@@ -1053,9 +1076,29 @@ text-transform: none !important
         list-style-type: none;
         left: -40px;
     }
-
+    ul#departadd{
+        width:100%;
+    }
+    .departadd {
+        vertical-align: center;
+        /*width: 30px;*/
+        height: 10px;
+        padding-bottom: 25px;
+        background-image: url(../images/add-user.png);
+        background-repeat: no-repeat;
+        background-size: 20px;
+        background-color: rgba(255, 255, 255, 0.60);
+        background-position: center;
+        position: relative;
+        border-radius: 15px;
+        list-style-type: none;
+        left: -40px;
+    }
+    ul#listusers {
+        width: 100%;
+    }
     .listusers {
-        width: 30px;
+        /*width: 30px;*/
         height: 10px;
         padding-bottom: 25px;
         background-image: url(../images/Lista.png);

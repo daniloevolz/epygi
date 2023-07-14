@@ -42,15 +42,15 @@
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>Adição de Locais</h3>
+                    <h3>Adição de Parâmetros</h3>
                 </ul>
-                <ul id="userlist" style="display: flex; align-items: center; height: 45px; align-items: center;">
+                <ul id="listusers" style="display: flex; align-items: center; height: 45px; align-items: center;">
                     <li class="listusers">
                         <a href="#" class="user white usuario" id="usuario">
                             <span class="bggray"></span>
                         </a>
                     </li>
-                    <h3>Listas</h3>
+                    <h3>Usuários e Parâmetros</h3>
                 </ul>
                 
             </div>
@@ -143,7 +143,7 @@
         <div id="list-users" style="display: flex; width: 100%;">
             <div id="top-bottons" style="color: white;">
                 <ul id="list-data">
-                  <h2>Usuários</h2>
+                    <h2>Usuários</h2>
                 </ul>
                 <ul id="list-local">
                     <h2>Locais</h2>
@@ -151,23 +151,17 @@
                 <ul id="list-dep">
                     <h2>Departamentos</h2>
                 </ul>
+                <ul id="list-status">
+                    <h2>Status</h2>
+                </ul>
                 <div class="select-box" style="display: flex; flex-wrap: wrap;">
 
-                  </div>
+                </div>
             </div>
             <scroll-container class="list-box scrolltable" style ="display: flex; justify-content: center; align-items:top;"> 
               <div>
-                <table id="data-table" class="table">
-                </table>
-              </div>
-              <div>
                 <table id="local-table" class="table">
                     
-                </table>
-              </div>
-              <div>
-                <table id="department-table" class="table">
-
                 </table>
               </div>
             </scroll-container>
@@ -189,7 +183,7 @@
                     <span></span>
                     Adicionar
                 </a>
-            </form>          
+            </form>
         </div>
         <div class="add-box">
             <h2>Inclusão de Localidades</h2>
@@ -205,7 +199,27 @@
                     <span></span>
                     Adicionar
                 </a>
-            </form>          
+            </form>
+        </div>
+        <div class="add-box">
+            <h2>Inclusão de Status</h2>
+            <form>
+                <div class="user-box">
+                    <input type="text" id="status-name" name="" required="" autocomplete="off">
+                    <label>Status</label>
+                </div>
+                <div>
+                    <label for="cor">Selecione uma cor</label>
+                    <input type="color" id="status-color" name="cor">
+                </div>
+                <a href="#" id="add-status">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Adicionar
+                </a>
+            </form>
         </div>
     </div>
 
