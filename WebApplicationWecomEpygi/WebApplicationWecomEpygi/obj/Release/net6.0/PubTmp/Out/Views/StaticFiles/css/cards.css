@@ -84,27 +84,27 @@
     margin-top: -4px;
     display: inline-block;
     vertical-align: middle;
-    background-color: #00a300;
+    background-color: #868686;
     border-radius: 50%;
     -khtml-border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
-.epygi-content__status__indicator.away {/* Status do usuário */
-    background-color: #a3a000; 
+/*.epygi-content__status__indicator.away {*//* Status do usuário */
+    /*background-color: #a3a000; 
 }
-.epygi-content__status__indicator.DND {/* Status do usuário */
-    background-color: #a32300; 
+.epygi-content__status__indicator.DND {*//* Status do usuário */
+    /*background-color: #a32300; 
 }
-.epygi-content__status__indicator.lunch {/* Status do usuário */
-    background-color: #e822a9; 
+.epygi-content__status__indicator.lunch {*//* Status do usuário */
+    /*background-color: #e822a9; 
 }
-.epygi-content__status__indicator.meeting {/* Status do usuário */
-    background-color: #3400a3; 
+.epygi-content__status__indicator.meeting {*//* Status do usuário */
+    /*background-color: #3400a3; 
 }
-.epygi-content__status__indicator.Offline {/* Status do usuário */
-    background-color: #9b9b9b; 
-}
+.epygi-content__status__indicator.Offline {*//* Status do usuário */
+    /*background-color: #9b9b9b; 
+}*/
 .epygi-content__address {
     margin-top: 5px;
     line-height: 1.2em;

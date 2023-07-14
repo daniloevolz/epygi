@@ -256,6 +256,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
         #region Agentes e Usuários
         [HttpGet]
+        [Authorize]
         public IActionResult Users()
         {
             try
@@ -283,7 +284,55 @@ namespace WebApplicationWecomEpygi.Controllers
                         department = row.DepartmentName,
                         location = row.LocationName,
                         email = row.Email,
-                        img = row.Image
+                        img = row.Image,
+                        perfil = row.Perfil
+                    };
+
+                    // Adicionar o novo usuário à lista
+                    users.Add(newUser);
+                }
+                // Serializar a lista de usuários em JSON
+                string usersJsonUpdated = JsonSerializer.Serialize(users);
+                //Responde
+                return Ok(users);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao consultar Usuários: " + ex.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult UsersPublic()
+        {
+            try
+            {
+                var query = "SELECT DWC.dbo.Users.*, " +
+                    "DWC.dbo.Departments.Department AS DepartmentName, " +
+                    "DWC.dbo.Locations.Location AS LocationName " +
+                    "FROM Users " +
+                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
+                    "JOIN Locations ON Users.LocationId = Locations.Id" +
+                    "WHERE Users.Perfil = 'public'";
+
+                //Trata resposta padrronizada para View
+                var queryResult = _databaseContext.ExecuteQuery(query);
+
+                List<User> users = new List<User>();
+                foreach (dynamic row in queryResult)
+                {
+                    // Criar um novo objeto User
+                    User newUser = new User
+                    {
+                        id = row.UserId,
+                        name = row.Name,
+                        sip = row.Sip,
+                        num = row.Number,
+                        department = row.DepartmentName,
+                        location = row.LocationName,
+                        email = row.Email,
+                        img = row.Image,
+                        perfil = row.Perfil
                     };
 
                     // Adicionar o novo usuário à lista
@@ -341,6 +390,7 @@ namespace WebApplicationWecomEpygi.Controllers
                             string email = data.GetProperty("user").GetProperty("email").GetString();
                             string location = data.GetProperty("user").GetProperty("location").GetString();
                             string department = data.GetProperty("user").GetProperty("department").GetString();
+                            string perfil = data.GetProperty("user").GetProperty("perfil").GetString();
                             string imageName = sip + "-user.jpg";
                             string imageUrl = "./images/" + imageName;
                             string imageSize = data.GetProperty("image").GetProperty("size").GetUInt64().ToString();
@@ -374,7 +424,8 @@ namespace WebApplicationWecomEpygi.Controllers
                                 department = department,
                                 location = location,
                                 email = email,
-                                img = imageUrl
+                                img = imageUrl,
+                                perfil = perfil
                             };
 
                             // Adicionar o novo usuário à lista
@@ -388,9 +439,9 @@ namespace WebApplicationWecomEpygi.Controllers
 
                             // Montar a query de inserção com parâmetros
                             string query = "INSERT INTO [DWC].[dbo].[Users] " +
-                                           "([UserId], [Name], [Sip], [Number], [Email], [Image], [DepartmentId], [LocationId]) " +
+                                           "([UserId], [Name], [Sip], [Number], [Email], [Image], [Perfil], [DepartmentId], [LocationId]) " +
                                            "VALUES " +
-                                           "(NEWID(), @Name, @Sip, @Number, @Email, @Image, " +
+                                           "(NEWID(), @Name, @Sip, @Number, @Email, @Image, @Perfil, " +
                                            "(SELECT [Id] FROM [DWC].[dbo].[Departments] WHERE [Department] = @Department), " +
                                            "(SELECT [Id] FROM [DWC].[dbo].[Locations] WHERE [Location] = @Location))";
 
@@ -798,6 +849,7 @@ namespace WebApplicationWecomEpygi.Controllers
                         if (valid)
                         {
                             // Extrair os dados do JSON
+                            string id = data.GetProperty("id").GetString();
                             string name = data.GetProperty("name").GetString();
                             string color = data.GetProperty("color").GetString();
 
@@ -806,9 +858,9 @@ namespace WebApplicationWecomEpygi.Controllers
                             string query = "INSERT INTO [DWC].[dbo].[Status] " +
                                            "([Id], [StatusName], [Color]) " +
                                            "VALUES " +
-                                           "(NEWID(), @StatusName , @Color)";
+                                           "(@Id, @StatusName , @Color)";
 
-                            _databaseContext.InsertStatus(query, name, color);
+                            _databaseContext.InsertStatus(query,id, name, color);
 
                             return Ok(new { success = true, message = "Status adicionado com sucesso." });
 

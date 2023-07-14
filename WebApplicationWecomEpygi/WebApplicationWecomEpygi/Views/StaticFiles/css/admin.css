@@ -329,9 +329,9 @@ ul{
 }
 
 .table, th, td{
+  /* background-color: rgba(255, 255, 255, 0.60); */
   border: 2px solid #2c333b;
   border-collapse: collapse;
-
 }
 /* html {
   height: 100%;
@@ -342,6 +342,52 @@ body {
   font-family: sans-serif;
   background: linear-gradient(#141e30, #243b55); 
 } */
+.add-select-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.addlocal {
+    appearance: none;
+    border: 1;
+    outline: 0;
+    width: 13em;
+    height: 2em;
+    padding: 0 2em 0 2em;
+    background: no-repeat right 0.8em center / 1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.1) 3em, rgba(255, 255, 255, 0.10) 3em);
+    color: white;
+    border-radius: 0.75em;
+    cursor: pointer;
+}
+    /* Remove IE arrow */
+    .addlocal ::-ms-expand {
+        display: none;
+    }
+
+    /* <option> colors */
+    .addlocal option {
+        padding: 8px;
+        background-color: #29292bea;
+        color: white;
+        border-radius: 0.75em;
+    }
+
+        .addlocal option:hover {
+            background-color: white;
+        }
+
+        .addlocal option:checked {
+            color: #ffffff;
+        }
+
 .login-box {
   position: absolute;
   top: 50%;
@@ -798,6 +844,8 @@ input[type="color"] {
   color: #1665db;
 
 }
+
+
 
 
 

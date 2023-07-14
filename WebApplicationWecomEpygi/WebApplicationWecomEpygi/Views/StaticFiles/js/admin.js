@@ -2,7 +2,11 @@
 var cookie;
 var cookieName = "successLoginCookie";
 var supporters = [];
+var listStatus = [];
 var intervalId;
+var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
+var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
+var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
    function load() {
        var successValue = getCookie(cookieName);
@@ -22,9 +26,10 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     const sip = document.getElementById('sip').value;
     const num = document.getElementById('num').value;
     const pass = document.getElementById('pass').value;
-    const department = document.getElementById('departamento').value.toLowerCase();
+    const department = document.getElementById('department').value;
     const location = document.getElementById('location').value;
     const email = document.getElementById('email').value;
+    const perfil = document.getElementById('perfil').value;
     const imgFile = document.getElementById('file-upload-button').files[0]; // obter o arquivo de imagem
 
     
@@ -42,7 +47,8 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
             "pass": pass,
             "department": department,
             "location": location,
-            "email": email
+            "email": email,
+            "perfil": perfil
         },
         "image": {
             "name": imgFile.name,
@@ -69,7 +75,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
                     const data = await response.json();
                     if (data.success == true) {
                         showToast("success", data.message)
-                        showHome();
+                        showListUsers();
 
                     } else {
                         showToast("warning", data.message)
@@ -118,7 +124,7 @@ document.getElementById('add-departs').addEventListener('click', function (e) {
                   const data = await response.json();
                   if (data.success == true) {
                       showToast("success", data.message)
-                      showListDep();
+                      showListUsers();
 
                   } else {
                       showToast("warning", data.message)
@@ -163,7 +169,7 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
                   const data = await response.json();
                   if (data.success == true) {
                       showToast("success", data.message)
-                      showListLocal()
+                      showListUsers()
 
                   } else {
                       showToast("warning", data.message)
@@ -184,6 +190,7 @@ document.getElementById('add-status').addEventListener('click', function (e) {
     e.preventDefault();
 
     const name = document.getElementById('status-name').value;
+    const id = document.getElementById('status-id').value;
     const color = document.getElementById('status-color').value;
 
     if (name === '') {
@@ -192,7 +199,7 @@ document.getElementById('add-status').addEventListener('click', function (e) {
     }
 
     const data = {
-
+        "id":id,
         "name": name,
         "color": color
 
@@ -210,7 +217,7 @@ document.getElementById('add-status').addEventListener('click', function (e) {
                 const data = await response.json();
                 if (data.success == true) {
                     showToast("success", data.message)
-                    showListStatus();
+                    showListUsers();
 
                 } else {
                     showToast("warning", data.message)
@@ -237,9 +244,41 @@ document.getElementById('add-status').addEventListener('click', function (e) {
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-list-home").style.display = "none"
+      document.getElementById("id-list-home").style.display = "none"
+      const selectDep = document.getElementById('department');
+
+      fetch(urlDepartments)
+          .then(response => response.json())
+          .then(data => {
+              data.forEach(option => {
+                  const optionElement = document.createElement('option');
+                  optionElement.value = option.Department;
+                  optionElement.textContent = option.Department;
+                  selectDep.appendChild(optionElement);
+              });
+          })
+          .catch(error => {
+              console.error('Erro ao obter os departamentos:', error);
+          });
+
+      const selectLocal = document.getElementById('location');
+
+      fetch(urlLocations)
+          .then(response => response.json())
+          .then(data => {
+              data.forEach(option => {
+                  const optionElement = document.createElement('option');
+                  optionElement.value = option.Location;
+                  optionElement.textContent = option.Location;
+                  selectLocal.appendChild(optionElement);
+              });
+          })
+          .catch(error => {
+              console.error('Erro ao obter os departamentos:', error);
+          }); 
+
 });
-  document.getElementById("departadd").addEventListener("click", function(){
+document.getElementById("departadd").addEventListener("click", function(){
     console.log("click Adição de Departamento")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
@@ -251,7 +290,7 @@ document.getElementById("listusers").addEventListener("click", function () {
     console.log("click Lista de Usuário")
     showListUsers();
 });
-  document.getElementById("list-data").addEventListener("click", function(){
+document.getElementById("list-data").addEventListener("click", function(){
     console.log("click Lista de Usuário")
       showListUsers();
 });
@@ -372,7 +411,7 @@ function deleteUser(event) {
       'Authorization': "Bearer " + cookie
     },
     body: JSON.stringify([userSIP]),
-  })
+  }).then(response => response.json())
     .then(data => {
         if (data.success == true) {
             showToast("success", data.message)
@@ -395,7 +434,7 @@ function deleteDepart(event) {
       'Authorization': "Bearer " + cookie
     },
     body: JSON.stringify([departName]),
-  })
+  }).then(response => response.json())
     .then(data => {
         if (data.success == true) {
             showToast("success", data.message)
@@ -418,7 +457,7 @@ function deleteLocal(event) {
       'Authorization': "Bearer " + cookie
     },
     body: JSON.stringify([departName]),
-  })
+  }).then(response => response.json())
     .then(data => {
         if (data.success == true) {
             showToast("success", data.message)
@@ -444,6 +483,7 @@ function deleteStatus(event) {
         },
         body: JSON.stringify([statusName]),
     })
+    .then(response =>response.json())
         .then(data => {
             if (data.success == true) {
                 showToast("success", data.message)
@@ -463,7 +503,21 @@ function showHome() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
-    fetch('/Home/Users')
+    fetch('/Home/Status')
+        .then(response => response.json())
+        .then(data => {
+            listStatus = data
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON', error);
+        });
+
+    fetch('/Home/Users', {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + cookie
+        }
+    })
         .then(response => response.json())
         .then(data => {
             supporters = [];
@@ -514,9 +568,16 @@ function showListUsers() {
         <th>SIP</th>
         <th>E-mail</th>
         <th>Ramal</th>
-        <th>Local</th>`;
+        <th>Local</th>
+        <th>Perfil</th>
+        <th>Excluir</th>`;
     document.getElementById("local-table").innerHTML += titletable;
-    fetch('/Home/Users')
+    fetch('/Home/Users', {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + cookie
+        }
+    })
         .then(response => response.json())
         .then(data => {
             users = data
@@ -541,7 +602,8 @@ function makeUserTable(users) {
         <td>${user.email}</td>
         <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
         <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
-        <td style="text-align: center;"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
+        <td style="text-transform: capitalize; text-align: center;">${user.perfil}</td>
+        <td style="text-align: center; background-color:rgba(255, 255, 255, 0.60);"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
       </tr>
     `;
         document.getElementById("local-table").innerHTML += html
@@ -567,7 +629,7 @@ function showListDep(){
     departmentHeader.textContent = "Departamentos";
     headerRow.appendChild(departmentHeader);
     var deleteHeader = document.createElement("th");
-    deleteHeader.textContent = "Del";
+    deleteHeader.textContent = "Excluir";
     headerRow.appendChild(deleteHeader);
     table.appendChild(thead);
 
@@ -581,7 +643,8 @@ function showListDep(){
       departmentCell.textContent = local.Department;
 
       var deleteCell = row.insertCell();
-      deleteCell.style.textAlign = "center";
+        deleteCell.style.textAlign = "center";
+        deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
       var deleteImage = document.createElement("img");
       deleteImage.classList.add("delete-dep");
       deleteImage.id = local.Department;
@@ -623,7 +686,7 @@ function showListLocal(){
       locationHeader.textContent = "Local";
       headerRow.appendChild(locationHeader);
       var deleteHeader = document.createElement("th");
-      deleteHeader.textContent = "Del";
+      deleteHeader.textContent = "Excluir";
       headerRow.appendChild(deleteHeader);
       table.appendChild(thead);
 
@@ -636,7 +699,8 @@ function showListLocal(){
         locationCell.textContent = data.Location;
 
         var deleteCell = row.insertCell();
-        deleteCell.style.textAlign = "center";
+          deleteCell.style.textAlign = "center";
+          deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
         var deleteImage = document.createElement("img");
         deleteImage.classList.add("delete-local");
         deleteImage.id = data.Location;
@@ -680,7 +744,7 @@ function showListStatus() {
             locationHeader.textContent = "Cor";
             headerRow.appendChild(locationHeader);
             var deleteHeader = document.createElement("th");
-            deleteHeader.textContent = "Del";
+            deleteHeader.textContent = "Excluir";
             headerRow.appendChild(deleteHeader);
             table.appendChild(thead);
 
@@ -698,6 +762,7 @@ function showListStatus() {
 
                 var deleteCell = row.insertCell();
                 deleteCell.style.textAlign = "center";
+                deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
                 var deleteImage = document.createElement("img");
                 deleteImage.classList.add("delete-status");
                 deleteImage.id = data.StatusName;
@@ -786,13 +851,22 @@ function getUsersStatus(department) {
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
 }
 function buildUserHTML(user, response) {
-  var userStatus = response.find(function(item) {
-    return item[user.sip] !== undefined;
-  });
+    var userStatus = response.find(function (item) {
+        return item[user.sip] !== undefined;
+    });
+    var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+    var statusName = 'Offline';
+    var statusColor;
 
-  var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+    for (let i = 0; i < listStatus.length; i++) {
+        if (listStatus[i].Id === statusClass) {
+            statusName = listStatus[i].StatusName;
+            statusColor = listStatus[i].Color
+            break;
+        }
+    }
   var html = `
-  <div class="cards" id="cards">
+  <div class="cards" id="cards" onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
   <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
     <div class="epygi-image">
       <img src=${user.img} class="epygi-tab__supporter-img" alt="">
@@ -802,8 +876,8 @@ function buildUserHTML(user, response) {
         <strong>${user.name}<br></strong>${user.department}<br>
       </div>
       <div class="epygi-content__status" style="display:flex;align-items:center;">
-        <div class="epygi-content__status__indicator ${statusClass} "></div>
-        <div>${statusClass}</div>
+        <div class="epygi-content__status__indicator ${statusClass} " style="background-color: ${statusColor};"></div>
+        <div>${statusName}</div>
       </div>    
     </div>
   </div>
@@ -823,6 +897,38 @@ function updateUsersHTML(department, response) {
         divCards.innerHTML += userHTML
     }
   });
+
+}
+function prepareCall(id, num, status) {
+    if (status == "online") {
+        const divContent = document.getElementById("div-content");
+        // Limpar o conteúdo existente da div-content
+        //divContent.innerHTML = "";
+
+        // Criar um iframe
+        const iframe = document.createElement("iframe");
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.src = urlEpygi + id; // Substitua pela URL desejada
+
+        // Adicionar o iframe à div-content
+        //divContent.appendChild(iframe);
+        // Obter as dimensões da janela do navegador
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        // Calcular as coordenadas para posicionar a janela no centro
+        const windowWidth = 200; // Largura da janela
+        const windowHeight = 400; // Altura da janela
+        const left = (screenWidth - windowWidth) / 2;
+        const top = (screenHeight - windowHeight) / 2;
+
+        // Abrir o conteúdo desejado em uma nova janela ou guia, posicionada no centro da tela
+        window.open(urlEpygi + id, "_blank", "toolbar=no,width=" + windowWidth + ",height=" + windowHeight + ",left=" + left + ",top=" + top);
+    } else {
+        window.alert("Usuário indisponível no momento!");
+    }
+
 
 }
 function showToast(type, message) {

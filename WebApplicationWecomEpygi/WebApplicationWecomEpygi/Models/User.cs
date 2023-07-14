@@ -10,5 +10,6 @@
         public string location { get; set; }
         public string email { get; set; }
         public string img { get; set; }
+        public string perfil { get; set; }
     }
 }

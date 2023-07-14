@@ -2,7 +2,10 @@
 var cookie;
 var cookieName = "successLoginCookie";
 var supporters = [];
+var listStatus = [];
 var intervalId;
+var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
+var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
   // validar cookie
    function load() {
        var successValue = getCookie(cookieName);
@@ -22,9 +25,10 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     const sip = document.getElementById('sip').value;
     const num = document.getElementById('num').value;
     const pass = document.getElementById('pass').value;
-    const department = document.getElementById('departamento').value.toLowerCase();
+    const department = document.getElementById('department').value;
     const location = document.getElementById('location').value;
     const email = document.getElementById('email').value;
+    const perfil = document.getElementById('perfil').value;
     const imgFile = document.getElementById('file-upload-button').files[0]; // obter o arquivo de imagem
 
     
@@ -42,7 +46,8 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
             "pass": pass,
             "department": department,
             "location": location,
-            "email": email
+            "email": email,
+            "perfil": perfil
         },
         "image": {
             "name": imgFile.name,
@@ -69,7 +74,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
                     const data = await response.json();
                     if (data.success == true) {
                         showToast("success", data.message)
-                        showHome();
+                        showListUsers();
 
                     } else {
                         showToast("warning", data.message)
@@ -118,7 +123,7 @@ document.getElementById('add-departs').addEventListener('click', function (e) {
                   const data = await response.json();
                   if (data.success == true) {
                       showToast("success", data.message)
-                      showHome();
+                      showListUsers();
 
                   } else {
                       showToast("warning", data.message)
@@ -163,7 +168,7 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
                   const data = await response.json();
                   if (data.success == true) {
                       showToast("success", data.message)
-                      showHome();
+                      showListUsers()
 
                   } else {
                       showToast("warning", data.message)
@@ -179,6 +184,55 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
               showToast("danger", error)
           });
 });
+// requisição para adicionar status
+document.getElementById('add-status').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('status-name').value;
+    const id = document.getElementById('status-id').value;
+    const color = document.getElementById('status-color').value;
+
+    if (name === '') {
+        showToast("warning", "Complete todos os campos")
+        return;
+    }
+
+    const data = {
+        "id":id,
+        "name": name,
+        "color": color
+
+    };
+    fetch('/Home/AddStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + cookie
+        },
+        body: JSON.stringify(data)
+    })
+        .then(async function (response) {
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success == true) {
+                    showToast("success", data.message)
+                    showListUsers();
+
+                } else {
+                    showToast("warning", data.message)
+                }
+
+            } else {
+                console.log('Ocorreu um erro ao salvar os dados.');
+                showToast("danger", response.status)
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showToast("danger", error)
+        });
+});
+
 // listeners
   document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
@@ -189,9 +243,41 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-add-dep").style.display = "none"
-    document.getElementById("id-list-home").style.display = "none"
+      document.getElementById("id-list-home").style.display = "none"
+      const selectDep = document.getElementById('department');
+
+      fetch(urlDepartments)
+          .then(response => response.json())
+          .then(data => {
+              data.forEach(option => {
+                  const optionElement = document.createElement('option');
+                  optionElement.value = option.Department;
+                  optionElement.textContent = option.Department;
+                  selectDep.appendChild(optionElement);
+              });
+          })
+          .catch(error => {
+              console.error('Erro ao obter os departamentos:', error);
+          });
+
+      const selectLocal = document.getElementById('location');
+
+      fetch(urlLocations)
+          .then(response => response.json())
+          .then(data => {
+              data.forEach(option => {
+                  const optionElement = document.createElement('option');
+                  optionElement.value = option.Location;
+                  optionElement.textContent = option.Location;
+                  selectLocal.appendChild(optionElement);
+              });
+          })
+          .catch(error => {
+              console.error('Erro ao obter os departamentos:', error);
+          }); 
+
 });
-  document.getElementById("departadd").addEventListener("click", function(){
+document.getElementById("departadd").addEventListener("click", function(){
     console.log("click Adição de Departamento")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
@@ -199,11 +285,11 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
 
     document.getElementById("id-list-home").style.display = "none"
 });
-   document.getElementById("userlist").addEventListener("click", function(){
+document.getElementById("listusers").addEventListener("click", function () {
     console.log("click Lista de Usuário")
-      showListUsers();
+    showListUsers();
 });
-  document.getElementById("list-data").addEventListener("click", function(){
+document.getElementById("list-data").addEventListener("click", function(){
     console.log("click Lista de Usuário")
       showListUsers();
 });
@@ -215,6 +301,10 @@ document.getElementById("list-local").addEventListener("click", function() {
   console.log("Click Lista Local")
   showListLocal();
 });
+document.getElementById("list-status").addEventListener("click", function () {
+    console.log("Click Lista Status")
+    showListStatus();
+});
 document.getElementById("logout").addEventListener("click", function () {
     console.log("click Sair")
     deleteCookie();
@@ -225,11 +315,11 @@ document.getElementById("logo-box").addEventListener("click", function(){
 });
 
 //elementos html por ID
-const tabledata = document.getElementById("data-table")
+//const tabledata = document.getElementById("data-table")
 const tablelocal = document.getElementById("local-table")
-const tabledep = document.getElementById("department-table")
+//const tabledep = document.getElementById("department-table")
 
-// funções internas
+// funções internas COOKIE
 function getCookie(name) {
   var nameEQ = name + "=";
   var ca = document.cookie.split(';');
@@ -278,12 +368,155 @@ function getCookieExpiration(cookieValue) {
 function deleteCookie() {
   document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
+//DELETE EVENTS
+function EventDeleteUser() {
+  var deleteButtons = document.getElementsByClassName("delete-user");
+  Array.from(deleteButtons).forEach(function (button) {
+      button.addEventListener("click", deleteUser);
+      console.log("EventDeleteUser")
+  });
+}
+function EventDeleteDepart() {
+  var deleteButtons = document.getElementsByClassName("delete-dep");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteDepart);
+      console.log("EventDeleteDepart")
+  });
+}
+function EventDeleteLocal() {
+  var deleteButtons = document.getElementsByClassName("delete-local");
+  Array.from(deleteButtons).forEach(function (button) {
+    button.addEventListener("click", deleteLocal);
+      console.log("EventDeleteLocal")
+  });
+}
+function EventDeleteStatus() {
+    var deleteButtons = document.getElementsByClassName("delete-status");
+    Array.from(deleteButtons).forEach(function (button) {
+        button.addEventListener("click", deleteStatus);
+        console.log("EventDeleteStatus")
+    });
+}
+
+//DELETE FUNC
+function deleteUser(event) {
+  var userSIP = event.target.id;
+
+  fetch("/Home/DelUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([userSIP]),
+  }).then(response => response.json())
+    .then(data => {
+        if (data.success == true) {
+            showToast("success", data.message)
+            showListUsers()
+        } else {
+            showToast("error", data.message)
+        }
+    })
+    .catch(error => {
+      console.error("Erro ao remover usuário:", error);
+    });
+}
+function deleteDepart(event) {
+  var departName = event.target.id;
+
+  fetch("/Home/DelDepartments", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([departName]),
+  }).then(response => response.json())
+    .then(data => {
+        if (data.success == true) {
+            showToast("success", data.message)
+            showListDep()
+        } else {
+            showToast("error", data.message)
+        }
+    })
+    .catch(error => {
+      console.error("Erro ao remover Departamento:", error);
+    });
+}
+function deleteLocal(event) {
+  var departName = event.target.id;
+
+  fetch("/Home/DelLocations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': "Bearer " + cookie
+    },
+    body: JSON.stringify([departName]),
+  }).then(response => response.json())
+    .then(data => {
+        if (data.success == true) {
+            showToast("success", data.message)
+            showListLocal()
+        } else {
+            showToast("error", data.message)
+        }
+        
+        
+    })
+    .catch(error => {
+      console.error("Erro ao remover Localidade:", error);
+    });
+}
+function deleteStatus(event) {
+    var statusName = event.target.id;
+
+    fetch("/Home/DelStatus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': "Bearer " + cookie
+        },
+        body: JSON.stringify([statusName]),
+    })
+    .then(response =>response.json())
+        .then(data => {
+            if (data.success == true) {
+                showToast("success", data.message)
+                showListStatus()
+            } else {
+                showToast("error", data.message)
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao remover Localidade:", error);
+        });
+}
+
+//SHOW TABLES
 function showHome() {
     document.getElementById("id-home").style.display = "block"
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
-    fetch('/Home/Users')
+    fetch('/Home/Status')
+        .then(response => response.json())
+        .then(data => {
+            listStatus = data
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON', error);
+        });
+
+    fetch('/Home/Users', {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + cookie
+        }
+    })
         .then(response => response.json())
         .then(data => {
             supporters = [];
@@ -325,7 +558,7 @@ function showListUsers() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
-    document.getElementById("data-table").innerHTML = '';
+    document.getElementById("local-table").innerHTML = '';
     // tabela de usuários adm
     var users = []
     var titletable = `<th></th>
@@ -334,25 +567,32 @@ function showListUsers() {
         <th>SIP</th>
         <th>E-mail</th>
         <th>Ramal</th>
-        <th>Local</th>`;
-    document.getElementById("data-table").innerHTML += titletable;
-    fetch('/Home/Users')
+        <th>Local</th>
+        <th>Perfil</th>
+        <th>Excluir</th>`;
+    document.getElementById("local-table").innerHTML += titletable;
+    fetch('/Home/Users', {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + cookie
+        }
+    })
         .then(response => response.json())
         .then(data => {
             users = data
             makeUserTable(users);
-            addDeleteEventListeners();
+            EventDeleteUser();
         })
         .catch(error => {
             console.error('Erro ao carregar o arquivo JSON', error);
         });
 }
 function makeUserTable(users) {
-  users.forEach(function (user) {
-    tabledata.style.display = "block"
-    tablelocal.style.display = "none"
-    tabledep.style.display = "none"
-    var html = `
+    users.forEach(function (user) {
+
+        tablelocal.style.display = "block"
+
+        var html = `
       <tr>
         <td><img src="${user.img}" alt="" style="width: 35px; height: 35px;"></td>
         <td>${user.name}</td>
@@ -361,132 +601,50 @@ function makeUserTable(users) {
         <td>${user.email}</td>
         <td style="text-transform: capitalize; text-align: center;">${user.num}</td>
         <td style="text-transform: capitalize; text-align: center;">${user.location}</td>
-        <td style="text-align: center;"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
+        <td style="text-transform: capitalize; text-align: center;">${user.perfil}</td>
+        <td style="text-align: center; background-color:rgba(255, 255, 255, 0.60);"><img class="delete-user" id="${user.sip}" src="./images/trash.png" alt="" style="width: 25px; height: 25px;"></td>
       </tr>
     `;
-    document.getElementById("data-table").innerHTML += html
-  });
-}
-function addDeleteEventListeners() {
-  var deleteButtons = document.getElementsByClassName("delete-user");
-  Array.from(deleteButtons).forEach(function (button) {
-    button.addEventListener("click", deleteUser);
-  });
-}
-function EventDeleteDepart() {
-  var deleteButtons = document.getElementsByClassName("delete-dep");
-  Array.from(deleteButtons).forEach(function (button) {
-    button.addEventListener("click", deleteDepart);
-    console.log("Dep deletado!")
-  });
-}
-function EventDeleteLocal() {
-  var deleteButtons = document.getElementsByClassName("delete-local");
-  Array.from(deleteButtons).forEach(function (button) {
-    button.addEventListener("click", deleteLocal);
-    console.log("Local deletado!")
-  });
-}
-function deleteUser(event) {
-  var userSIP = event.target.id;
-
-  fetch("/Home/DelUser", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': "Bearer " + cookie
-    },
-    body: JSON.stringify([userSIP]),
-  })
-    .then(response => response.json())
-    .then(data => {
-        console.log("usuário removido com sucesso:", data);
-        showToast("success","Usuário removido com sucesso!")
-        showListUsers()
-      //removeUserRow(userSIP);
-    })
-    .catch(error => {
-      console.error("Erro ao remover usuário:", error);
-    });
-}
-function deleteDepart(event) {
-  var departName = event.target.id;
-
-  fetch("/Home/DelDepartments", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': "Bearer " + cookie
-    },
-    body: JSON.stringify([departName]),
-  })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Departamento removido com sucesso:", data);
-        showToast("success","Departamento removido com sucesso!")
-        showListDep()
-    })
-    .catch(error => {
-      console.error("Erro ao remover Departamento:", error);
-    });
-}
-function deleteLocal(event) {
-  var departName = event.target.id;
-
-  fetch("/Home/DelLocations", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': "Bearer " + cookie
-    },
-    body: JSON.stringify([departName]),
-  })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Localidade removida com sucesso:", data);
-        showToast("success","Localidade removida com sucesso!")
-        showListDep()
-    })
-    .catch(error => {
-      console.error("Erro ao remover Localidade:", error);
+        document.getElementById("local-table").innerHTML += html
     });
 }
 function showListDep(){
-  tabledata.style.display = "none"
-  tablelocal.style.display = "none"
-  tabledep.style.display = "block"
+  //tabledata.style.display = "none"
+  tablelocal.style.display = "block"
+  //tabledep.style.display = "none"
   fetch("/Home/Departments")
   .then(response => response.json())
   .then(data => {
-    const departmentList = data;
+    var departmentList = data;
 
-    const tableContainer = document.getElementById("department-table");
-    const table = document.createElement("table");
-    table.classList.add("department-table");
+      var tableContainer = document.getElementById("local-table");
+    var table = document.createElement("table");
+      table.classList.add("local-table");
 
     // Criação do cabeçalho da tabela
-    const thead = document.createElement("thead");
-    const headerRow = thead.insertRow();
-    const departmentHeader = document.createElement("th");
+    var thead = document.createElement("thead");
+    var headerRow = thead.insertRow();
+    var departmentHeader = document.createElement("th");
     departmentHeader.textContent = "Departamentos";
     headerRow.appendChild(departmentHeader);
-    const deleteHeader = document.createElement("th");
-    deleteHeader.textContent = "Del";
+    var deleteHeader = document.createElement("th");
+    deleteHeader.textContent = "Excluir";
     headerRow.appendChild(deleteHeader);
     table.appendChild(thead);
 
     // Criação do corpo da tabela
-    const tbody = document.createElement("tbody");
+    var tbody = document.createElement("tbody");
     
     departmentList.forEach(local => {
-      const row = tbody.insertRow();
+      var row = tbody.insertRow();
 
-      const departmentCell = row.insertCell();
+      var departmentCell = row.insertCell();
       departmentCell.textContent = local.Department;
 
-      const deleteCell = row.insertCell();
-      deleteCell.style.textAlign = "center";
-      const deleteImage = document.createElement("img");
+      var deleteCell = row.insertCell();
+        deleteCell.style.textAlign = "center";
+        deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
+      var deleteImage = document.createElement("img");
       deleteImage.classList.add("delete-dep");
       deleteImage.id = local.Department;
       deleteImage.src = "./images/trash.png";
@@ -507,41 +665,42 @@ function showListDep(){
     });
 }
 function showListLocal(){
-  tabledata.style.display = "none";
+  //tabledata.style.display = "none";
   tablelocal.style.display = "block";
-  tabledep.style.display = "none";
+  //tabledep.style.display = "none";
 
   fetch("/Home/Locations")
     .then(response => response.json())
     .then(data => {
-      const locationList = data;
+      var locationList = data;
       console.log(data)
-      const tableContainer = document.getElementById("local-table");
-      const table = document.createElement("table");
+      var tableContainer = document.getElementById("local-table");
+      var table = document.createElement("table");
       table.classList.add("local-table");
 
       // Criação do cabeçalho da tabela
-      const thead = document.createElement("thead");
-      const headerRow = thead.insertRow();
-      const locationHeader = document.createElement("th");
+      var thead = document.createElement("thead");
+      var headerRow = thead.insertRow();
+      var locationHeader = document.createElement("th");
       locationHeader.textContent = "Local";
       headerRow.appendChild(locationHeader);
-      const deleteHeader = document.createElement("th");
-      deleteHeader.textContent = "Del";
+      var deleteHeader = document.createElement("th");
+      deleteHeader.textContent = "Excluir";
       headerRow.appendChild(deleteHeader);
       table.appendChild(thead);
 
       // Criação do corpo da tabela
-      const tbody = document.createElement("tbody");
+      var tbody = document.createElement("tbody");
       locationList.forEach(data => {
-        const row = tbody.insertRow();
+        var row = tbody.insertRow();
 
-        const locationCell = row.insertCell();
+        var locationCell = row.insertCell();
         locationCell.textContent = data.Location;
 
-        const deleteCell = row.insertCell();
-        deleteCell.style.textAlign = "center";
-        const deleteImage = document.createElement("img");
+        var deleteCell = row.insertCell();
+          deleteCell.style.textAlign = "center";
+          deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
+        var deleteImage = document.createElement("img");
         deleteImage.classList.add("delete-local");
         deleteImage.id = data.Location;
         deleteImage.src = "./images/trash.png";
@@ -561,6 +720,70 @@ function showListLocal(){
       console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
     });
 }
+function showListStatus() {
+    tablelocal.style.display = "block";
+
+
+    fetch("/Home/Status")
+        .then(response => response.json())
+        .then(data => {
+            var statusList = data;
+            console.log(data)
+            var tableContainer = document.getElementById("local-table");
+            var table = document.createElement("table");
+            table.classList.add("local-table");
+
+            // Criação do cabeçalho da tabela
+            var thead = document.createElement("thead");
+            var headerRow = thead.insertRow();
+            var locationHeader = document.createElement("th");
+            locationHeader.textContent = "Nome";
+            headerRow.appendChild(locationHeader);
+            var locationHeader = document.createElement("th");
+            locationHeader.textContent = "Cor";
+            headerRow.appendChild(locationHeader);
+            var deleteHeader = document.createElement("th");
+            deleteHeader.textContent = "Excluir";
+            headerRow.appendChild(deleteHeader);
+            table.appendChild(thead);
+
+            // Criação do corpo da tabela
+            var tbody = document.createElement("tbody");
+            statusList.forEach(data => {
+                var row = tbody.insertRow();
+
+                var statusCell = row.insertCell();
+                statusCell.textContent = data.StatusName;
+
+                var colorCell = row.insertCell();
+                colorCell.textContent = data.Color;
+                colorCell.style.backgroundColor = data.Color;
+
+                var deleteCell = row.insertCell();
+                deleteCell.style.textAlign = "center";
+                deleteCell.style.backgroundColor = "rgba(255, 255, 255, 0.60)";
+                var deleteImage = document.createElement("img");
+                deleteImage.classList.add("delete-status");
+                deleteImage.id = data.StatusName;
+                deleteImage.src = "./images/trash.png";
+                deleteImage.alt = "";
+                deleteImage.style.width = "25px";
+                deleteImage.style.height = "25px";
+                deleteCell.appendChild(deleteImage);
+            });
+
+            table.appendChild(tbody);
+
+            tableContainer.innerHTML = "";
+            tableContainer.appendChild(table);
+            EventDeleteStatus()
+        })
+        .catch(error => {
+            console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
+        });
+}
+
+
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -627,13 +850,22 @@ function getUsersStatus(department) {
       }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos  
 }
 function buildUserHTML(user, response) {
-  var userStatus = response.find(function(item) {
-    return item[user.sip] !== undefined;
-  });
+    var userStatus = response.find(function (item) {
+        return item[user.sip] !== undefined;
+    });
+    var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+    var statusName = 'Offline';
+    var statusColor;
 
-  var statusClass = userStatus ? userStatus[user.sip] : 'Offline';
+    for (let i = 0; i < listStatus.length; i++) {
+        if (listStatus[i].Id === statusClass) {
+            statusName = listStatus[i].StatusName;
+            statusColor = listStatus[i].Color
+            break;
+        }
+    }
   var html = `
-  <div class="cards" id="cards">
+  <div class="cards" id="cards" onclick="prepareCall('${user.sip}', '${user.num}', '${statusClass}')">
   <div class="epygi-root-visitenkarten" style="top: -10px; font-size: 10px; left: 5px; background-color: transparent; width: 240px; margin: 0;">
     <div class="epygi-image">
       <img src=${user.img} class="epygi-tab__supporter-img" alt="">
@@ -643,8 +875,8 @@ function buildUserHTML(user, response) {
         <strong>${user.name}<br></strong>${user.department}<br>
       </div>
       <div class="epygi-content__status" style="display:flex;align-items:center;">
-        <div class="epygi-content__status__indicator ${statusClass} "></div>
-        <div>${statusClass}</div>
+        <div class="epygi-content__status__indicator ${statusClass} " style="background-color: ${statusColor};></div>
+        <div>${StatusName}</div>
       </div>    
     </div>
   </div>

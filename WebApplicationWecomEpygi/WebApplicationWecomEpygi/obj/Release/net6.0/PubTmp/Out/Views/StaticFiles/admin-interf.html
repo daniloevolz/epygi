@@ -83,7 +83,7 @@
         <div class="select-box" style="display: flex; flex-wrap: wrap;">
             <div style="width: 65%;"><label>Departamento: </label>
             </div>
-            <div><select id="filter-department" ></select>
+            <div><select id="filter-department" class="addlocal"></select>
             </div>
           </div>
     </div>
@@ -113,16 +113,25 @@
                     <label>Senha 3PCC</label>
                 </div>
                 <div class="user-box">
-                    <input type="select" id="departamento" name="" required="" autocomplete="off">
-                    <label>Departamento</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" id="location" name="" required="" autocomplete="off">
-                    <label>Localização</label>
-                </div>
-                <div class="user-box">
                     <input type="text" id="email" name="" required="" autocomplete="off">
                     <label>E-mail</label>
+                </div>
+                <div class="add-select-box">
+                    <label>Departamento</label>
+                    <select name="Dep" id="department" class="addlocal">
+                    </select>
+                </div>
+                <div class="add-select-box">
+                    <label>Localização</label>
+                    <Select id="location" class="addlocal">
+                    </Select>
+                </div>
+                <div class="add-select-box">
+                    <label>Perfil</label>
+                    <Select id="perfil" class="addlocal">
+                        <option selected value="public">Publico</option>
+                        <option value="secret">Interno</option>
+                    </Select>
                 </div>
                 <div class="img-box">
                     <label>Imagem</label>
@@ -161,7 +170,6 @@
             <scroll-container class="list-box scrolltable" style ="display: flex; justify-content: center; align-items:top;"> 
               <div>
                 <table id="local-table" class="table">
-                    
                 </table>
               </div>
             </scroll-container>
@@ -206,7 +214,11 @@
             <form>
                 <div class="user-box">
                     <input type="text" id="status-name" name="" required="" autocomplete="off">
-                    <label>Status</label>
+                    <label>Nome</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" id="status-id" name="" required="" autocomplete="off">
+                    <label>Id do Status</label>
                 </div>
                 <div>
                     <label for="cor">Selecione uma cor</label>

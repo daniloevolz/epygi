@@ -68,6 +68,7 @@ namespace WebApplicationWecomEpygi.Models
                     command.Parameters.AddWithValue("@Image", user.img);
                     command.Parameters.AddWithValue("@Department", user.department);
                     command.Parameters.AddWithValue("@Location", user.location);
+                    command.Parameters.AddWithValue("@Perfil", user.perfil);
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -168,7 +169,7 @@ namespace WebApplicationWecomEpygi.Models
         #endregion
 
         #region Status
-        public void InsertStatus(string query, string status, string color)
+        public void InsertStatus(string query, string id, string status, string color)
         {
             // Executar a query com parâmetros
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -176,6 +177,7 @@ namespace WebApplicationWecomEpygi.Models
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     // Adicionar parâmetros
+                    command.Parameters.AddWithValue("@Id", id);
                     command.Parameters.AddWithValue("@StatusName", status);
                     command.Parameters.AddWithValue("@Color", color);
 
