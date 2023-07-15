@@ -261,12 +261,12 @@ namespace WebApplicationWecomEpygi.Controllers
         {
             try
             {
-                var query = "SELECT DWC.dbo.Users.*, " +
-                    "DWC.dbo.Departments.Department AS DepartmentName, " +
-                    "DWC.dbo.Locations.Location AS LocationName " +
-                    "FROM Users " +
-                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
-                    "JOIN Locations ON Users.LocationId = Locations.Id";
+                var query = "SELECT [DWC].[dbo].[Users].*, " +
+                    "[DWC].[dbo].[Departments].[Department] AS [DepartmentName], " +
+                    "[DWC].[dbo].[Locations].[Location] AS [LocationName] " +
+                    "FROM [DWC].[dbo].[Users] " +
+                    "JOIN [Departments] ON [Users].[DepartmentId] = [Departments].[Id] " +
+                    "JOIN [Locations] ON [Users].[LocationId] = [Locations].[Id]";
 
                 //Trata resposta padrronizada para View
                 var queryResult = _databaseContext.ExecuteQuery(query);
@@ -307,13 +307,13 @@ namespace WebApplicationWecomEpygi.Controllers
         {
             try
             {
-                var query = "SELECT DWC.dbo.Users.*, " +
-                    "DWC.dbo.Departments.Department AS DepartmentName, " +
-                    "DWC.dbo.Locations.Location AS LocationName " +
-                    "FROM Users " +
-                    "JOIN Departments ON Users.DepartmentId = Departments.Id " +
-                    "JOIN Locations ON Users.LocationId = Locations.Id" +
-                    "WHERE Users.Perfil = 'public'";
+                var query = "SELECT [DWC].[dbo].[Users].*, " +
+                    "[DWC].[dbo].[Departments].[Department] AS [DepartmentName], " +
+                    "[DWC].[dbo].[Locations].[Location] AS [LocationName] " +
+                    "FROM [DWC].[dbo].[Users] " +
+                    "JOIN [Departments] ON [Users].[DepartmentId] = [Departments].[Id] " +
+                    "JOIN [Locations] ON [Users].[LocationId] = [Locations].[Id]" +
+                    "WHERE [DWC].[dbo].[Users].[Perfil] = 'public'";
 
                 //Trata resposta padrronizada para View
                 var queryResult = _databaseContext.ExecuteQuery(query);

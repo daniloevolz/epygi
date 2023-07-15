@@ -6,6 +6,7 @@ var listStatus = [];
 var intervalId;
 var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
+var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
    function load() {
        var successValue = getCookie(cookieName);
@@ -875,8 +876,8 @@ function buildUserHTML(user, response) {
         <strong>${user.name}<br></strong>${user.department}<br>
       </div>
       <div class="epygi-content__status" style="display:flex;align-items:center;">
-        <div class="epygi-content__status__indicator ${statusClass} " style="background-color: ${statusColor};></div>
-        <div>${StatusName}</div>
+        <div class="epygi-content__status__indicator ${statusClass} " style="background-color: ${statusColor};"></div>
+        <div>${statusName}</div>
       </div>    
     </div>
   </div>
@@ -896,6 +897,38 @@ function updateUsersHTML(department, response) {
         divCards.innerHTML += userHTML
     }
   });
+
+}
+function prepareCall(id, num, status) {
+    if (status == "online") {
+        const divContent = document.getElementById("div-content");
+        // Limpar o conteúdo existente da div-content
+        //divContent.innerHTML = "";
+
+        // Criar um iframe
+        const iframe = document.createElement("iframe");
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.src = urlEpygi + id; // Substitua pela URL desejada
+
+        // Adicionar o iframe à div-content
+        //divContent.appendChild(iframe);
+        // Obter as dimensões da janela do navegador
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+        // Calcular as coordenadas para posicionar a janela no centro
+        const windowWidth = 200; // Largura da janela
+        const windowHeight = 400; // Altura da janela
+        const left = (screenWidth - windowWidth) / 2;
+        const top = (screenHeight - windowHeight) / 2;
+
+        // Abrir o conteúdo desejado em uma nova janela ou guia, posicionada no centro da tela
+        window.open(urlEpygi + id, "_blank", "toolbar=no,width=" + windowWidth + ",height=" + windowHeight + ",left=" + left + ",top=" + top);
+    } else {
+        window.alert("Usuário indisponível no momento!");
+    }
+
 
 }
 function showToast(type, message) {
