@@ -146,7 +146,7 @@ document.getElementById("clickBack").addEventListener("click", function () {
     document.getElementById("div-users").style.display = 'none';
     document.getElementById("div-call").innerHTML = '';
     document.getElementById("div-call").style.display = 'none';
-    document.getElementById("div-content").style.display = 'block';
+    document.getElementById("div-content").style.display = 'flex';
     clearInterval(intervalId);
 })
 
