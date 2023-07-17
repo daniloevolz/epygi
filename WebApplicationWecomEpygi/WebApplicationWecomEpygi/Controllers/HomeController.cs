@@ -932,6 +932,37 @@ namespace WebApplicationWecomEpygi.Controllers
         }
         #endregion
 
+        #region Service Controll
+        [HttpGet]
+        public IActionResult GETServiceRestart()
+        {
+            try
+            {
+                var result = RestartService();
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao reiniciar o serviço: " + ex.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult GETServiceStatus()
+        {
+            try
+            {
+                var result = StatusService();
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao reiniciar o serviço: " + ex.Message });
+            }
+        }
+        #endregion
+
         #region Funções Internas
         internal string DecodeMd5Hash(string hashedString)
         {
@@ -1018,6 +1049,39 @@ namespace WebApplicationWecomEpygi.Controllers
                     controller.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
                 }
                 return new { success = true, message = "Serviço reiniciado com sucesso" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, message = ex.Message };
+            }
+
+        }
+        internal dynamic StatusService()
+        {
+            try
+            {
+                var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+                string nomeServico = config["ServiceName"];
+
+
+                using (var controller = new ServiceController(nomeServico))
+                {
+                    if (controller.Status == ServiceControllerStatus.Running)
+                    {
+                        return new { success = true, message = "Rodando" };
+                    }
+                    else
+                    {
+                        return new { success = true, message = "Parado"};
+
+                    }
+                    
+                }
+                
             }
             catch (Exception ex)
             {
