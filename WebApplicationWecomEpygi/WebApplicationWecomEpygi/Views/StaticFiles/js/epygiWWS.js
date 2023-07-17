@@ -6,6 +6,7 @@ const urlStatus = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'
 var urlDepart = "https://wetransfer.wecom.com.br:81/Home/Departments";
 var urlStatusColor = "https://wetransfer.wecom.com.br:81/Home/Status";
 
+
 function load() {
     getDepartments();
     fetch(urlUsers)
@@ -141,8 +142,11 @@ function makeCards(departments) {
 }
 
 document.getElementById("clickBack").addEventListener("click", function () {
-    document.getElementById("div-cards").style.display = 'block'
-    document.getElementById("div-users").style.display = 'none'
+    document.getElementById("div-cards").style.display = 'block';
+    document.getElementById("div-users").style.display = 'none';
+    document.getElementById("div-call").innerHTML = '';
+    document.getElementById("div-call").style.display = 'none';
+    document.getElementById("div-content").style.display = 'flex';
     clearInterval(intervalId);
 })
 
@@ -223,33 +227,24 @@ function updateUsersHTML(department, response) {
 }
 function prepareCall(id, num, status) {
     if (status == "online") {
+        
+        const divCall = document.getElementById("div-call");
         const divContent = document.getElementById("div-content");
-        // Limpar o conteúdo existente da div-content
-        //divContent.innerHTML = "";
+        divCall.innerHTML = ''
+        divContent.style.display = 'none';
+        divCall.style.display = 'block';
+        var iframe = document.createElement("iframe");
 
-        // Criar um iframe
-        const iframe = document.createElement("iframe");
+        iframe.setAttribute("src",urlEpygi + id)
+        iframe.setAttribute("id","iframe-call")
         iframe.style.width = "100%";
         iframe.style.height = "100%";
-        iframe.src = urlEpygi + id; // Substitua pela URL desejada
-
-        // Adicionar o iframe à div-content
-        //divContent.appendChild(iframe);
-        // Obter as dimensões da janela do navegador
-        const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-        // Calcular as coordenadas para posicionar a janela no centro
-        const windowWidth = 200; // Largura da janela
-        const windowHeight = 400; // Altura da janela
-        const left = (screenWidth - windowWidth) / 2;
-        const top = (screenHeight - windowHeight) / 2;
-
-        // Abrir o conteúdo desejado em uma nova janela ou guia, posicionada no centro da tela
-        window.open(urlEpygi + id, "_blank", "toolbar=no,width=" + windowWidth + ",height=" + windowHeight + ",left=" + left + ",top=" + top);
+        divCall.appendChild(iframe);
+        // var iframe = document.getElementById("iframe-call");
+        // iframe.src = urlEpygi + id; 
+    
+        
     } else {
         window.alert("Usuário indisponível no momento!");
     }
-
-
 }
