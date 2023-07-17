@@ -8,31 +8,31 @@ var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
-   function load() {
-       var successValue = getCookie(cookieName);
-     if (successValue == null) {
-          window.location.href = "./login.html";
-      } else {
-           cookie = successValue;
-     }
-     showHome();
-   }
+  //  function load() {
+  //      var successValue = getCookie(cookieName);
+  //    if (successValue == null) {
+  //         window.location.href = "./login.html";
+  //     } else {
+  //          cookie = successValue;
+  //    }
+  //    showHome();
+  //  }
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const sip = document.getElementById('sip').value;
+    const name = document.getElementById('name').value.trim();
+    const sip = document.getElementById('sip').value.trim();
     const num = document.getElementById('num').value;
-    const pass = document.getElementById('pass').value;
+    const pass = document.getElementById('pass').value.trim();
     const department = document.getElementById('department').value;
     const location = document.getElementById('location').value;
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const perfil = document.getElementById('perfil').value;
     const imgFile = document.getElementById('file-upload-button').files[0]; // obter o arquivo de imagem
+    console.log(name,sip,pass,email) 
 
-    
     if (name === '' || sip === '' || num === '' || department === '' || location === '' || email === '' || !imgFile) {
         // makePopUp();
         showToast("warning","Complete todos os campos")
@@ -99,7 +99,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
 document.getElementById('add-departs').addEventListener('click', function (e) {
   e.preventDefault();
 
-  const name = document.getElementById('depart-name').value;
+  const name = document.getElementById('depart-name').value.trim();
   
   if (name === '') {
       showToast("warning","Complete todos os campos")
@@ -144,7 +144,7 @@ document.getElementById('add-departs').addEventListener('click', function (e) {
 document.getElementById('add-locations').addEventListener('click', function (e) {
   e.preventDefault();
 
-  const name = document.getElementById('location-name').value;
+  const name = document.getElementById('location-name').value.trim();
   
   if (name === '') {
       showToast("warning","Complete todos os campos")
@@ -189,8 +189,8 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
 document.getElementById('add-status').addEventListener('click', function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('status-name').value;
-    const id = document.getElementById('status-id').value;
+    const name = document.getElementById('status-name').value.trim();
+    const id = document.getElementById('status-id').value.trim();
     const color = document.getElementById('status-color').value;
 
     if (name === '') {
@@ -559,6 +559,7 @@ function showListUsers() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
+    document.getElementById("ss-service").style.display = "none"
     document.getElementById("local-table").innerHTML = '';
     // tabela de usuários adm
     var users = []
@@ -1002,5 +1003,69 @@ theme.addEventListener("click", function () {
     }
 });
 
+document.getElementById("status").addEventListener("click", function(){
+  document.getElementById("id-home").style.display = "none"
+  document.getElementById("id-add-home").style.display = "none"
+  document.getElementById("id-add-dep").style.display = "none"
+  document.getElementById("id-list-home").style.display = "none"
+  document.getElementById("status").style.display = "flex"
 
+  console.log("click Status Server")
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      data = {
+        "message":"Teste",
+        "success":true
+      }
+      if (data.message === "Rodando" ) {
+        document.getElementById('ss-color').style.color = 'green';
+        showToast("success", data.message)
+      } else {
+        document.getElementById('ss-color').style.color = 'red';
+        document.getElementById("ss-color").addEventListener("click", function(){
+          document.getElementById("ss-bt-restart").style.display = "flex"
 
+        })
+
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+});
+// Obtém os elementos do DOM
+const myButton = document.getElementById('myButton');
+const myToast = document.getElementById('myToast');
+const yesButton = document.getElementById('yesButton');
+const noButton = document.getElementById('noButton');
+
+// Adiciona um ouvinte de evento de clique ao botão
+myButton.addEventListener('click', () => {
+  myToast.style.display = 'block';
+});
+
+// Adiciona um ouvinte de evento de clique ao botão 'Sim'
+yesButton.addEventListener('click', () => {
+  startServer(console.log("Servidor reiniciado"));
+  myToast.style.display = 'none';
+});
+
+// Adiciona um ouvinte de evento de clique ao botão 'Não'
+noButton.addEventListener('click', () => {
+  myToast.style.display = 'none';
+});
+
+// Função para iniciar o servidor
+function startServer() {
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceRestart')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+}

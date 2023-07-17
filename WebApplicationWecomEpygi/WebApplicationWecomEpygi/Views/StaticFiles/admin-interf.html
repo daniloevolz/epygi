@@ -10,7 +10,8 @@
     <title>Painel Admin</title>
 </head>
 <body style="overflow-x: hidden; overflow-y: hidden" onload="load()" id="body"> 
-<div class="colLeft">
+<!-- Painel de seleção -->
+    <div class="colLeft">
     <div id="box" class="box-left">
         <div id="userpainel">
             <div id="logo-box">
@@ -52,7 +53,14 @@
                     </li>
                     <h3>Usuários e Parâmetros</h3>
                 </ul>
-                
+                <ul id="status" style="display: flex; align-items: center; height: 45px; align-items: center;">
+                    <li class="status-server">
+                        <a href="#" class="user white usuario" id="usuario">
+                            <span class="bggray"></span>
+                        </a>
+                    </li>
+                    <h3>Server Status</h3>
+                </ul>
             </div>
         </div> 
     </div>
@@ -76,7 +84,7 @@
         </ul>
     </div>      
 </div>
-      
+<!-- Painel de ação -->
 <div class="colRight" id="action-painel" style="overflow-y: hidden;">
     <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: none;">
     <div id="filters" class="filter"style="color: white;"><h3 style="width: 10%;" >Filtros:</h3>
@@ -148,7 +156,7 @@
         </div>
     </div>
     
-    <div id="id-list-home" style="display:flex; width: 100%;">
+    <div id="id-list-home" style="display:none; width: 100%;">
         <div id="list-users" style="display: flex; width: 100%;">
             <div id="top-bottons" style="color: white;">
                 <ul id="list-data">
@@ -233,8 +241,25 @@
                 </a>
             </form>
         </div>
+        
     </div>
-
+    <div id="ss-service" style="display:block; width: 100%; height: 100%;">
+        <ul>
+            <h3 id="ss-color" style="color: green;">Bottom Status</h3>
+        </ul>
+        <div id="ss-restart" style="display: flex;">
+        <ul>
+            <h3 id="ss-bt-restart" style="display: none;">Reiniciar</h3>
+            <div id="bt-restart" style="display: none;">Tem certeza que deseja reiniciar?</div>
+            <div id="myButton">Iniciar servidor</div>
+            <div id="myToast" class="toast">
+                <p>Deseja iniciar o servidor?</p>
+                <div id="yesButton">Sim</div>
+                <div id="noButton">Não</div>
+              </div>
+        </ul>
+        </div>
+    </div>
 </div>
     <script src="./js/admin.js"></script>
 </body>

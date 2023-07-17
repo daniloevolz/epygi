@@ -1,3 +1,5 @@
+
+
 html {
   height: 100%;
 }
@@ -144,6 +146,20 @@ ul{
   list-style-type: none;
   left: -40px;
 }
+.status-server {
+  width: 50px;
+  height: 10px;
+  padding-bottom: 40px;
+  background-image: url(../images/settings.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-color: rgba(255, 255, 255, 0.60);
+  background-position: center;
+  position: relative;
+  border-radius: 50px;
+  list-style-type: none;
+  left: -40px;
+}
 .useradd {
   vertical-align: center;
   width: 50px;
@@ -206,7 +222,7 @@ ul{
 }
 .main-user {
     display: flex;
-    height: calc(100vh - 390px);
+    height: calc(100vh - 450px);
     width: 100%;
     align-items: flex-start;
     flex-direction: column-reverse;
@@ -356,12 +372,12 @@ body {
     background: transparent;
 }
 .addlocal {
-    appearance: none;
+    
     border: 1;
     outline: 0;
     width: 13em;
     height: 2em;
-    padding: 0 2em 0 2em;
+    padding: 0 2em 0 1em;
     background: no-repeat right 0.8em center / 1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.1) 3em, rgba(255, 255, 255, 0.10) 3em);
     color: white;
     border-radius: 0.75em;
@@ -944,7 +960,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
-
+    .status-server {
+      width: 45px;
+      height: 10px;
+      padding-bottom: 35px;
+      background-image: url(../images/settings.png);
+      background-repeat: no-repeat;
+      background-size: 30px;
+      background-color: rgba(255, 255, 255, 0.60);
+      background-position: center;
+      position: relative;
+      border-radius: 50px;
+      list-style-type: none;
+      left: -40px;
+    }
     .userlogout {
         width: 45px;
         height: 10px;
@@ -1159,7 +1188,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
-
+    .status-server {
+              /*width: 30px;*/
+              height: 10px;
+              padding-bottom: 25px;
+              background-image: url(../images/settings.png);
+              background-repeat: no-repeat;
+              background-size: 20px;
+              background-color: rgba(255, 255, 255, 0.60);
+              background-position: center;
+              position: relative;
+              border-radius: 15px;
+              list-style-type: none;
+              left: -40px;
+      }
     .userlogout {
         width: 30px;
         height: 10px;
@@ -1391,6 +1433,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
+    .status-server {
+      width: 20px;
+      height: 10px;
+      padding-bottom: 15px;
+      background-image: url(../images/settings.png);
+      background-repeat: no-repeat;
+      background-size: 15px;
+      background-color: rgba(255, 255, 255, 0.60);
+      background-position: center;
+      position: relative;
+      border-radius: 10px;
+      list-style-type: none;
+      left: -40px;
+  }
 
     .userlogout {
         width: 20px;
@@ -1548,3 +1604,32 @@ input[type="color"] {
     }
 }
 /*fim media query */
+.toast {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 30px;
+  background-color: rgba(0,0,0,.6);
+  color: #fff;
+  border-radius: 50px;
+}
+
+.toast p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.toast button {
+  margin-right: 5px;
+}
+#yesButtom{
+  width: 50px;
+
+}
+.noButtom{
+  width: 50px;
+  
+}
