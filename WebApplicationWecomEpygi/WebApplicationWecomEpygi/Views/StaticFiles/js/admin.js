@@ -235,11 +235,13 @@ document.getElementById('add-status').addEventListener('click', function (e) {
 });
 
 // listeners
-  document.getElementById("dashhome").addEventListener("click", function(){
+  document.getElementById("dashhome").addEventListener("click", function(){try{
         console.log("click Dash Home")
         document.getElementById("ss-service").style.display = 'none';
         document.getElementById('myToast').style.display = 'none';
         showHome();
+      }
+        catch(e){console.log(e)}
 });
   document.getElementById("useradd").addEventListener("click", function(){
     console.log("click Adição de Usuário")
@@ -510,14 +512,19 @@ function showHome() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
-    fetch('/Home/Status')
+    document.getElementById("ss-service").style.display = "none"
+    try{fetch('/Home/Status')
         .then(response => response.json())
         .then(data => {
             listStatus = data
         })
         .catch(error => {
             console.error('Erro ao carregar o arquivo JSON', error);
-        });
+})
+    }catch(e){
+      console.log(e)
+    };
+
 
     fetch('/Home/Users', {
         method: 'GET',
@@ -1009,32 +1016,40 @@ theme.addEventListener("click", function () {
     }
 });
 
-document.getElementById("status").addEventListener("click", function(){
+document.getElementById("status").addEventListener("click", serverStatus())
+  
+function serverStatus(){
   document.getElementById("id-home").style.display = "none"
   document.getElementById("id-add-home").style.display = "none"
   document.getElementById("id-add-dep").style.display = "none"
   document.getElementById("id-list-home").style.display = "none"
-  document.getElementById("ss-service").style.display = "block"
+  document.getElementById("ss-service").style.display = "flex"
 
   console.log("click Status Server")
-  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+  try{fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
     .then(response => response.json())
     .then(data => {
+
       console.log(data)
       if (data.message === "Rodando" ) {
         document.getElementById('ss-color').innerHTML = 'Serviço Ativo!';
         document.getElementById('ss-color').style.color = 'green';
-        
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverV.png");
+
       } else {
         document.getElementById('ss-color').innerHTML = 'Serviço fora do ar!';
         document.getElementById('ss-color').style.color = 'red';
-
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverX.png")
+        
       }
     })
     .catch(error => {
       console.error('Erro:', error);
     });
-});
+  }catch(e){
+    console.log(e)
+  }
+};
 
 // Obtém os elementos do DOM
 const myButton = document.getElementById('restartService');
@@ -1075,10 +1090,10 @@ function startServer() {
   var ProgressBar = document.createElement("div");
   ProgressBar.classList.add("progress-bar");
   divProgress.appendChild(ProgressBar)
-  document.getElementById("ss-service").appendChild(divProgress)
+  document.getElementById("ss-box").appendChild(divProgress)
   document.getElementById("progress").style.display = 'block';
   setTimeout(function(){
     document.getElementById("progress").style.display = 'none'
-  },5000)
+  },4000)
   
 }

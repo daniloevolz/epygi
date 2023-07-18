@@ -244,17 +244,21 @@
         
     </div>
 
-    <div id="ss-service" >
+    <div id="ss-service" style="display: flex;">
+
+        <div id="ss-box">
             <h1>Status do Serviço</h1>
-            <h2 id="ss-color" style="text-align: center;"></h2>
-            <a href="#" id="restartService">Reiniciar Serviço</a>
-            
+            <div>
+                <img id="ss-image" src="../StaticFiles/images/serverV.png" alt="">
+                <h2 id="ss-color" style="text-align: center;"></h2>
+                <a href="#" id="restartService">Reiniciar Serviço</a>
+            </div>
             <div id="myToast" class="toast">
                 <p>Deseja iniciar o servidor?</p>
                 <div id="yesButton">Sim</div>
                 <div id="noButton">Não</div>
               </div>
-        </ul>
+        </div>
         </div>
     </div> 
     <script src="./js/admin.js"></script>
