@@ -237,6 +237,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
 // listeners
   document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
+        document.getElementById("ss-service").style.display = 'none';
+        document.getElementById('myToast').style.display = 'none';
         showHome();
 });
   document.getElementById("useradd").addEventListener("click", function(){
@@ -245,6 +247,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
     document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-add-dep").style.display = "none"
       document.getElementById("id-list-home").style.display = "none"
+      document.getElementById("ss-service").style.display = 'none';
+      document.getElementById('myToast').style.display = 'none';
       const selectDep = document.getElementById('department');
 
       fetch(urlDepartments)
@@ -283,10 +287,13 @@ document.getElementById("departadd").addEventListener("click", function(){
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
       document.getElementById("id-add-dep").style.display = "inline-grid"
-
+      document.getElementById("ss-service").style.display = 'none';
+      document.getElementById('myToast').style.display = 'none';
     document.getElementById("id-list-home").style.display = "none"
 });
 document.getElementById("listusers").addEventListener("click", function () {
+    document.getElementById("ss-service").style.display = 'none';
+    document.getElementById('myToast').style.display = 'none';
     console.log("click Lista de Usuário")
     showListUsers();
 });
@@ -560,6 +567,7 @@ function showListUsers() {
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
     document.getElementById("ss-service").style.display = "none"
+    document.getElementById('myToast').style.display = 'none';
     document.getElementById("local-table").innerHTML = '';
     // tabela de usuários adm
     var users = []
@@ -784,8 +792,6 @@ function showListStatus() {
             console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
         });
 }
-
-
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -1008,26 +1014,20 @@ document.getElementById("status").addEventListener("click", function(){
   document.getElementById("id-add-home").style.display = "none"
   document.getElementById("id-add-dep").style.display = "none"
   document.getElementById("id-list-home").style.display = "none"
-  document.getElementById("status").style.display = "flex"
+  document.getElementById("ss-service").style.display = "block"
 
   console.log("click Status Server")
   fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      data = {
-        "message":"Teste",
-        "success":true
-      }
       if (data.message === "Rodando" ) {
+        document.getElementById('ss-color').innerHTML = 'Serviço Ativo!';
         document.getElementById('ss-color').style.color = 'green';
-        showToast("success", data.message)
+        
       } else {
+        document.getElementById('ss-color').innerHTML = 'Serviço fora do ar!';
         document.getElementById('ss-color').style.color = 'red';
-        document.getElementById("ss-color").addEventListener("click", function(){
-          document.getElementById("ss-bt-restart").style.display = "flex"
-
-        })
 
       }
     })
@@ -1035,8 +1035,9 @@ document.getElementById("status").addEventListener("click", function(){
       console.error('Erro:', error);
     });
 });
+
 // Obtém os elementos do DOM
-const myButton = document.getElementById('myButton');
+const myButton = document.getElementById('restartService');
 const myToast = document.getElementById('myToast');
 const yesButton = document.getElementById('yesButton');
 const noButton = document.getElementById('noButton');
@@ -1068,4 +1069,16 @@ function startServer() {
     .catch(error => {
       console.error('Erro:', error);
     });
+  var divProgress = document.createElement("div");
+  divProgress.classList.add("progress");
+  divProgress.setAttribute("id","progress");
+  var ProgressBar = document.createElement("div");
+  ProgressBar.classList.add("progress-bar");
+  divProgress.appendChild(ProgressBar)
+  document.getElementById("ss-service").appendChild(divProgress)
+  document.getElementById("progress").style.display = 'block';
+  setTimeout(function(){
+    document.getElementById("progress").style.display = 'none'
+  },5000)
+  
 }

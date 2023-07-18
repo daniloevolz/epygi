@@ -237,6 +237,7 @@ function prepareCall(id, num, status) {
 
         iframe.setAttribute("src",urlEpygi + id)
         iframe.setAttribute("id","iframe-call")
+        iframe.setAttribute("allow","camera;microphone")
         iframe.style.width = "100%";
         iframe.style.height = "100%";
         divCall.appendChild(iframe);
