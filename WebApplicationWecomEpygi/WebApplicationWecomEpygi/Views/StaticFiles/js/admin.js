@@ -15,7 +15,7 @@ var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   //     } else {
   //          cookie = successValue;
   //    }
-  //    showHome();
+    showHome();
   //  }
 
 // requisição post para adicionar usuarios
