@@ -1015,8 +1015,8 @@ theme.addEventListener("click", function () {
         theme.setAttribute("color", "dark");
     }
 });
-
-document.getElementById("status").addEventListener("click", serverStatus())
+document.getElementById("serviceserver").addEventListener("click",console.log("click Status"))
+document.getElementById("serviceserver").addEventListener("click", serverStatus)
   
 function serverStatus(){
   document.getElementById("id-home").style.display = "none"
@@ -1026,7 +1026,7 @@ function serverStatus(){
   document.getElementById("ss-service").style.display = "flex"
 
   console.log("click Status Server")
-  try{fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
     .then(response => response.json())
     .then(data => {
 
@@ -1046,9 +1046,6 @@ function serverStatus(){
     .catch(error => {
       console.error('Erro:', error);
     });
-  }catch(e){
-    console.log(e)
-  }
 };
 
 // Obtém os elementos do DOM
