@@ -1026,6 +1026,7 @@ function serverStatus(){
   document.getElementById("ss-service").style.display = "flex"
 
   console.log("click Status Server")
+  
   fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
     .then(response => response.json())
     .then(data => {
@@ -1046,7 +1047,29 @@ function serverStatus(){
     .catch(error => {
       console.error('Erro:', error);
     });
-};
+  clearInterval(intervalId)
+  intervalId = setInterval(function(){
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data)
+      if (data.message === "Rodando" ) {
+        document.getElementById('ss-color').innerHTML = 'Serviço Ativo!';
+        document.getElementById('ss-color').style.color = 'green';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverV.png");
+
+      } else {
+        document.getElementById('ss-color').innerHTML = 'Serviço fora do ar!';
+        document.getElementById('ss-color').style.color = 'red';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverX.png")
+        
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+}, 30000)};
 
 // Obtém os elementos do DOM
 const myButton = document.getElementById('restartService');
