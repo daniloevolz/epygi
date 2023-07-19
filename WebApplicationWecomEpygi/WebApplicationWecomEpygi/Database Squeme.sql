@@ -122,6 +122,7 @@ CREATE TABLE [dbo].[Users](
 	[Image] [nvarchar](256) NULL,
 	[DepartmentId] [nvarchar](128) NOT NULL,
 	[LocationId] [nvarchar](128) NOT NULL
+	[Perfil] [nvarchar](128) NOT NULL
 	CONSTRAINT [PK_dbo.Users] PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC
