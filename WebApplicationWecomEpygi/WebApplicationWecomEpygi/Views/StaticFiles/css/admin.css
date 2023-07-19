@@ -837,6 +837,7 @@ input[type="color"] {
   width: 34%;
   padding: 0;
   justify-content: center;
+  text-align: center;
 }
 
 #top-bottons ul h2{
@@ -846,7 +847,7 @@ input[type="color"] {
   height: 40px;
   width: 80%;
 }
-#top-bottons ul :hover {
+ #top-bottons ul :hover {
   background: #1665db;
   color: #fff;
   border-radius: 5px;
@@ -855,12 +856,11 @@ input[type="color"] {
               0 0 50px #1665db,
               0 0 100px #1665db;
 
+} 
+#top-bottons ul a h2.focused {
+  background: #1665db;
+  /* Adicione outros estilos que você deseja aplicar quando um elemento estiver "focado" aqui */
 }
-#top-bottons:focus {
-  color: #1665db;
-
-}
-
 
 
 
@@ -1680,11 +1680,11 @@ input[type="color"] {
 .progress{
   height: 1.5%;
   background-color: #77777700;
-  position: relative;
+  position: absolute;
   width: 90%;
   left: 5%;
   display: none;
-  bottom: -22%;
+  bottom: 0;
 
 }
 

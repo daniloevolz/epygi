@@ -816,7 +816,7 @@ img.Offline {*//* Status do usuário */
         top: 50%;
         /* margin-top: 50px; */
         left: 50%;
-        transform: translate(-100%, -30%);
+        transform: translate(-100%, 10%);
         border-radius: 15px;
         background-color: #2f323a;
     }

@@ -235,13 +235,11 @@ document.getElementById('add-status').addEventListener('click', function (e) {
 });
 
 // listeners
-  document.getElementById("dashhome").addEventListener("click", function(){try{
+  document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
         document.getElementById("ss-service").style.display = 'none';
         document.getElementById('myToast').style.display = 'none';
         showHome();
-      }
-        catch(e){console.log(e)}
 });
   document.getElementById("useradd").addEventListener("click", function(){
     console.log("click Adição de Usuário")
@@ -252,6 +250,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
       document.getElementById("ss-service").style.display = 'none';
       document.getElementById('myToast').style.display = 'none';
       const selectDep = document.getElementById('department');
+      selectDep.innerHTML = '';
+      selectDep.value = ''
 
       fetch(urlDepartments)
           .then(response => response.json())
@@ -268,6 +268,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
           });
 
       const selectLocal = document.getElementById('location');
+      selectLocal.innerHTML = '';
+      selectLocal.value = ''
 
       fetch(urlLocations)
           .then(response => response.json())
@@ -513,7 +515,7 @@ function showHome() {
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
     document.getElementById("ss-service").style.display = "none"
-    try{fetch('/Home/Status')
+    fetch('/Home/Status')
         .then(response => response.json())
         .then(data => {
             listStatus = data
@@ -521,11 +523,6 @@ function showHome() {
         .catch(error => {
             console.error('Erro ao carregar o arquivo JSON', error);
 })
-    }catch(e){
-      console.log(e)
-    };
-
-
     fetch('/Home/Users', {
         method: 'GET',
         headers: {
@@ -1018,6 +1015,14 @@ theme.addEventListener("click", function () {
 document.getElementById("serviceserver").addEventListener("click",console.log("click Status"))
 document.getElementById("serviceserver").addEventListener("click", serverStatus)
   
+// focus css
+function focus(element) {
+  const allH2Elements = document.querySelectorAll("#top-bottons h2");
+  allH2Elements.forEach(el => el.classList.remove("focused"));
+  element.classList.add("focused");
+}
+
+
 function serverStatus(){
   document.getElementById("id-home").style.display = "none"
   document.getElementById("id-add-home").style.display = "none"
