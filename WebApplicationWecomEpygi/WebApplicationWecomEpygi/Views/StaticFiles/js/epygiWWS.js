@@ -178,7 +178,7 @@ function buildUserHTML(user, response) {
           <div class="user-status">${statusName}</div>
         </div>
         <div style="display:flex ; justify-content: flex-end ; width: 100%;align-items:center">
-          <div onclick="prepareCall('${user.img}' , '${user.sip}' , '${user.num}', '${statusClass}')"> 
+          <div onclick="prepareCall('${user.img}' , '${user.sip}' , '${user.department}', '${user.num}', '${statusClass}')"> 
           <img src="./images/call.png" class="img-icons" id="imgcall">
           </div>
           <div onclick="location.href='mailto:${user.email}'">
@@ -227,15 +227,18 @@ function updateUsersHTML(department, response) {
 }
 
 var btnDeclineListener = null;
+var btnKeyboard = null
 
-function prepareCall(img ,id, num, status) {
+function prepareCall(img ,id, depart, num, status) {
     if (status == "online") {
         
         const divCall = document.getElementById("div-call");
         const divContent = document.getElementById("div-content");
+        const divIframe = document.createElement("div")
+        // divIframe.style.width = '40%'
         divCall.innerHTML = ''
         divContent.style.display = 'none';
-        divCall.style.display = 'block';
+        divCall.style.display = 'flex';
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src",urlEpygi + id)
         iframe.setAttribute("id","iframe-call")
@@ -243,33 +246,54 @@ function prepareCall(img ,id, num, status) {
         iframe.style.width = "100%";
         iframe.style.height = "100%";
         iframe.style.visibility = 'hidden';
+        // iframe.style.position = 'absolute';
+        // iframe.style.left = '5%'
 
-        var DivDecline = `<div class = "div-decline">
-        <div class="card-call">
+        var DivDecline = `
+        <div class = "div-decline">
+        <div class="card-call" id="card-call">
         <div class="header-call">
-        <div class="name-on-call">${id}</div>
-        <div class="img-on-call"><img src="${img}" width = 120px  style="border-radius: 10px;"></div>
-        <div class="footer-call">
-          <div class="raccrocher">
-            <span class="icon red" id="btnDecline"></span>
+        <div class="img-on-call"><img src="${img}" width = 135px  style="border-radius: 7px;"></div>
+        </div>
+        <div class="icons-call">
+         <img src="./images/decline-icon.png" width="35px" id="DeclineCall" style="margin: 7px; margin-right: 20px; cursor: pointer">
+         <img src="./images/keyboard-icon.png" width="35px" id="keyboard" style="margin: 7px; cursor: pointer ">
+        </div>
+        <div class="outgoing-name">
+            <div>${id}</div>
+            <span>${depart}</span>
+        </div>
+        </div>
           </div>
-        </div>
-        </div>
-        </div>
-          </div>`
-        divCall.appendChild(iframe);
+          `
+        divIframe.appendChild(iframe)
+        divCall.appendChild(divIframe);
         divCall.innerHTML += DivDecline
         
         if (btnDeclineListener) {
-            document.getElementById("btnDecline").removeEventListener("click", btnDeclineListener);
+            document.getElementById("DeclineCall").removeEventListener("click", btnDeclineListener);
+        }else{
+            btnDeclineListener = function() {
+                divCall.innerHTML = '';
+                divCall.style.display = 'none';
+                divContent.style.display = 'flex';
+            };
         }
-        btnDeclineListener = function() {
-            divCall.innerHTML = '';
-            divCall.style.display = 'none';
-            divContent.style.display = 'flex';
-        };
-        document.getElementById("btnDecline").addEventListener("click", btnDeclineListener);
-    
+        if(btnKeyboard){
+            document.getElementById("keyboard").removeEventListener("click", btnDeclineListener);
+            divIframe.style.display = 'none';
+        }else{
+            btnKeyboard = function (){
+                document.getElementById("iframe-call").style.visibility = 'visible';
+                divIframe.style.width = '60%';
+                divIframe.style.marginLeft = '40%'
+                divIframe.style.marginTop = '10%';
+                document.getElementById("card-call").style.transform = 'translate(-100%, 25%)'
+            }
+        }
+        document.getElementById("keyboard").addEventListener("click", btnKeyboard);
+        document.getElementById("DeclineCall").addEventListener("click", btnDeclineListener);
+        
     } else {
         window.alert("Usuário indisponível no momento!");
     }
