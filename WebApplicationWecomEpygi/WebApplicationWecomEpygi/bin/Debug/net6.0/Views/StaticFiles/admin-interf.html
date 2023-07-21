@@ -10,7 +10,8 @@
     <title>Painel Admin</title>
 </head>
 <body style="overflow-x: hidden; overflow-y: hidden" onload="load()" id="body"> 
-<div class="colLeft">
+<!-- Painel de seleção -->
+    <div class="colLeft">
     <div id="box" class="box-left">
         <div id="userpainel">
             <div id="logo-box">
@@ -52,7 +53,14 @@
                     </li>
                     <h3>Usuários e Parâmetros</h3>
                 </ul>
-                
+                <ul id="serviceserver" style="display: flex; align-items: center; height: 45px; align-items: center;">
+                    <li class="status-server">
+                        <a href="#" class="user white usuario" id="usuario">
+                            <span class="bggray"></span>
+                        </a>
+                    </li>
+                    <h3>Server Status</h3>
+                </ul>
             </div>
         </div> 
     </div>
@@ -76,9 +84,9 @@
         </ul>
     </div>      
 </div>
-      
+<!-- Painel de ação -->
 <div class="colRight" id="action-painel" style="overflow-y: hidden;">
-    <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: none;">
+    <div id="id-home" style="position: absolute; width: 100%; height: -webkit-fill-available; display: block;">
     <div id="filters" class="filter"style="color: white;"><h3 style="width: 10%;" >Filtros:</h3>
         <div class="select-box" style="display: flex; flex-wrap: wrap;">
             <div style="width: 65%;"><label>Departamento: </label>
@@ -148,20 +156,20 @@
         </div>
     </div>
     
-    <div id="id-list-home" style="display:flex; width: 100%;">
+    <div id="id-list-home" style="display:none; width: 100%;">
         <div id="list-users" style="display: flex; width: 100%;">
             <div id="top-bottons" style="color: white;">
                 <ul id="list-data">
-                    <h2>Usuários</h2>
+                    <a style="width: 100%;" onclick= "focus(this)"><h2>Usuários</h2></a>
                 </ul>
                 <ul id="list-local">
-                    <h2>Locais</h2>
+                    <a style="width: 100%;" onclick="focus(this)"><h2>Locais</h2></a>
                 </ul>
                 <ul id="list-dep">
-                    <h2>Departamentos</h2>
+                    <a style="width:100%;" onclick="focus(this)"><h2>Departamentos</h2></a>
                 </ul>
                 <ul id="list-status">
-                    <h2>Status</h2>
+                    <a style="width:100%;" onclick="focus(this)"><h2>Status</h2></a>
                 </ul>
                 <div class="select-box" style="display: flex; flex-wrap: wrap;">
 
@@ -233,9 +241,26 @@
                 </a>
             </form>
         </div>
+        
     </div>
 
-</div>
+    <div id="ss-service" style="display: none;">
+
+        <div id="ss-box">
+            <h1>Status do Serviço</h1>
+            <div>
+                <img id="ss-image" src="../StaticFiles/images/serverV.png" alt="">
+                <h2 id="ss-color" style="text-align: center;"></h2>
+                <a href="#" id="restartService">Reiniciar Serviço</a>
+            </div>
+            <div id="myToast" class="toast">
+                <p>Deseja iniciar o servidor?</p>
+                <div id="yesButton">Sim</div>
+                <div id="noButton">Não</div>
+              </div>
+        </div>
+        </div>
+    </div> 
     <script src="./js/admin.js"></script>
 </body>
 </html>

@@ -16,6 +16,74 @@ body{
     overflow: hidden;
     font-family: 'Montserrat semi bold';
 }
+.div-decline{
+    /* width: 40%; */
+    position: absolute;
+    left:80%;
+    height:100%;
+    top: 30%;
+}
+.card-call{
+    /* position: absolute; */
+    overflow: hidden;
+    width: 250px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    background-color: #2f323a;
+}
+.header-call {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: transparent;
+}
+.footer-call {
+    position: relative;
+    width: 100%;
+    height: 35%;
+    top: 10%;
+    border-top: 1px solid #24262c;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #282b32;
+    
+}
+.img-on-call{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.name-on-call{
+    text-transform: capitalize;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: x-large;
+}
+.raccrocher {
+    left: 7%;
+    transition: all 0.3s;
+    background-color: #E72E04;
+    margin-top: -35px;
+    margin-left: 24%;
+}
+
+.red {
+    display: block;
+    position: absolute;
+    width: 130px;
+    height: 80px;
+    background-image: url(../images/decline-call.png);
+    background-size: cover;
+    cursor: pointer;
+}
 .div-anuncios {
     width: 83%;
     height: calc(100vh - 100px);
@@ -53,6 +121,14 @@ body{
     display: flex;
     justify-content: center; 
     width: 40%;
+    
+   
+}
+.div-call{
+    display: none;
+    justify-content: center; 
+    width: 40%;
+    height: 100vh;
    
 }
 #div-cards {
@@ -731,6 +807,18 @@ img.Offline {*//* Status do usuário */
         max-width: 450px;
         margin: 0 auto;
         padding-right: 0;
+    }
+    .card-call {
+        /* position: absolute; */
+        overflow: hidden;
+        width: 250px;
+        height: 250px;
+        top: 50%;
+        /* margin-top: 50px; */
+        left: 50%;
+        transform: translate(-100%, 10%);
+        border-radius: 15px;
+        background-color: #2f323a;
     }
 
     .aside .lembrete {

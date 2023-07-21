@@ -1,3 +1,5 @@
+
+
 html {
   height: 100%;
 }
@@ -144,6 +146,20 @@ ul{
   list-style-type: none;
   left: -40px;
 }
+.status-server {
+  width: 50px;
+  height: 10px;
+  padding-bottom: 40px;
+  background-image: url(../images/settings.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-color: rgba(255, 255, 255, 0.60);
+  background-position: center;
+  position: relative;
+  border-radius: 50px;
+  list-style-type: none;
+  left: -40px;
+}
 .useradd {
   vertical-align: center;
   width: 50px;
@@ -206,7 +222,7 @@ ul{
 }
 .main-user {
     display: flex;
-    height: calc(100vh - 390px);
+    height: calc(100vh - 450px);
     width: 100%;
     align-items: flex-start;
     flex-direction: column-reverse;
@@ -356,12 +372,12 @@ body {
     background: transparent;
 }
 .addlocal {
-    appearance: none;
+    
     border: 1;
     outline: 0;
     width: 13em;
     height: 2em;
-    padding: 0 2em 0 2em;
+    padding: 0 2em 0 1em;
     background: no-repeat right 0.8em center / 1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.1) 3em, rgba(255, 255, 255, 0.10) 3em);
     color: white;
     border-radius: 0.75em;
@@ -821,6 +837,7 @@ input[type="color"] {
   width: 34%;
   padding: 0;
   justify-content: center;
+  text-align: center;
 }
 
 #top-bottons ul h2{
@@ -830,7 +847,7 @@ input[type="color"] {
   height: 40px;
   width: 80%;
 }
-#top-bottons ul :hover {
+ #top-bottons ul :hover {
   background: #1665db;
   color: #fff;
   border-radius: 5px;
@@ -839,12 +856,11 @@ input[type="color"] {
               0 0 50px #1665db,
               0 0 100px #1665db;
 
+} 
+#top-bottons ul a h2.focused {
+  background: #1665db;
+  /* Adicione outros estilos que você deseja aplicar quando um elemento estiver "focado" aqui */
 }
-#top-bottons:focus {
-  color: #1665db;
-
-}
-
 
 
 
@@ -944,7 +960,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
-
+    .status-server {
+      width: 45px;
+      height: 10px;
+      padding-bottom: 35px;
+      background-image: url(../images/settings.png);
+      background-repeat: no-repeat;
+      background-size: 30px;
+      background-color: rgba(255, 255, 255, 0.60);
+      background-position: center;
+      position: relative;
+      border-radius: 50px;
+      list-style-type: none;
+      left: -40px;
+    }
     .userlogout {
         width: 45px;
         height: 10px;
@@ -1159,7 +1188,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
-
+    .status-server {
+              /*width: 30px;*/
+              height: 10px;
+              padding-bottom: 25px;
+              background-image: url(../images/settings.png);
+              background-repeat: no-repeat;
+              background-size: 20px;
+              background-color: rgba(255, 255, 255, 0.60);
+              background-position: center;
+              position: relative;
+              border-radius: 15px;
+              list-style-type: none;
+              left: -40px;
+      }
     .userlogout {
         width: 30px;
         height: 10px;
@@ -1391,6 +1433,20 @@ input[type="color"] {
         list-style-type: none;
         left: -40px;
     }
+    .status-server {
+      width: 20px;
+      height: 10px;
+      padding-bottom: 15px;
+      background-image: url(../images/settings.png);
+      background-repeat: no-repeat;
+      background-size: 15px;
+      background-color: rgba(255, 255, 255, 0.60);
+      background-position: center;
+      position: relative;
+      border-radius: 10px;
+      list-style-type: none;
+      left: -40px;
+  }
 
     .userlogout {
         width: 20px;
@@ -1548,3 +1604,100 @@ input[type="color"] {
     }
 }
 /*fim media query */
+.toast {
+  font-size: 30px;
+  height: 42%;
+  width: 90%;
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background-color: rgba(0,0,0,1);
+  color: #fff;
+  border-radius: 30px;
+}
+
+.toast p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.toast button {
+  margin-right: 5px;
+}
+#yesButtom{
+  width: 50px;
+
+}
+.noButtom{
+  width: 50px;
+  
+}
+#ss-service{
+  width: 100%; 
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+
+}
+#ss-box{
+  position: absolute;
+  top: 30%;
+  width: 50%;
+  height: 50%;
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 30px;
+}
+
+#restartService{
+    font-size: 25px;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: bold;
+    border: #1665db 1px solid;
+    padding: 0.25em 1em;
+    border-radius: 0.25em;
+    text-shadow: 0 0 0.125em rgba(255, 255, 255, 0.659), 0 0 0.5em currentColor;
+    box-shadow: inset 0 0 1em 0 #1665db, 0 0 0.5em 0 #1665db;
+    position: relative;
+    /* transform: perspective(1.2em) rotateX(40deg) scale(1.5, 0.5);
+	filter: blur(1.15em); */
+	opacity: 1.0;
+
+	transition: transform 0.5s linear;
+
+}
+#restartService:hover{
+  box-shadow: inset 10px 1px 4.0em 0 #1665db, 0 0 0.5em 0 #1665db;
+}
+.progress{
+  height: 1.5%;
+  background-color: #77777700;
+  position: absolute;
+  width: 90%;
+  left: 5%;
+  display: none;
+  bottom: 0;
+
+}
+
+.progress .progress-bar{
+ position: absolute;
+ height: 100%;
+ width: 100%;
+ background-color: #16db23 ;
+ animation: progress-animation 4s infinite;
+}
+@keyframes progress-animation{
+  0% { width: 0%;
+  background-color: #00ff11;}
+  100% { width: 100%; 
+    background-color: #1665db;}
+}

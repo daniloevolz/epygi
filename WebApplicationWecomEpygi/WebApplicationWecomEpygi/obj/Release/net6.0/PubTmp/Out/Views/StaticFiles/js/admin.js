@@ -8,31 +8,31 @@ var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
-   function load() {
-       var successValue = getCookie(cookieName);
-     if (successValue == null) {
-          window.location.href = "./login.html";
-      } else {
-           cookie = successValue;
-     }
-     showHome();
-   }
+  //  function load() {
+  //      var successValue = getCookie(cookieName);
+  //    if (successValue == null) {
+  //         window.location.href = "./login.html";
+  //     } else {
+  //          cookie = successValue;
+  //    }
+    showHome();
+  //  }
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const sip = document.getElementById('sip').value;
+    const name = document.getElementById('name').value.trim();
+    const sip = document.getElementById('sip').value.trim();
     const num = document.getElementById('num').value;
-    const pass = document.getElementById('pass').value;
+    const pass = document.getElementById('pass').value.trim();
     const department = document.getElementById('department').value;
     const location = document.getElementById('location').value;
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const perfil = document.getElementById('perfil').value;
     const imgFile = document.getElementById('file-upload-button').files[0]; // obter o arquivo de imagem
+    console.log(name,sip,pass,email) 
 
-    
     if (name === '' || sip === '' || num === '' || department === '' || location === '' || email === '' || !imgFile) {
         // makePopUp();
         showToast("warning","Complete todos os campos")
@@ -99,7 +99,7 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
 document.getElementById('add-departs').addEventListener('click', function (e) {
   e.preventDefault();
 
-  const name = document.getElementById('depart-name').value;
+  const name = document.getElementById('depart-name').value.trim();
   
   if (name === '') {
       showToast("warning","Complete todos os campos")
@@ -144,7 +144,7 @@ document.getElementById('add-departs').addEventListener('click', function (e) {
 document.getElementById('add-locations').addEventListener('click', function (e) {
   e.preventDefault();
 
-  const name = document.getElementById('location-name').value;
+  const name = document.getElementById('location-name').value.trim();
   
   if (name === '') {
       showToast("warning","Complete todos os campos")
@@ -189,8 +189,8 @@ document.getElementById('add-locations').addEventListener('click', function (e) 
 document.getElementById('add-status').addEventListener('click', function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('status-name').value;
-    const id = document.getElementById('status-id').value;
+    const name = document.getElementById('status-name').value.trim();
+    const id = document.getElementById('status-id').value.trim();
     const color = document.getElementById('status-color').value;
 
     if (name === '') {
@@ -237,6 +237,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
 // listeners
   document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
+        document.getElementById("ss-service").style.display = 'none';
+        document.getElementById('myToast').style.display = 'none';
         showHome();
 });
   document.getElementById("useradd").addEventListener("click", function(){
@@ -245,7 +247,11 @@ document.getElementById('add-status').addEventListener('click', function (e) {
     document.getElementById("id-add-home").style.display = "flex"
     document.getElementById("id-add-dep").style.display = "none"
       document.getElementById("id-list-home").style.display = "none"
+      document.getElementById("ss-service").style.display = 'none';
+      document.getElementById('myToast').style.display = 'none';
       const selectDep = document.getElementById('department');
+      selectDep.innerHTML = '';
+      selectDep.value = ''
 
       fetch(urlDepartments)
           .then(response => response.json())
@@ -262,6 +268,8 @@ document.getElementById('add-status').addEventListener('click', function (e) {
           });
 
       const selectLocal = document.getElementById('location');
+      selectLocal.innerHTML = '';
+      selectLocal.value = ''
 
       fetch(urlLocations)
           .then(response => response.json())
@@ -283,10 +291,13 @@ document.getElementById("departadd").addEventListener("click", function(){
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "none"
       document.getElementById("id-add-dep").style.display = "inline-grid"
-
+      document.getElementById("ss-service").style.display = 'none';
+      document.getElementById('myToast').style.display = 'none';
     document.getElementById("id-list-home").style.display = "none"
 });
 document.getElementById("listusers").addEventListener("click", function () {
+    document.getElementById("ss-service").style.display = 'none';
+    document.getElementById('myToast').style.display = 'none';
     console.log("click Lista de Usuário")
     showListUsers();
 });
@@ -503,6 +514,7 @@ function showHome() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "none"
+    document.getElementById("ss-service").style.display = "none"
     fetch('/Home/Status')
         .then(response => response.json())
         .then(data => {
@@ -510,8 +522,7 @@ function showHome() {
         })
         .catch(error => {
             console.error('Erro ao carregar o arquivo JSON', error);
-        });
-
+})
     fetch('/Home/Users', {
         method: 'GET',
         headers: {
@@ -559,6 +570,8 @@ function showListUsers() {
     document.getElementById("id-add-home").style.display = "none"
     document.getElementById("id-add-dep").style.display = "none"
     document.getElementById("id-list-home").style.display = "block"
+    document.getElementById("ss-service").style.display = "none"
+    document.getElementById('myToast').style.display = 'none';
     document.getElementById("local-table").innerHTML = '';
     // tabela de usuários adm
     var users = []
@@ -783,8 +796,6 @@ function showListStatus() {
             console.error("Ocorreu um erro ao buscar os dados da tabela:", error);
         });
 }
-
-
 function getUsersByDepartment(department) {
   var users = [];
 
@@ -1001,6 +1012,113 @@ theme.addEventListener("click", function () {
         theme.setAttribute("color", "dark");
     }
 });
+document.getElementById("serviceserver").addEventListener("click",console.log("click Status"))
+document.getElementById("serviceserver").addEventListener("click", serverStatus)
+  
+// focus css
+function focus(element) {
+  const allH2Elements = document.querySelectorAll("#top-bottons h2");
+  allH2Elements.forEach(el => el.classList.remove("focused"));
+  element.classList.add("focused");
+}
 
 
+function serverStatus(){
+  document.getElementById("id-home").style.display = "none"
+  document.getElementById("id-add-home").style.display = "none"
+  document.getElementById("id-add-dep").style.display = "none"
+  document.getElementById("id-list-home").style.display = "none"
+  document.getElementById("ss-service").style.display = "flex"
 
+  console.log("click Status Server")
+  
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data)
+      if (data.message === "Rodando" ) {
+        document.getElementById('ss-color').innerHTML = 'Serviço Ativo!';
+        document.getElementById('ss-color').style.color = 'green';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverV.png");
+
+      } else {
+        document.getElementById('ss-color').innerHTML = 'Serviço fora do ar!';
+        document.getElementById('ss-color').style.color = 'red';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverX.png")
+        
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+  clearInterval(intervalId)
+  intervalId = setInterval(function(){
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data)
+      if (data.message === "Rodando" ) {
+        document.getElementById('ss-color').innerHTML = 'Serviço Ativo!';
+        document.getElementById('ss-color').style.color = 'green';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverV.png");
+
+      } else {
+        document.getElementById('ss-color').innerHTML = 'Serviço fora do ar!';
+        document.getElementById('ss-color').style.color = 'red';
+        document.getElementById("ss-image").setAttribute("src", "../StaticFiles/images/serverX.png")
+        
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+}, 30000)};
+
+// Obtém os elementos do DOM
+const myButton = document.getElementById('restartService');
+const myToast = document.getElementById('myToast');
+const yesButton = document.getElementById('yesButton');
+const noButton = document.getElementById('noButton');
+
+// Adiciona um ouvinte de evento de clique ao botão
+myButton.addEventListener('click', () => {
+  myToast.style.display = 'block';
+});
+
+// Adiciona um ouvinte de evento de clique ao botão 'Sim'
+yesButton.addEventListener('click', () => {
+  startServer(console.log("Servidor reiniciado"));
+  myToast.style.display = 'none';
+});
+
+// Adiciona um ouvinte de evento de clique ao botão 'Não'
+noButton.addEventListener('click', () => {
+  myToast.style.display = 'none';
+});
+
+// Função para iniciar o servidor
+function startServer() {
+  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceRestart')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+  var divProgress = document.createElement("div");
+  divProgress.classList.add("progress");
+  divProgress.setAttribute("id","progress");
+  var ProgressBar = document.createElement("div");
+  ProgressBar.classList.add("progress-bar");
+  divProgress.appendChild(ProgressBar)
+  document.getElementById("ss-box").appendChild(divProgress)
+  document.getElementById("progress").style.display = 'block';
+  setTimeout(function(){
+    document.getElementById("progress").style.display = 'none'
+  },4000)
+  
+}

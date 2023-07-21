@@ -1109,6 +1109,13 @@ namespace WebApplicationWecomEpygi.Controllers
                     try
                     {
                         agents = JsonSerializer.Deserialize<List<Agent>>(usersJson);
+                        var listAgents = JsonSerializer.Deserialize<Agent[]>(usersJson)?.ToList() ?? new List<Agent>();
+
+                        // Verifica se o nome de usuário já existe
+                        if (listAgents.Any(u => u.Sip == sip))
+                        {
+                            return new { success = true, message = "Usuário já existe na lista de agentes, ignorado." };
+                        }
 
                     }
                     catch (Exception ex)
