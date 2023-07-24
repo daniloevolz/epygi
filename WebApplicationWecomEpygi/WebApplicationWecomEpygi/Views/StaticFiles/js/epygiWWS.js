@@ -227,30 +227,32 @@ function updateUsersHTML(department, response) {
 }
 
 var btnDeclineListener = null;
-var btnKeyboard = null
 
 function prepareCall(img ,id, depart, num, status) {
     if (status == "online") {
         
-        const divCall = document.getElementById("div-call");
-        const divContent = document.getElementById("div-content");
-        const divIframe = document.createElement("div")
+        var divCall = document.getElementById("div-call");
+        var divContent = document.getElementById("div-content");
+        var divIframe = document.createElement("div")
+        divIframe.setAttribute("id", "diviframe") 
+        divIframe.setAttribute("class", "diviframe") 
         // divIframe.style.width = '40%'
         divCall.innerHTML = ''
         divContent.style.display = 'none';
+        divIframe.style.display = 'none';
         divCall.style.display = 'flex';
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src",urlEpygi + id)
         iframe.setAttribute("id","iframe-call")
         iframe.setAttribute("allow","camera;microphone")
         iframe.style.width = "100%";
+        iframe.style.paddingLeft = "10px";
         iframe.style.height = "100%";
-        iframe.style.visibility = 'hidden';
+        iframe.style.visibility = 'visible';
         // iframe.style.position = 'absolute';
         // iframe.style.left = '5%'
 
-        var DivDecline = `
-        <div class = "div-decline">
+        var DivCallStatus = `
         <div class="card-call" id="card-call">
         <div class="header-call">
         <div class="img-on-call"><img src="${img}" width = 135px  style="border-radius: 7px;"></div>
@@ -264,11 +266,10 @@ function prepareCall(img ,id, depart, num, status) {
             <span>${depart}</span>
         </div>
         </div>
-          </div>
           `
         divIframe.appendChild(iframe)
+        divCall.innerHTML += DivCallStatus
         divCall.appendChild(divIframe);
-        divCall.innerHTML += DivDecline
         
         if (btnDeclineListener) {
             document.getElementById("DeclineCall").removeEventListener("click", btnDeclineListener);
@@ -279,20 +280,18 @@ function prepareCall(img ,id, depart, num, status) {
                 divContent.style.display = 'flex';
             };
         }
-        if(btnKeyboard){
-            document.getElementById("keyboard").removeEventListener("click", btnDeclineListener);
-            divIframe.style.display = 'none';
-        }else{
-            btnKeyboard = function (){
-                document.getElementById("iframe-call").style.visibility = 'visible';
-                divIframe.style.width = '60%';
-                divIframe.style.marginLeft = '40%'
-                divIframe.style.marginTop = '10%';
-                document.getElementById("card-call").style.transform = 'translate(-100%, 25%)'
-            }
-        }
         document.getElementById("keyboard").addEventListener("click", btnKeyboard);
         document.getElementById("DeclineCall").addEventListener("click", btnDeclineListener);
+
+        function btnKeyboard() {
+            var divIframe = document.getElementById("diviframe");
+            if (divIframe.style.display == 'block') {
+                /*document.getElementById("keyboard").removeEventListener("click", btnDeclineListener);*/
+                divIframe.style.display = 'none';
+            } else {
+                divIframe.style.display = 'block';
+            }
+        }
         
     } else {
         window.alert("Usuário indisponível no momento!");
