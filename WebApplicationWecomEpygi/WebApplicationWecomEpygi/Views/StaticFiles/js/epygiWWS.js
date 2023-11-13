@@ -170,7 +170,10 @@ function buildUserHTML(user, response) {
 
 
     html = `
-        <li>
+    
+        <li  style = "background: ${statusColor}">
+        <div class="availability-user">
+
       <div class="user-card">
         <img src="${user.img}" style = "border: 3px solid ${statusColor}">
         <div class="user-details">
@@ -184,23 +187,12 @@ function buildUserHTML(user, response) {
           <div onclick="location.href='mailto:${user.email}'">
           <img src="./images/mensagem.png" class="img-icons">
           </div>
-         
-          </div>
-          <div style="    
-          /* width: 100%; */
-          /* position: relative; */
-          position: absolute;
-          height:100%;
-          top: calc(100% - 6px);
-          float: right;
-          margin-left: 80%;
-          width: 20%;
-          margin-right: margin;
-         ">
-          <div class="status-line ${statusClass}" style="background-color: ${statusColor}; height: 6px;"> </div>
           </div>
       </div>
+
+      </div>
       </li>
+      
         `;
 
 
