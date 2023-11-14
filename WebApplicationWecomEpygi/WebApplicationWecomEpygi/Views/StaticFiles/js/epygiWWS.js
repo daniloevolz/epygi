@@ -171,21 +171,28 @@ function buildUserHTML(user, response) {
 
     html = `
     
-        <li  style = "background: ${statusColor}">
+        <li  style = "background: ${statusColor}" class = "card-userLi">
         <div class="availability-user">
 
-      <div class="user-card">
+      <div class="user-card" >
         <img src="${user.img}" style = "border: 3px solid ${statusColor}">
         <div class="user-details">
           <div class="user-name">${user.name}</div>
           <div class="user-status">${statusName}</div>
         </div>
-        <div style="display:flex ; justify-content: flex-end ; width: 100%;align-items:center">
+        
+        <div style="display:flex ; justify-content: flex-end ; width: 100%;align-items:center; padding-top: 7px;">
+        <div> 
+        <img src="./images/video-icon.png" class="img-icons">
+        </div>
+        <div> 
+        <img src="./images/chat-icon.png" class="img-icons">
+        </div>
           <div onclick="prepareCall('${user.img}' , '${user.sip}' , '${user.department}', '${user.num}', '${statusClass}')"> 
-          <img src="./images/call.png" class="img-icons" id="imgcall">
+          <img src="./images/phone-icon.png" class="img-icons" id="imgcall">
           </div>
           <div onclick="location.href='mailto:${user.email}'">
-          <img src="./images/mensagem.png" class="img-icons">
+          <img src="./images/mail-icon.png" class="img-icons">
           </div>
           </div>
       </div>
