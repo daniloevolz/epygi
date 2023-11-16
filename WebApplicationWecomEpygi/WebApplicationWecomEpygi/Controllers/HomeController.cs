@@ -797,6 +797,74 @@ namespace WebApplicationWecomEpygi.Controllers
                 return Ok(new { success = false, message = "Erro ao remover departamento: " + ex.Message });
             }
         }
+        [HttpPost]
+        [Authorize]  // verificar com danilo se está correto 
+        public IActionResult AddLogo([FromBody] JsonElement data)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Extrair os dados do JSON
+                            string imageUrl =  data.GetProperty("image").GetProperty("name").ToString()
+                            string imageSize = data.GetProperty("image").GetProperty("size").GetUInt64().ToString();
+                            string imageData = data.GetProperty("image").GetProperty("data").GetString();
+
+                            // verificar com Danilo esse INSERT
+                            string query = "INSERT INTO [DWC].[dbo].[Logos] " +
+                                           "([Id], [Logo]) " +
+                                           "VALUES " +
+                                           "(NEWID(), @Logo)";
+                            // verificar com Danilo tudo isso 
+                            _databaseContext.Logo(query, imagemUrl);
+
+                                                        // Salvar a imagem em /StaticFiles/images/
+                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
+                            string imagePath = Path.Combine(imagesDirectory, imageUrl);
+                            string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
+                            byte[] imageBytes = Convert.FromBase64String(base64String);
+                            System.IO.File.WriteAllBytes(imagePath, imageBytes);
+
+                            return Ok(new { success = true, message = "Logo adicionado com sucesso." });
+
+
+
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao adicionar Logo: " + ex.Message });
+            }
+        }
         #endregion
 
         #region Status

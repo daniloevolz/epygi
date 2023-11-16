@@ -69,7 +69,7 @@ body{
 .header-call {
     position: relative;
     width: 100%;
-    height: 60%;
+    height: 50%;
     top: 5%;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -109,7 +109,7 @@ body{
 }
 .icons-call{
     position: relative;
-    background-color: white;
+    /* background-color: white; */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -316,7 +316,7 @@ body{
   margin-bottom: 3.2% ;
   position: relative;
   border-radius: 10px;
-  padding-bottom: 0.01% !important;
+  padding-bottom: 0% !important;
   display: flex ;
   align-items: center;
   color: white;    
@@ -354,6 +354,9 @@ body{
     width: 120px;
     cursor: pointer;
   }
+  img.undefined{
+    border: 3px solid #6b6b6b;
+  }
   .availability-user {
     /* display: flex; */
     background-image: linear-gradient(to right, #cc3e40, #890804);
@@ -362,7 +365,10 @@ body{
     border-top-right-radius: 50px; /* arredondamento na div de disponibilidade */
     border-bottom-right-radius: 50px; /* arredondamento na div de disponibilidade */
     border-top-color: rgb(34, 156, 95);
-    padding-bottom: 10px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
   }
   .user-card {
@@ -485,16 +491,28 @@ img.meeting {*//* Status do usuário */
 img.Offline {*//* Status do usuário */
     /*border: 2px solid #9b9b9b;
 }*/
+
+.undefined{
+    background: #6b6b6b !important;
+}
 #sectionPrincipal.dwc ul li h5 {
     font-weight: 400;
     text-align: center;
 }
-#iframe-call{
+#iframe-call {
     position: absolute;
-    top: 26%;
-    height: 49% !important;
-    width: 25% !important;
+    /* top: 26%; */
+    max-height: 100%;
+    max-width: 40% !important;
     margin-left: -50px !important;
+    left: 50%;
+    padding-left: 2px;
+}
+#iframe-div{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    
 }
 #sectionPrincipal.dwc ul li span {
     display: block;
@@ -545,7 +563,17 @@ img.Offline {*//* Status do usuário */
     top: 0;
     z-index: 20000;
 }
-
+.card-call{
+    left: -5%;
+}
+.main-call{
+    position: absolute;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
   ::-webkit-scrollbar-track {
      box-shadow: inset 0 0 10px rgb(139, 139, 139); 
     border-radius: 15px;
@@ -615,14 +643,24 @@ img.Offline {*//* Status do usuário */
         background-size: cover;
         border-bottom: solid 1px #FFFFFF;
     }
+    #iframe-call {
+        position: absolute;
+        /* top: 26%; */
+        max-height: 100%;
+        max-width: 35% !important;
+        margin-left: -50px !important;
+        left: 50%;
+        padding-left: 2px;
+    }
     .div-content{
         width: 25%;
     }
     #sectionPrincipal.dwc ul li.card-userLi{
-        width: 90% !important ;
+        width: 45% !important ;
     }
     #div-cards {
     overflow-y: auto;
+    width: 75%;
     height: calc(100vh - 260px);
     overflow-x: hidden;
   }
@@ -632,7 +670,7 @@ img.Offline {*//* Status do usuário */
 }
 
 #div-users{
-    width: 50%;
+    width: 70%;
 } 
 
 } 
@@ -645,6 +683,15 @@ img.Offline {*//* Status do usuário */
         background-position: 0%;
         background-size: cover;
         border-bottom: solid 1px #FFFFFF;
+    }
+    #iframe-call {
+        position: absolute;
+        /* top: 26%; */
+        max-height: 100%;
+        width: 35% !important;
+        margin-left: -50px !important;
+        left: 50%;
+        padding-left: 2px;
     }
     #sectionPrincipal.dwc ul li.card-userLi{
         width: 90% !important ;
@@ -682,7 +729,7 @@ img.Offline {*//* Status do usuário */
         /* margin-bottom: 3.2% ; */
         position: relative;
         border-radius: 10px;
-        padding-bottom: 0.01% !important;
+        /* padding-bottom: 0.01% !important; */
         display: flex ;
         align-items: center;
         color: white;    
@@ -762,6 +809,17 @@ img.Offline {*//* Status do usuário */
     }
     #sectionPrincipal.dwc ul li.card-userLi{
         width: 90% !important ;
+    }
+    #iframe-call {
+        position: absolute;
+        /* top: 26%; */
+        max-height: 100%;
+        width: 50% !important;
+        max-width: 60%;
+        /* min-width: 35% !important; */
+        margin-left: 20px !important;
+        left: 42%;
+        padding-left: 2px;
     }
     #div-cards {
         overflow-y: auto;
@@ -910,6 +968,20 @@ img.Offline {*//* Status do usuário */
         /* overflow-y: auto; */
         display: block;
     }
+    .div-users ul li img {
+        width: 30px;
+        margin-left: 6px;
+        margin-top: 5px;
+        border-radius: 50%;
+    }
+    .user-name {
+        font-weight: bold;
+        font-size: small;
+        white-space: nowrap;
+    }
+    #ul-users > li > div > div > div:nth-child(3){
+        justify-content: left;
+    }
     #divImgDWC{
         width: 50%;
         display: flex;
@@ -1008,18 +1080,20 @@ img.Offline {*//* Status do usuário */
     padding-bottom: 25%;
     background-image: linear-gradient(to right, rgb(113, 29, 23), rgb(179, 55, 55));
 }
-    #sectionPrincipal.dwc ul li span {
-        height: 24px;
-        line-height: 24px;
-        border-radius: 12px;
-        -khtml-border-radius: 12px;
-        -moz-border-radius: 12px;
-        -webkit-border-radius: 12px;
-        background-size: 20px;
-        bottom: 10px;
-        left: 70px;
-        right: 70px
-    }
+#sectionPrincipal.dwc ul li span {
+    height: 24px;
+    line-height: 24px;
+    border-radius: 12px;
+    -khtml-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    background-size: 15px;
+    bottom: 10px;
+    left: 40px;
+    right: 40px;
+    font-size: 10px;
+    text-align: center;
+}
     #sectionPrincipal.dwc ul{
         padding-inline-start: 25px;
     }
@@ -1061,5 +1135,17 @@ img.Offline {*//* Status do usuário */
         right: auto;
         display: block;
         text-align: center;
+    }
+    #iframe-call {
+        position: absolute;
+        top: 100%;
+        max-height: 100%;
+        margin-left: 0px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        /* width: fit-content; */
+        left: -10%;
+        padding-left: 1px;
+        /* overflow-x: hidden; */
     }
 }

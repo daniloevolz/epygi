@@ -7,6 +7,7 @@ var urlDepart = "https://wetransfer.wecom.com.br:81/Home/Departments";
 var urlStatusColor = "https://wetransfer.wecom.com.br:81/Home/Status";
 
 
+
 function load() {
     getDepartments();
     fetch(urlUsers)
@@ -171,11 +172,11 @@ function buildUserHTML(user, response) {
 
     html = `
     
-        <li  style = "background: ${statusColor}" class = "card-userLi">
+        <li  style = "background: ${statusColor}" class = "card-userLi ${statusColor}">
         <div class="availability-user">
 
       <div class="user-card" >
-        <img src="${user.img}" style = "border: 3px solid ${statusColor}">
+        <img src="${user.img}" style = "border: 3px solid ${statusColor}" class="${statusColor}">
         <div class="user-details">
           <div class="user-name">${user.name}</div>
           <div class="user-status">${statusName}</div>
@@ -232,43 +233,49 @@ function prepareCall(img ,id, depart, num, status) {
         
         var divCall = document.getElementById("div-call");
         var divContent = document.getElementById("div-content");
-        var divIframe = document.createElement("div")
-        divIframe.setAttribute("id", "diviframe") 
-        divIframe.setAttribute("class", "diviframe") 
+        // var divIframe = document.createElement("div")
+        // divIframe.setAttribute("id", "diviframe") 
+        // divIframe.setAttribute("class", "diviframe") 
         // divIframe.style.width = '40%'
         divCall.innerHTML = ''
-        divContent.style.display = 'none';
-        divIframe.style.display = 'none';
+        divContent.style.display = 'block';
+        // divIframe.style.display = 'none';
         divCall.style.display = 'flex';
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src",urlEpygi + id)
         iframe.setAttribute("id","iframe-call")
         iframe.setAttribute("allow","camera;microphone")
-        iframe.style.width = "100%";
-        iframe.style.paddingLeft = "10px";
+        // iframe.style.width = "100%";
+        // iframe.style.paddingLeft = "10px";
         iframe.style.height = "100%";
         iframe.style.visibility = 'visible';
+        iframe.style.display = 'none';
         // iframe.style.position = 'absolute';
         // iframe.style.left = '5%'
 
         var DivCallStatus = `
+        <div class = "main-call" >
         <div class="card-call" id="card-call">
         <div class="header-call">
         <div class="img-on-call"><img src="${img}" width = 135px  style="border-radius: 7px;"></div>
-        </div>
-        <div class="icons-call">
-         <img src="./images/decline-icon.png" width="35px" id="DeclineCall" style="margin: 7px; margin-right: 20px; cursor: pointer">
-         <img src="./images/keyboard-icon.png" width="35px" id="keyboard" style="margin: 7px; cursor: pointer ">
         </div>
         <div class="outgoing-name">
             <div>${id}</div>
             <span>${depart}</span>
         </div>
+        <div class="icons-call">
+        <img src="./images/hang-up-icon.png" width="35px" id="DeclineCall" style="margin: 7px; margin-right: 20px; cursor: pointer">
+        <img src="./images/keyboard-icon.png" width="35px" id="keyboard" style="margin: 7px; cursor: pointer ">
+       </div>
+        </div>
+        <div id = "iframe-div">
+        </div>
         </div>
           `
-        divIframe.appendChild(iframe)
+        // divIframe.appendChild(iframe)
         divCall.innerHTML += DivCallStatus
-        divCall.appendChild(divIframe);
+        document.getElementById("iframe-div").appendChild(iframe)
+        // divCall.appendChild(divIframe);
         
         if (btnDeclineListener) {
             document.getElementById("DeclineCall").removeEventListener("click", btnDeclineListener);
@@ -283,13 +290,17 @@ function prepareCall(img ,id, depart, num, status) {
         document.getElementById("DeclineCall").addEventListener("click", btnDeclineListener);
 
         function btnKeyboard() {
-            var divIframe = document.getElementById("diviframe");
-            if (divIframe.style.display == 'block') {
+
+            var iframe = document.getElementById("iframe-call");
+            if (iframe.style.display == 'block') {
                 /*document.getElementById("keyboard").removeEventListener("click", btnDeclineListener);*/
-                divIframe.style.display = 'none';
-            } else {
-                divIframe.style.display = 'block';
+                iframe.style.display = 'none';
+                document.getElementById("card-call").style.right = '100px'
             }
+            else {
+                iframe.style.display = 'block';
+            }
+
         }
         
     } else {
