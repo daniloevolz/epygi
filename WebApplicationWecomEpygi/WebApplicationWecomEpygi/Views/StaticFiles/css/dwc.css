@@ -35,6 +35,16 @@
     justify-content: center;
     align-items: center;
 }
+#iframe-div {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    /* left: 40%; */
+    display: flex;
+    justify-content: center;
+    background: red;
+}
 *{
     margin: 0;
     border: 0;
@@ -507,6 +517,7 @@ img.Offline {*//* Status do usuário */
     margin-left: -50px !important;
     left: 50%;
     padding-left: 2px;
+    border-radius: 20px;
 }
 #iframe-div{
     position: absolute;

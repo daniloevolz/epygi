@@ -797,10 +797,13 @@ namespace WebApplicationWecomEpygi.Controllers
                 return Ok(new { success = false, message = "Erro ao remover departamento: " + ex.Message });
             }
         }
+        #endregion
+
+        #region Logos
         [HttpPost]
-        [Authorize]  // verificar com danilo se está correto 
+        [Authorize]  // verificar com danilo se está correto a região
         public IActionResult AddLogo([FromBody] JsonElement data)
-        {
+                {
             try
             {
                 // Verifique o token JWT
@@ -831,29 +834,18 @@ namespace WebApplicationWecomEpygi.Controllers
                         if (valid)
                         {
                             // Extrair os dados do JSON
-                            string imageUrl =  data.GetProperty("image").GetProperty("name").ToString()
-                            string imageSize = data.GetProperty("image").GetProperty("size").GetUInt64().ToString();
+                            string imageName = "logo-company.png"; // ou jpg, conforme necessário
+                            string imageUrl = "./images/" + imageName;
                             string imageData = data.GetProperty("image").GetProperty("data").GetString();
 
-                            // verificar com Danilo esse INSERT
-                            string query = "INSERT INTO [DWC].[dbo].[Logos] " +
-                                           "([Id], [Logo]) " +
-                                           "VALUES " +
-                                           "(NEWID(), @Logo)";
-                            // verificar com Danilo tudo isso 
-                            _databaseContext.Logo(query, imagemUrl);
-
-                                                        // Salvar a imagem em /StaticFiles/images/
+                            // Salvar a imagem localmente
                             string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
-                            string imagePath = Path.Combine(imagesDirectory, imageUrl);
+                            string imagePath = Path.Combine(imagesDirectory, imageName);
                             string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
                             byte[] imageBytes = Convert.FromBase64String(base64String);
                             System.IO.File.WriteAllBytes(imagePath, imageBytes);
 
-                            return Ok(new { success = true, message = "Logo adicionado com sucesso." });
-
-
-
+                            return Ok(new { success = true, message = "Logo da empresa adicionado com sucesso." });
                         }
                     }
 
@@ -862,7 +854,7 @@ namespace WebApplicationWecomEpygi.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Erro ao adicionar Logo: " + ex.Message });
+                return Ok(new { success = false, message = "Erro ao adicionar Departamento: " + ex.Message });
             }
         }
         #endregion

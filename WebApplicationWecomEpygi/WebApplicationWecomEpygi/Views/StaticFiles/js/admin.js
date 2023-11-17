@@ -8,15 +8,15 @@ var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
-  //  function load() {
-  //      var successValue = getCookie(cookieName);
-  //    if (successValue == null) {
-  //         window.location.href = "./login.html";
-  //     } else {
-  //          cookie = successValue;
-  //    }
+   function load() {
+       var successValue = getCookie(cookieName);
+     if (successValue == null) {
+          window.location.href = "./login.html";
+      } else {
+           cookie = successValue;
+     }
     showHome();
-  //  }
+   }
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
@@ -141,7 +141,7 @@ document.getElementById('add-img').addEventListener('click', function (e) {
                   
               } else {
                   console.log('Ocorreu um erro ao salvar os dados.');
-                  showToast("danger",response.status)
+                  showToast("danger",response.statusText)
               }
           })
           .catch(error => {
