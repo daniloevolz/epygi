@@ -13,10 +13,43 @@ var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
      if (successValue == null) {
           window.location.href = "./login.html";
       } else {
-           cookie = successValue;
+         cookie = successValue;
+         cookieCheck();
      }
     showHome();
-   }
+}
+function cookieCheck() {
+    var intervalId = setInterval(function () {
+        // Obter a data de expiração do cookie
+        var cookieExpiration = getCookie(cookieName);
+
+        // Verificar se a data de expiração é anterior à data e hora atual
+        if (cookieExpiration) {
+            
+
+        } else {
+            window.location.href = "./login.html";
+            //fetch("/Home/RenewCookie", {
+            //    method: 'POST',
+            //    headers: {
+            //        'Content-Type': 'application/json',
+            //        'Authorization': "Bearer " + cookie
+            //    },
+            //})
+            //    .then(response => response.json())
+            //    .then(jsonData => {
+            //        var response = jsonData;
+            //        cookie = response;
+            //    })
+            //    .catch(error => {
+            //        console.error('Erro ao fazer a requisição Update Cookie:', error);
+
+            //    });
+        }
+        
+
+    }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos
+}
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {

@@ -50,7 +50,7 @@ namespace WebApplicationWecomEpygi.Controllers
 
                 foreach (dynamic row in queryResult)
                 {
-                    if (queryResult.Count == 1 && model.PasswordHash == row.PasswordHash)
+                    if (queryResult.Count == 1 && model.PasswordHash == row.PasswordHash && model.Username == row.Username)
                     {
                         // Autenticação bem-sucedida
                         // Gerar o token JWT
@@ -101,7 +101,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -189,7 +189,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -251,6 +251,64 @@ namespace WebApplicationWecomEpygi.Controllers
                 return BadRequest(new { message = ex.Message });
             }
 
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddLogo([FromBody] JsonElement data)
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Extrair os dados do JSON
+                            string imageName = "logo-company.png"; // ou jpg, conforme necessário
+                            string imageUrl = "./images/" + imageName;
+                            string imageData = data.GetProperty("image").GetProperty("data").GetString();
+
+                            // Salvar a imagem localmente
+                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
+                            string imagePath = Path.Combine(imagesDirectory, imageName);
+                            string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
+                            byte[] imageBytes = Convert.FromBase64String(base64String);
+                            System.IO.File.WriteAllBytes(imagePath, imageBytes);
+
+                            return Ok(new { success = true, message = "Logo da empresa adicionado com sucesso." });
+                        }
+                    }
+
+                }
+                return Ok(new { success = false, message = "Não autorizado!" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Erro ao adicionar Departamento: " + ex.Message });
+            }
         }
         #endregion
 
@@ -361,7 +419,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -488,7 +546,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -565,7 +623,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -626,7 +684,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -696,7 +754,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -757,7 +815,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -799,66 +857,6 @@ namespace WebApplicationWecomEpygi.Controllers
         }
         #endregion
 
-        #region Logos
-        [HttpPost]
-        [Authorize]  // verificar com danilo se está correto a região
-        public IActionResult AddLogo([FromBody] JsonElement data)
-                {
-            try
-            {
-                // Verifique o token JWT
-                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
-                var validationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = _jwtConfig.Issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                };
-                SecurityToken validatedToken;
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-                if (validatedToken != null && principal.Identity.IsAuthenticated)
-                {
-                    // Verificar se as reivindicações necessárias estão presentes no token
-                    if (principal.HasClaim(c => c.Type == "Username") &&
-                        principal.HasClaim(c => c.Type == "Password"))
-                    {
-                        // Extrair os dados das reivindicações
-                        string Username = principal.FindFirstValue("Username");
-                        string Password = principal.FindFirstValue("Password");
-
-                        bool valid = ValidateUser(Username, Password);
-                        if (valid)
-                        {
-                            // Extrair os dados do JSON
-                            string imageName = "logo-company.png"; // ou jpg, conforme necessário
-                            string imageUrl = "./images/" + imageName;
-                            string imageData = data.GetProperty("image").GetProperty("data").GetString();
-
-                            // Salvar a imagem localmente
-                            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Views", "StaticFiles", "images");
-                            string imagePath = Path.Combine(imagesDirectory, imageName);
-                            string base64String = imageData.Split(',')[1]; // Remove o prefixo "data:image/jpeg;base64,"
-                            byte[] imageBytes = Convert.FromBase64String(base64String);
-                            System.IO.File.WriteAllBytes(imagePath, imageBytes);
-
-                            return Ok(new { success = true, message = "Logo da empresa adicionado com sucesso." });
-                        }
-                    }
-
-                }
-                return Ok(new { success = false, message = "Não autorizado!" });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { success = false, message = "Erro ao adicionar Departamento: " + ex.Message });
-            }
-        }
-        #endregion
-
         #region Status
         [HttpGet]
         public IActionResult Status()
@@ -887,7 +885,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,
@@ -950,7 +948,7 @@ namespace WebApplicationWecomEpygi.Controllers
                 var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _jwtConfig.Issuer,

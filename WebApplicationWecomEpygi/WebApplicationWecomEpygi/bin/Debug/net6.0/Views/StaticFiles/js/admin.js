@@ -8,15 +8,47 @@ var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
   // validar cookie
-  //  function load() {
-  //      var successValue = getCookie(cookieName);
-  //    if (successValue == null) {
-  //         window.location.href = "./login.html";
-  //     } else {
-  //          cookie = successValue;
-  //    }
+   function load() {
+       var successValue = getCookie(cookieName);
+     if (successValue == null) {
+          window.location.href = "./login.html";
+      } else {
+         cookie = successValue;
+         cookieCheck();
+     }
     showHome();
-  //  }
+}
+function cookieCheck() {
+    var intervalId = setInterval(function () {
+        // Obter a data de expiração do cookie
+        var cookieExpiration = getCookieExpiration(getCookie(cookieName));
+
+        // Verificar se a data de expiração é anterior à data e hora atual
+        if (!cookieExpiration && cookieExpiration > new Date()) {
+            window.location.href = "./login.html";
+
+        } else {
+            //fetch("/Home/RenewCookie", {
+            //    method: 'POST',
+            //    headers: {
+            //        'Content-Type': 'application/json',
+            //        'Authorization': "Bearer " + cookie
+            //    },
+            //})
+            //    .then(response => response.json())
+            //    .then(jsonData => {
+            //        var response = jsonData;
+            //        cookie = response;
+            //    })
+            //    .catch(error => {
+            //        console.error('Erro ao fazer a requisição Update Cookie:', error);
+
+            //    });
+        }
+        
+
+    }, 10000); // 1 minuto = 60 segundos = 60000 milissegundos
+}
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
@@ -95,6 +127,64 @@ document.getElementById('a-upload-user').addEventListener('click', function (e) 
     reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
 
 });
+//requisição para adicionar logo da empresa
+document.getElementById('add-img').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const imgFile = document.getElementById('img-company').files[0]; // obter o arquivo de imagem
+  
+  if (!imgFile) {
+      // makePopUp();
+      showToast("warning","Complete todos os campos")
+      return; 
+  }
+
+  const data = {
+      "image": {
+          "name": imgFile.name,
+          "size": imgFile.size,
+          "data": null // será preenchido posteriormente
+      }
+  };
+
+  const reader = new FileReader();
+  reader.onload = function (event) {
+      data.image.data = event.target.result; // definir o conteúdo da imagem no objeto de dados
+      // enviar os dados para o servidor
+  
+      fetch('/Home/AddLogo', {
+          method: 'POST',
+          headers: {
+              'Content-Type' : 'application/json',
+              'Authorization': "Bearer " + cookie
+          },
+          body: JSON.stringify(data)
+      })
+          .then(async function (response) {
+              if (response.ok) {
+                  const data = await response.json();
+                  if (data.success == true) {
+                      showToast("success", data.message)
+                      // showListUsers();
+
+                  } else {
+                      showToast("warning", data.message)
+                  }
+                  
+              } else {
+                  console.log('Ocorreu um erro ao salvar os dados.');
+                  showToast("danger",response.statusText)
+              }
+          })
+          .catch(error => {
+              console.error('Erro:', error);
+              showToast("danger", error)
+          });
+  
+  };
+  reader.readAsDataURL(imgFile); // ler o conteúdo da imagem como base64
+});
+
 // requisição para adicionar departamentos
 document.getElementById('add-departs').addEventListener('click', function (e) {
   e.preventDefault();
