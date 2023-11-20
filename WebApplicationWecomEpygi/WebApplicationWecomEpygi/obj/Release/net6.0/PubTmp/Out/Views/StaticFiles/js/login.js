@@ -10,53 +10,55 @@ var cookie;
 //     }
 // }
 // função para obter o valor de um cookie pelo nome
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
+//function getCookie(name) {
+//    var nameEQ = name + "=";
+//    var ca = document.cookie.split(';');
 
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+//    for (var i = 0; i < ca.length; i++) {
+//        var c = ca[i];
 
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1, c.length);
-        }
+//        while (c.charAt(0) == ' ') {
+//            c = c.substring(1, c.length);
+//        }
 
-        if (c.indexOf(nameEQ) == 0) {
-            var cookieValue = c.substring(nameEQ.length, c.length);
+//        if (c.indexOf(nameEQ) == 0) {
+//            var cookieValue = c.substring(nameEQ.length, c.length);
 
-            // Obter a data de expiração do cookie
-            var cookieExpiration = getCookieExpiration(cookieValue);
+//            // Obter a data de expiração do cookie
+//            var cookieExpiration = getCookieExpiration(cookieValue);
 
-            // Verificar se a data de expiração é anterior à data e hora atual
-            if (cookieExpiration && cookieExpiration < new Date()) {
-                // Remover o cookie definindo uma data de expiração no passado
-                document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+//            // Verificar se a data de expiração é anterior à data e hora atual
+//            if (cookieExpiration && cookieExpiration < new Date()) {
+//                // Remover o cookie definindo uma data de expiração no passado
+//                document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-                return null;
-            }
+//                return null;
+//            }
 
-            return cookieValue;
-        }
-    }
+//            return cookieValue;
+//        }
+//    }
 
-    return null;
-}
+//    return null;
+//}
+
+
 
 // Função auxiliar para obter a data de expiração do cookie
-function getCookieExpiration(cookieValue) {
-    var cookieParts = cookieValue.split(';');
+//function getCookieExpiration(cookieValue) {
+//    var cookieParts = cookieValue.split(';');
 
-    for (var i = 0; i < cookieParts.length; i++) {
-        var cookiePart = cookieParts[i].trim();
+//    for (var i = 0; i < cookieParts.length; i++) {
+//        var cookiePart = cookieParts[i].trim();
 
-        if (cookiePart.indexOf('expires=') === 0) {
-            var expirationString = cookiePart.substring('expires='.length);
-            return new Date(expirationString);
-        }
-    }
+//        if (cookiePart.indexOf('expires=') === 0) {
+//            var expirationString = cookiePart.substring('expires='.length);
+//            return new Date(expirationString);
+//        }
+//    }
 
-    return null;
-}
+//    return null;
+//}
 
 document.getElementById("clickSend").addEventListener("click", function (event) {
     event.preventDefault(); // Evita o comportamento padr�o do formul�rio de recarregar a p�gina
@@ -84,7 +86,7 @@ document.getElementById("clickSend").addEventListener("click", function (event) 
             if (response.ok) {
                 const data = await response.json();
                 // Armazena o valor em um cookie chamado "sucessCookie" com uma validade de 30 dias
-                setCookie("successLoginCookie", data.success, 1);
+                setCookie("successLoginCookie", data.success);
                 // Login bem-sucedido, redireciona para a p�gina autenticada
                 window.location.href = "./admin-interf.html";
             } else {
@@ -104,14 +106,23 @@ document.getElementById("forgotPassword").addEventListener("click", function (ev
 });
 
 // Fun��o para definir um cookie
-function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+function setCookie(name, value) {
+    //var expires = "";
+    //if (days) {
+    //    var date = new Date();
+    //    date.setTime(date.getTime() + 0 * days * 60 * 60 * 1000);
+    //    expires = "; expires=" + date.toUTCString();
+    //}
+    //document.cookie = name + "=" + (value || "") + expires + "; path=/";
+
+    var date = new Date();
+    date.setMinutes(date.getMinutes() + 10);
+    // Armazena o valor do cookie e a data de validade no localStorage
+    localStorage.setItem(name, JSON.stringify({
+        valor: value,
+        expiracao: date.getTime()
+    }));
+
 }
 function makePopUp() {
     var error =  document.getElementById("loginErro");

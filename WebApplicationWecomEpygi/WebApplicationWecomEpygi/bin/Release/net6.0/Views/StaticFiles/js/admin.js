@@ -7,16 +7,71 @@ var intervalId;
 var urlDepartments = 'https://wetransfer.wecom.com.br:81/Home/Departments';
 var urlLocations = 'https://wetransfer.wecom.com.br:81/Home/Locations';
 var urlEpygi = "https://epygidemo.wecom.com.br/ctc/";
+var urlPrsList = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
+var urlServiceRestart = 'https://wetransfer.wecom.com.br:81/Home/GETServiceRestart';
+var urlServiceStatus = 'https://wetransfer.wecom.com.br:81/Home/GETServiceStatus';
   // validar cookie
-   function load() {
+function load() {
        var successValue = getCookie(cookieName);
      if (successValue == null) {
           window.location.href = "./login.html";
       } else {
-           cookie = successValue;
+         cookie = successValue;
+         cookieCheck();
      }
     showHome();
-   }
+}
+function cookieCheck() {
+    var intervalId = setInterval(function () {
+        // Obter a data de expiração do cookie
+        var cookieExpiration = getCookie(cookieName);
+
+        // Verificar se a data de expiração é anterior à data e hora atual
+        if (cookieExpiration) {
+            console.log("Cookie valido, ignorando...")
+
+        } else {
+            
+            fetch("/Home/RenewTokenLogin", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + cookie
+                }
+            })
+                .then(response => response.json())
+                .then(jsonData => {
+                    var response = jsonData;
+                    cookie = response.success;
+                    setCookie(cookieName, cookie);
+                })
+                .catch(error => {
+                    console.error('Erro ao fazer a requisição Update Cookie:', error);
+
+                });
+        }
+        
+
+    }, 60000); // 1 minuto = 60 segundos = 60000 milissegundos
+}
+function setCookie(name, value) {
+    //var expires = "";
+    //if (days) {
+    //    var date = new Date();
+    //    date.setTime(date.getTime() + 0 * days * 60 * 60 * 1000);
+    //    expires = "; expires=" + date.toUTCString();
+    //}
+    //document.cookie = name + "=" + (value || "") + expires + "; path=/";
+
+    var date = new Date();
+    date.setMinutes(date.getMinutes() + 10);
+    // Armazena o valor do cookie e a data de validade no localStorage
+    localStorage.setItem(name, JSON.stringify({
+        valor: value,
+        expiracao: date.getTime()
+    }));
+
+}
 
 // requisição post para adicionar usuarios
 document.getElementById('a-upload-user').addEventListener('click', function (e) {
@@ -293,13 +348,13 @@ document.getElementById('add-status').addEventListener('click', function (e) {
 });
 
 // listeners
-  document.getElementById("dashhome").addEventListener("click", function(){
+document.getElementById("dashhome").addEventListener("click", function(){
         console.log("click Dash Home")
         document.getElementById("ss-service").style.display = 'none';
         document.getElementById('myToast').style.display = 'none';
         showHome();
 });
-  document.getElementById("useradd").addEventListener("click", function(){
+document.getElementById("useradd").addEventListener("click", function(){
     console.log("click Adição de Usuário")
     document.getElementById("id-home").style.display = "none"
     document.getElementById("id-add-home").style.display = "flex"
@@ -390,53 +445,26 @@ const tablelocal = document.getElementById("local-table")
 //const tabledep = document.getElementById("department-table")
 
 // funções internas COOKIE
-function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
+function getCookie(nomeCookie) {
+    // Obtém o valor armazenado no localStorage
+    var valorArmazenado = localStorage.getItem(nomeCookie);
 
-  for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
+    if (valorArmazenado) {
+        var cookie = JSON.parse(valorArmazenado);
 
-      while (c.charAt(0) == ' ') {
-          c = c.substring(1, c.length);
-      }
-
-      if (c.indexOf(nameEQ) == 0) {
-          var cookieValue = c.substring(nameEQ.length, c.length);
-
-          // Obter a data de expiração do cookie
-          var cookieExpiration = getCookieExpiration(cookieValue);
-
-          // Verificar se a data de expiração é anterior à data e hora atual
-          if (cookieExpiration && cookieExpiration < new Date()) {
-              // Remover o cookie definindo uma data de expiração no passado
-              document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-              return null;
-          }
-
-          return cookieValue;
-      }
-  }
-
-  return null;
+        // Retorna a data de validade se estiver dentro do prazo
+        var now = Date.now();
+        if (cookie.expiracao > now) {
+            return cookie.valor;
+        }
+    }     
+    return null;
 }
-function getCookieExpiration(cookieValue) {
-  var cookieParts = cookieValue.split(';');
 
-  for (var i = 0; i < cookieParts.length; i++) {
-      var cookiePart = cookieParts[i].trim();
-
-      if (cookiePart.indexOf('expires=') === 0) {
-          var expirationString = cookiePart.substring('expires='.length);
-          return new Date(expirationString);
-      }
-  }
-
-  return null;
-}
 function deleteCookie() {
-  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    localStorage.removeItem(cookieName);
 }
 
 //DELETE EVENTS
@@ -871,7 +899,7 @@ function getUsersByDepartment(department) {
   return { users: users };
 }
 function getUsersStatus(department) {
-    const url = 'https://wetransfer.wecom.com.br:9090/api/pabx/prslistrequest'; // Substitua pela URL real...
+    const url = urlPrsList;
     const data = getUsersByDepartment(department);
     const divCards = document.getElementById("main-cards");
 
@@ -1090,7 +1118,7 @@ function serverStatus(){
 
   console.log("click Status Server")
   
-  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+  fetch(urlServiceStatus)
     .then(response => response.json())
     .then(data => {
 
@@ -1112,7 +1140,7 @@ function serverStatus(){
     });
   clearInterval(intervalId)
   intervalId = setInterval(function(){
-  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceStatus')
+  fetch(urlServiceStatus)
     .then(response => response.json())
     .then(data => {
 
@@ -1158,7 +1186,7 @@ noButton.addEventListener('click', () => {
 
 // Função para iniciar o servidor
 function startServer() {
-  fetch('https://wetransfer.wecom.com.br:81/Home/GETServiceRestart')
+    fetch(urlServiceRestart)
     .then(response => response.json())
     .then(data => {
       console.log(data)

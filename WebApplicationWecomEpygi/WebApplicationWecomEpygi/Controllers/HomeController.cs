@@ -91,6 +91,72 @@ namespace WebApplicationWecomEpygi.Controllers
 
         [HttpPost]
         [Authorize]
+        public IActionResult RenewTokenLogin()
+        {
+            try
+            {
+                // Verifique o token JWT
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken validatedToken;
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+                if (validatedToken != null && principal.Identity.IsAuthenticated)
+                {
+                    // Verificar se as reivindicações necessárias estão presentes no token
+                    if (principal.HasClaim(c => c.Type == "Username") &&
+                        principal.HasClaim(c => c.Type == "Password"))
+                    {
+                        // Extrair os dados das reivindicações
+                        string Username = principal.FindFirstValue("Username");
+                        string Password = principal.FindFirstValue("Password");
+
+                        bool valid = ValidateUser(Username, Password);
+                        if (valid)
+                        {
+                            // Autenticação bem-sucedida
+                            // Gerar o token JWT
+                            var claims = new List<Claim>
+                            {
+                                new Claim("Username", Username),
+                                new Claim("Password", Password),
+                            };
+
+                            var tokenDescriptor = new SecurityTokenDescriptor
+                            {
+                                Issuer = _jwtConfig.Issuer,
+                                Expires = DateTime.UtcNow.AddMinutes(10),// AddDays(1),
+                                Subject = new ClaimsIdentity(claims),
+                                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                            };
+                            var newToken = tokenHandler.CreateToken(tokenDescriptor);
+                            var tokenString = tokenHandler.WriteToken(newToken);
+
+                            return Ok(new { success = tokenString, message = "Login bem-sucedido." });
+                        }
+                    }
+                }
+                // Credenciais inválidas
+                return BadRequest(new { message = "Credenciais inválidas." });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Erro " + ex.Message });
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
         public IActionResult AddLogin([FromBody] LoginData model)
         {
             try

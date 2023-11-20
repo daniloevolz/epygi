@@ -45,7 +45,7 @@
     justify-content: center;
     background: red;
 }
-*{
+* {
     margin: 0;
     border: 0;
 }
@@ -233,7 +233,7 @@ body{
 }
 #imgDWCHeader{
     width: 180px;
-    padding-bottom: 5%;
+/*    padding-bottom: 5%;*/
 }
 .status-line {
     width: 100%;
@@ -345,11 +345,11 @@ body{
     border-radius: 50%;
   }
   #depart-div{
-    width: 25%; 
+    width: 25%;
     margin-left: 40px;
     /* margin-top: 25px; */
     /* background-color: blue; */
-    font-family: 'Montserrat';
+    /* font-family: 'Montserrat'; */
     text-transform: capitalize;
     color: black;
     font-weight: bold;
@@ -603,6 +603,9 @@ img.Offline {*//* Status do usuário */
     display: inline-block;
     vertical-align: top;
     position: relative;
+}
+#imgLogoCompany {
+    width: 50%;
 }
 
 .aside .lembrete {
@@ -1032,7 +1035,7 @@ img.Offline {*//* Status do usuário */
         width: 100px;
     }
     #imgLogoCompany{
-        width: 100px;
+        width: 50%;
     }
     #div-cards{
         width: 100%;

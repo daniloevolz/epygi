@@ -43,7 +43,7 @@
     /* left: 40%; */
     display: flex;
     justify-content: center;
-    background: red;
+    /* background: red; */
 }
 * {
     margin: 0;
@@ -699,6 +699,7 @@ img.Offline {*//* Status do usuário */
         border-bottom: solid 1px #FFFFFF;
     }
     #iframe-call {
+        overflow: hidden;
         position: absolute;
         /* top: 26%; */
         max-height: 100%;

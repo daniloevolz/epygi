@@ -125,12 +125,13 @@ ul{
 .delete-user{
   cursor: pointer;
 }
-#id-add-home{
+#id-add-home {
     width: 100%;
     height: -webkit-fill-available;
     display: none;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 .listusers {
   width: 50px;
@@ -222,7 +223,7 @@ ul{
 }
 .main-user {
     display: flex;
-    height: calc(100vh - 450px);
+    /* height: calc(100vh - 450px); */
     width: 100%;
     align-items: flex-start;
     flex-direction: column-reverse;
@@ -845,7 +846,6 @@ input[type="color"] {
   align-items: center;
   justify-content: center;
   height: 40px;
-  width: 80%;
 }
  #top-bottons ul :hover {
   background: #1665db;
