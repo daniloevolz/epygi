@@ -40,6 +40,8 @@ body {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .colRight {
   position: absolute;
@@ -222,7 +224,7 @@ ul{
 }
 .main-user {
     display: flex;
-    height: calc(100vh - 450px);
+    /* height: calc(100vh - 450px); */
     width: 100%;
     align-items: flex-start;
     flex-direction: column-reverse;
@@ -845,7 +847,7 @@ input[type="color"] {
   align-items: center;
   justify-content: center;
   height: 40px;
-  width: 80%;
+  /* width: 80%; */
 }
  #top-bottons ul :hover {
   background: #1665db;
@@ -861,8 +863,30 @@ input[type="color"] {
   background: #1665db;
   /* Adicione outros estilos que você deseja aplicar quando um elemento estiver "focado" aqui */
 }
+div#box ul{
+  height: 40px !important;
+}
 
+/* webkit scroll bar div-cards */
+::-webkit-scrollbar {
+  width: 10px; 
+ height: 20px; 
+}
 
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px rgb(139, 139, 139); 
+ border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+ /* background-image: linear-gradient(to right, #711d17, #b33737);   */
+  border-radius: 15px; 
+}
+
+/* ::-webkit-scrollbar-thumb:hover {
+   background: #960909dc;   
+} 
+*/
 
 
 /*media query responsivo todas telas */
