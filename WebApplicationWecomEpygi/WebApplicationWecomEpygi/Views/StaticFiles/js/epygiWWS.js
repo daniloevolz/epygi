@@ -288,16 +288,20 @@ function prepareCall(img ,id, depart, num, status) {
         }
         document.getElementById("keyboard").addEventListener("click", btnKeyboard);
         document.getElementById("DeclineCall").addEventListener("click", btnDeclineListener);
+        
+
 
         function btnKeyboard() {
 
             var iframe = document.getElementById("iframe-call");
             if (iframe.style.display == 'block') {
                 /*document.getElementById("keyboard").removeEventListener("click", btnDeclineListener);*/
+                document.getElementById("iframe-div").style.display = 'none'
                 iframe.style.display = 'none';
                 document.getElementById("card-call").style.right = '100px'
             }
             else {
+                document.getElementById("iframe-div").style.display = 'flex'
                 iframe.style.display = 'block';
             }
 
