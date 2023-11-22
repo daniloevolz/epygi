@@ -991,6 +991,7 @@ img.Offline {*//* Status do usuário */
         background: white;
 
     }
+
     .main-call{
         top: 15%;
     }
@@ -1186,5 +1187,6 @@ img.Offline {*//* Status do usuário */
         justify-content: center;
         align-items: center;
         text-align: center;
+        border-radius: 100px;
     }
 }
